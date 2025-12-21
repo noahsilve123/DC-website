@@ -48,10 +48,12 @@ export const performLocalOCR = async (
 
     onProgress(15, 'Initializing OCR engine...')
     const Tesseract: any = await loadTesseract()
+    if (typeof Tesseract?.recognize !== 'function') {
+      throw new Error('Tesseract OCR is not available in this environment.')
+    }
 
-    const createWorkerFn = Tesseract?.createWorker
-    const PSM = Tesseract?.PSM
-
+    // Keep the logger on the main thread. Passing functions into certain worker init
+    // paths can trigger DataCloneError in some bundler/dev configurations.
     const logger = (m: any) => {
       if (m?.status === 'recognizing text' && typeof m.progress === 'number') {
         const adjustedProgress = 20 + Math.floor(m.progress * 70)
@@ -59,60 +61,22 @@ export const performLocalOCR = async (
       }
     }
 
-    let result: any
-    if (typeof createWorkerFn === 'function') {
-      // v5-compatible worker lifecycle (explicit load/init tends to be most reliable)
-      const worker = await createWorkerFn({
-        logger,
-        workerPath: TESSERACT_ASSETS.workerPath,
-        corePath: TESSERACT_ASSETS.corePath,
-        langPath: TESSERACT_ASSETS.langPath,
-      })
-
-      onProgress(16, 'Loading OCR language data...')
-      await worker.load()
-      await worker.loadLanguage(options.language)
-      await worker.initialize(options.language)
-
-      onProgress(18, 'Configuring OCR parameters...')
-      try {
-        if (PSM && options.psm && typeof options.psm === 'string') {
-          // Use AUTO as a safe default if the provided psm isn't found.
-          const psmValue = (PSM as any)[options.psm] ?? (PSM as any).AUTO
-          await worker.setParameters({ tessedit_pageseg_mode: psmValue })
-        } else {
-          await worker.setParameters({ tessedit_pageseg_mode: options.psm as any })
-        }
-      } catch {
-        // Ignore parameter failures; OCR can still run.
-      }
-
-      onProgress(20, 'Extracting text...')
-      result = await worker.recognize(processedImageBlob)
-      await worker.terminate()
-    } else if (typeof Tesseract?.recognize === 'function') {
-      // Fallback path
-      onProgress(20, 'Extracting text...')
-      result = await Tesseract.recognize(processedImageBlob, options.language, {
-        logger,
-        workerPath: TESSERACT_ASSETS.workerPath,
-        corePath: TESSERACT_ASSETS.corePath,
-        langPath: TESSERACT_ASSETS.langPath,
-      })
-    } else {
-      throw new Error('Tesseract OCR is not available in this environment.')
-    }
+    onProgress(20, 'Extracting data...')
+    const result = await Tesseract.recognize(processedImageBlob, options.language, {
+      logger,
+      workerPath: TESSERACT_ASSETS.workerPath,
+      corePath: TESSERACT_ASSETS.corePath,
+      langPath: TESSERACT_ASSETS.langPath,
+    })
 
     const words = (result.data as any).words || []
-
     const spatialBlocks: OCRBlock[] = words.map((w: any) => ({
       text: w.text,
       confidence: w.confidence,
       bbox: w.bbox,
     }))
 
-    const finalText = result.data.text.trim()
-
+    const finalText = String(result.data.text ?? '').trim()
     if (!finalText) {
       throw new Error('OCR returned no text. Try adjusting the crop or lighting.')
     }
@@ -123,8 +87,8 @@ export const performLocalOCR = async (
       confidence: result.data.confidence,
       timestamp: Date.now(),
     }
-  } catch (error: any) {
-    console.error('Local OCR Error:', error)
-    throw new Error(friendlyOCRErrorMessage(error))
+  } catch (err) {
+    console.error('Local OCR Error:', err)
+    throw new Error(friendlyOCRErrorMessage(err))
   }
 }

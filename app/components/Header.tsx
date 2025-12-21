@@ -51,9 +51,30 @@ export default function Header() {
           </Link>
 
           <div className="flex items-center gap-4">
-            <Link href="/resources" className="nav-link hover:opacity-90 font-semibold">
-              Resources
-            </Link>
+            <nav className="flex items-center gap-6" aria-label="Primary navigation">
+              <Link href="/" className="nav-link hover:opacity-90 hidden md:inline-flex">
+                Home
+              </Link>
+              <Link href="/about" className="nav-link hover:opacity-90 hidden md:inline-flex">
+                About
+              </Link>
+              <Link href="/programs" className="nav-link hover:opacity-90 hidden md:inline-flex">
+                Program
+              </Link>
+              <Link href="/resources" className="nav-link hover:opacity-90 font-semibold">
+                Resources
+              </Link>
+              <Link href="/network" className="nav-link hover:opacity-90 hidden md:inline-flex">
+                Network
+              </Link>
+              <Link
+                href="/donate"
+                className="ml-2 btn-crimson hidden md:inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold"
+              >
+                Donate
+              </Link>
+            </nav>
+
             <button
               aria-label="Open menu"
               aria-expanded={menuOpen}
@@ -63,27 +84,6 @@ export default function Header() {
               {menuOpen ? "✕" : "☰"}
             </button>
           </div>
-
-          <nav className="hidden md:flex gap-6 items-center">
-            <Link href="/" className="nav-link hover:opacity-90">
-              Home
-            </Link>
-            <Link href="/about" className="nav-link hover:opacity-90">
-              About
-            </Link>
-            <Link href="/programs" className="nav-link hover:opacity-90">
-              Program
-            </Link>
-            <Link href="/network" className="nav-link hover:opacity-90">
-              Network
-            </Link>
-            <Link
-              href="/donate"
-              className="ml-2 btn-crimson inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold"
-            >
-              Donate
-            </Link>
-          </nav>
         </div>
       </header>
       <div className="h-1" style={{ background: "var(--gold)" }} />
