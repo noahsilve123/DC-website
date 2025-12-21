@@ -1,0 +1,259 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Default light theme variables. System dark-mode media queries were
+  removed so the site matches the rest of the website by default.
+  If you want dark mode later, enable it via a `dark` class and
+  Tailwind's `darkMode: 'class'` in `tailwind.config.cjs`.
+*/
+
+:root {
+  --background: #f5f8ff;
+  --foreground: #0b1d3f;
+  --gold: #93c5fd;
+  --gold-light: #dbeafe;
+  --crimson: #1d4ed8;
+  --crimson-dark: #0f3d91;
+  --crimson-soft: #e0f2ff;
+  /* Default decorative frame sizing (36rem = 576px at 16px root) */
+  --frame-width: 36rem;
+  --frame-rotate: 90deg;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Headings use Source Serif 4 when available */
+h1, h2, h3 {
+  font-family: var(--font-source-serif, Georgia, 'Times New Roman', serif);
+}
+
+/* Site title uses Amasis MT Pro Light with gold outline */
+.site-title {
+  font-family: 'Amasis MT Pro Light', 'Times New Roman', Georgia, serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  font-size: 1.5rem; /* 24px */
+  line-height: 1.05;
+  color: inherit;
+  text-shadow: 0 2px 6px rgba(79, 11, 19, 0.15);
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -40px;
+  background: var(--crimson);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  z-index: 100;
+  transition: top 0.2s ease, opacity 0.2s ease;
+  opacity: 0;
+}
+
+.skip-link:focus {
+  top: 1rem;
+  opacity: 1;
+}
+
+/* Simple fade-up animation for in-view entrance of elements */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.service-card {
+  opacity: 0;
+  transform: translateY(10px);
+  animation-name: fadeUp;
+  animation-duration: 600ms;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(.2,.9,.3,1);
+}
+.service-card[data-delay='1'] { animation-delay: 80ms; }
+.service-card[data-delay='2'] { animation-delay: 180ms; }
+.service-card[data-delay='3'] { animation-delay: 280ms; }
+
+
+/* Hero embellishments */
+.pattern-grid {
+  background-image:
+    linear-gradient(rgba(15, 23, 42, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.05) 1px, transparent 1px);
+  background-size: 70px 70px;
+}
+
+.glass-card {
+  border-radius: 1rem;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(14px);
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 1.5rem;
+  border: 1px solid rgba(30, 64, 175, 0.2);
+  box-shadow: 0 25px 45px rgba(15, 23, 42, 0.15);
+  backdrop-filter: blur(25px);
+}
+
+.stat-dot {
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.15);
+  border: 1px solid rgba(37, 99, 235, 0.4);
+}
+
+.gold-frame {
+  border-radius: 1.5rem;
+  border: 3px solid var(--gold);
+  padding: 1.75rem;
+  background: linear-gradient(145deg, #fff, #e0f2ff);
+  box-shadow:
+    0 18px 35px rgba(15, 23, 42, 0.18),
+    0 0 0 1px rgba(37, 99, 235, 0.25);
+}
+
+.gold-pill {
+  background: var(--gold-light);
+  color: #0f172a;
+  border: 1px solid rgba(37, 99, 235, 0.4);
+}
+
+.gold-divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  border-radius: 999px;
+}
+
+.crimson-pill {
+  background: var(--crimson-soft);
+  color: var(--crimson);
+  border: 1px solid rgba(37, 99, 235, 0.4);
+}
+
+.crimson-link {
+  color: var(--crimson);
+  transition: color 160ms ease;
+}
+
+.crimson-link:hover {
+  color: var(--crimson-dark);
+}
+
+.btn-crimson {
+  background: var(--crimson);
+  color: #fff;
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.25);
+}
+
+.btn-crimson:hover {
+  background: var(--crimson-dark);
+}
+
+.btn-crimson-outline {
+  border: 1.5px solid var(--crimson);
+  color: var(--crimson);
+  background: transparent;
+}
+
+.btn-crimson-outline:hover {
+  background: var(--crimson-soft);
+}
+
+
+/* Simple gold frame treatments used on the home page */
+.frame-panel {
+  border-radius: 1.75rem;
+  border: 3px solid var(--gold);
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #fff, #e0f2ff);
+  box-shadow:
+    0 18px 35px rgba(15, 23, 42, 0.18),
+    0 0 0 1px rgba(37, 99, 235, 0.25);
+}
+
+.frame-panel-slim {
+  border-radius: 1.25rem;
+  border: 2px solid var(--gold);
+  padding: 1.25rem;
+  background: linear-gradient(135deg, #fff, #e0f2ff);
+  box-shadow: 0 12px 25px rgba(15, 23, 42, 0.18);
+}
+
+/* Nav link color helper */
+.nav-link {
+  color: var(--crimson);
+  transition: color 150ms ease, opacity 120ms ease;
+}
+.nav-link:hover {
+  color: var(--crimson-dark);
+  opacity: 0.95;
+}
+
+.low-bandwidth * {
+  animation: none !important;
+  transition: none !important;
+  backdrop-filter: none !important;
+}
+
+:focus-visible {
+  outline: 2px solid var(--crimson);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.low-bandwidth .motion-safe,
+.low-bandwidth [data-animate],
+.low-bandwidth img,
+.low-bandwidth video {
+  animation: none !important;
+  transition: none !important;
+  filter: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Small utility for headings that should use the site crimson */
+.text-crimson { color: var(--crimson); }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Decorative frame image positioning used on the weekly panel */
+/* Use the supplied decorative image as the panel border (frame) */
+/* Framed wrapper: places decorative artwork outside the panel bounds */
+/* (frame-related styles removed) */
+

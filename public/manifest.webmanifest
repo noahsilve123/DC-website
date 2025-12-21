@@ -1,0 +1,10 @@
+{
+  "name": "Destination College",
+  "short_name": "Destination College",
+  "description": "Community support for Summit High School first-gen and low-income students.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f8ff",
+  "theme_color": "#1d4ed8",
+  "icons": []
+}
