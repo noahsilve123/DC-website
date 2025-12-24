@@ -1,5 +1,8 @@
 {
     "general": {
-        "previewFeatures": true
+        "previewFeatures": true,
+        "codeGeneration": {
+            "language": "jsonc"
+        }
     }
 }

@@ -1,7 +1,7 @@
 import Link from "next/link"
 
 export const metadata = {
-  title: "Resources | First Gen Aid",
+  title: "Resources | Destination College",
   description: "Links and guides for first-gen students and families navigating financial aid.",
 }
 
@@ -28,7 +28,7 @@ export default function ResourcesPage() {
   return (
     <div className="min-h-screen bg-slate-50 py-16 px-6">
       <div className="mx-auto max-w-4xl space-y-6 text-center">
-        <p className="text-xs uppercase tracking-[0.4em] text-slate-500">First Gen Aid</p>
+        <p className="text-xs uppercase tracking-[0.4em] text-slate-500">Destination College</p>
         <h1 className="text-3xl font-semibold text-slate-900 sm:text-4xl">Resources for the first-gen journey</h1>
         <p className="text-base text-slate-600">
           A curated list of trusted tools, guidance, and programs to help you apply, afford, and stay on track.

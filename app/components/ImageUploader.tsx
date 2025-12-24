@@ -115,10 +115,13 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelected, s
       }`}
     >
       <input
+        id="image-uploader-input"
         type="file"
         accept="image/*,application/pdf"
         onChange={onInputChange}
         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+        aria-label="Upload a PDF or image"
+        title="Upload a PDF or image"
       />
       <div className="flex flex-col items-center justify-center space-y-4">
         <div className={`p-4 rounded-full ${isDragging ? 'bg-brand-100 text-brand-600' : 'bg-slate-100 text-slate-500'}`}>

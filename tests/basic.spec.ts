@@ -2,8 +2,8 @@ import { test, expect } from '@playwright/test';
 
 test('homepage loads', async ({ page }) => {
   await page.goto('/');
-  await expect(page).toHaveTitle(/First Gen Aid/);
-  await expect(page.locator('h1')).toContainText('First Gen Aid');
+  await expect(page).toHaveTitle(/Destination College/);
+  await expect(page.locator('h1')).toContainText('Financial aid');
 });
 
 test('navigation to resources', async ({ page }) => {
@@ -14,8 +14,9 @@ test('navigation to resources', async ({ page }) => {
 });
 
 test('scanner component renders', async ({ page }) => {
-  await page.goto('/');
-  await expect(page.locator('text=Drop files here or click to upload')).toBeVisible();
+  await page.goto('/tools');
+  await expect(page.locator('text=Extractor')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Upload' })).toBeVisible();
 });
 
 test('API recommendations endpoint', async ({ page }) => {

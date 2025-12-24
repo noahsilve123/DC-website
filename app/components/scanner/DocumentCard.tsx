@@ -21,7 +21,7 @@ export default function DocumentCard({ doc }: { doc: ScannedDoc }) {
           <FileText className="w-6 h-6 text-gray-600" />
         </div>
         <div className="min-w-0">
-          <p className="font-medium text-gray-900 truncate">{doc.file.name}</p>
+          <p className="font-medium text-gray-900 truncate">{doc.file?.name ?? doc.fileName}</p>
           <div className="flex items-center gap-2 text-sm text-gray-500">
             {doc.status === 'processing' && (
               <span className="flex items-center gap-1 text-blue-600">
@@ -47,6 +47,8 @@ export default function DocumentCard({ doc }: { doc: ScannedDoc }) {
           className="text-sm border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-blue-50 text-blue-700 font-medium px-2 py-1"
           value={doc.assignedOwner || ''}
           onChange={(e) => updateDocument(doc.id, { assignedOwner: e.target.value as FamilyMember })}
+          aria-label="Assign document owner"
+          title="Assign document owner"
         >
           <option value="" disabled>Select Owner...</option>
           <option value="parent1">Parent 1 (Custodial)</option>
@@ -57,6 +59,8 @@ export default function DocumentCard({ doc }: { doc: ScannedDoc }) {
         <button
           onClick={() => removeDocument(doc.id)}
           className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+          aria-label="Remove document"
+          title="Remove document"
         >
           <Trash2 className="w-5 h-5" />
         </button>

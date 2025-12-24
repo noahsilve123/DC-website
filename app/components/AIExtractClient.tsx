@@ -123,8 +123,16 @@ export default function AIExtractClient() {
 
   return (
     <div className="ai-extract-client rounded-lg border p-4 bg-white shadow-sm">
-      <label className="block text-sm font-semibold">Upload a document to extract text (client-side)</label>
-      <input type="file" accept="image/*,.pdf,.png,.jpg,.jpeg" onChange={onChange} className="mt-2" />
+      <label htmlFor="ai-extract-file" className="block text-sm font-semibold">
+        Upload a document to extract text (client-side)
+      </label>
+      <input
+        id="ai-extract-file"
+        type="file"
+        accept="image/*,.pdf,.png,.jpg,.jpeg"
+        onChange={onChange}
+        className="mt-2"
+      />
 
       {fileName && (
         <div className="mt-3 text-sm text-gray-600">
@@ -134,9 +142,12 @@ export default function AIExtractClient() {
 
       {running && (
         <div className="mt-2">
-          <div className="h-2 bg-gray-200 rounded overflow-hidden">
-            <div className="h-full bg-crimson" style={{ width: `${progress}%` }} />
-          </div>
+          <progress
+            className="w-full h-2 rounded overflow-hidden"
+            value={Math.min(100, Math.max(0, progress))}
+            max={100}
+            aria-label="OCR progress"
+          />
           <div className="text-xs text-gray-500 mt-1">{progress}%</div>
           <div className="mt-2">
             <button
@@ -163,8 +174,16 @@ export default function AIExtractClient() {
 
       {text && (
         <div className="mt-3">
-          <label className="text-sm font-semibold">Extracted text</label>
-          <textarea readOnly value={text} rows={10} className="w-full mt-2 p-2 border rounded bg-gray-50 text-sm" />
+          <label htmlFor="ai-extract-text" className="text-sm font-semibold">
+            Extracted text
+          </label>
+          <textarea
+            id="ai-extract-text"
+            readOnly
+            value={text}
+            rows={10}
+            className="w-full mt-2 p-2 border rounded bg-gray-50 text-sm"
+          />
           {parsed && (
             <div className="mt-3 text-sm text-gray-700">
               <p className="font-semibold">Quick parsed fields</p>

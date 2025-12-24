@@ -14,14 +14,14 @@
           "keywords": ["Total Tax"],
           "type": "currency"
         },
-        "itemizedDeductions": {
-          "line": "12",
-          "keywords": ["Standard Deduction", "Itemized deductions"],
-          "type": "currency"
-        },
         "dividendIncome": {
           "line": "3b",
           "keywords": ["Ordinary dividends"],
+          "type": "currency"
+        },
+        "taxableInterest": {
+          "line": "2b",
+          "keywords": ["Taxable interest"],
           "type": "currency"
         },
         "iraDistributionsTotal": {

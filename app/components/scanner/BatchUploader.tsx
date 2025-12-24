@@ -1,10 +1,9 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { useDocumentStore, ScannedDoc } from '../../lib/store/documentStore'
-import { performLocalOCR } from '../../lib/extractor/ocrService'
-import { extractFinancialData } from '../../lib/extractor/dataExtraction'
+import { useDocumentStore } from '../../lib/store/documentStore'
 import { Upload, Loader2 } from 'lucide-react'
+import { ingestFiles } from './ingestDocuments'
 
 export default function BatchUploader() {
   const addDocument = useDocumentStore((state) => state.addDocument)
@@ -13,42 +12,7 @@ export default function BatchUploader() {
   const [isDragging, setIsDragging] = useState(false)
 
   const handleFiles = async (files: FileList | null) => {
-    if (!files) return
-
-    Array.from(files).forEach(async (file) => {
-      const id = Math.random().toString(36).substring(7)
-      const newDoc: ScannedDoc = {
-        id,
-        file,
-        rawText: '',
-        status: 'processing',
-        assignedOwner: 'parent1', // Default to Parent 1 so calculations run immediately
-        detectedType: 'Unknown',
-        extractedData: {},
-      }
-      addDocument(newDoc)
-
-      try {
-        const result = await performLocalOCR(file, (progress, status) => {
-          // Optional: Update progress in store if needed
-        })
-
-        const extracted = extractFinancialData(result.text, result.blocks)
-        
-        updateDocument(id, {
-          rawText: result.text,
-          status: 'complete',
-          detectedType: extracted.formType as any,
-          extractedData: extracted,
-        })
-      } catch (error) {
-        console.error(error)
-        updateDocument(id, {
-          status: 'error',
-          errorMessage: error instanceof Error ? error.message : 'Unknown error',
-        })
-      }
-    })
+    await ingestFiles(files, addDocument, updateDocument)
   }
 
   return (
@@ -75,6 +39,8 @@ export default function BatchUploader() {
         ref={fileInputRef}
         onChange={(e) => handleFiles(e.target.files)}
         accept="image/*,application/pdf"
+        aria-label="Upload documents"
+        title="Upload documents"
       />
       <div className="flex flex-col items-center gap-2 cursor-pointer">
         <Upload className="w-10 h-10 text-gray-400" />

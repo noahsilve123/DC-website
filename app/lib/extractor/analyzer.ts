@@ -9,7 +9,8 @@ export interface FinancialItem {
 }
 
 export interface AnalyzedData {
-  dates: Date[]
+  /** ISO strings (store-friendly). */
+  dates: string[]
   loans: FinancialItem[]
   grants: FinancialItem[]
   totalLoans: number
@@ -18,7 +19,7 @@ export interface AnalyzedData {
 
 export const analyzeText = (rawText: string): AnalyzedData => {
   const parsedDates = chrono.parse(rawText)
-  const dates = parsedDates.map((result) => result.start.date())
+  const dates = parsedDates.map((result) => result.start.date().toISOString())
 
   const lines = rawText
     .split('\n')

@@ -1,4 +1,3 @@
-import { Source_Serif_4 } from "next/font/google";
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "./components/Header";
@@ -8,12 +7,6 @@ import { metadata as siteMetadata } from "./metadata";
 
 export const metadata: Metadata = siteMetadata;
 
-const sourceSerif = Source_Serif_4({
-  variable: "--font-source-serif",
-  subsets: ["latin"],
-  weight: ["300", "400", "600", "700"],
-});
-
 type RootLayoutProps = {
   children: React.ReactNode;
 };
@@ -21,7 +14,7 @@ type RootLayoutProps = {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
-      <body id="top" className={`${sourceSerif.variable} antialiased bg-white text-gray-900`}>
+      <body id="top" className="antialiased bg-white text-gray-900">
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>

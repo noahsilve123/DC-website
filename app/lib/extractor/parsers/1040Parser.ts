@@ -6,7 +6,9 @@ interface Parsed1040 {
   taxPaid: number;
   itemizedDeductions: number;
   untaxedIRA: number; // Critical for CSS Profile
+  untaxedSocialSecurity: number;
   dividendIncome: number;
+  taxableInterest: number;
 }
 
 // Type definitions for our JSON config
@@ -37,8 +39,8 @@ export const extract1040Data = (text: string): Parsed1040 => {
     const keywordRegex = new RegExp(keywordPattern, 'i');
 
     // Line regex: "Line X" or just "X" with word boundaries
-    // FIXED: Double backslashes for string literals
-    const linePattern = `(?:Line\s?)?\b${fieldConfig.line}\b`;
+    // IMPORTANT: In JS string literals, backslashes must be escaped for RegExp source.
+    const linePattern = `(?:Line\\s*)?\\b${fieldConfig.line}\\b`;
     const lineRegex = new RegExp(linePattern, 'i');
 
     return findCurrencyValue(text, keywordRegex, lineRegex);
@@ -48,6 +50,7 @@ export const extract1040Data = (text: string): Parsed1040 => {
   const taxPaid = getField('taxPaid');
   const itemizedDeductions = getField('itemizedDeductions');
   const dividendIncome = getField('dividendIncome');
+  const taxableInterest = getField('taxableInterest');
 
   // Untaxed IRA/Pension Calculation
   // Logic: (IRA Total - IRA Taxable) + (Pension Total - Pension Taxable)
@@ -74,7 +77,9 @@ export const extract1040Data = (text: string): Parsed1040 => {
     taxPaid,
     itemizedDeductions,
     untaxedIRA: untaxedIRA + untaxedPension,
-    dividendIncome
+    untaxedSocialSecurity: untaxedSS,
+    dividendIncome,
+    taxableInterest
   };
 }
 

@@ -157,10 +157,11 @@ export const extractFinancialData = (text: string, blocks: OCRBlock[] = []): Ext
   const hasSchedC = /Schedule C/i.test(text) && (/Profit or Loss/i.test(text) || /Business/i.test(text));
   const has1040 = (/1040/i.test(text) || /Income Tax Return/i.test(text)) && (/Adjusted Gross/i.test(text) || /Total Tax/i.test(text) || /Refund/i.test(text));
 
-  if (hasW2) data.formType = 'W-2';
+  // Priority: 1040 (Most likely to contain references to other forms) > Schedules > W-2
+  if (has1040) data.formType = '1040';
   else if (hasSchedA) data.formType = 'Schedule A';
   else if (hasSchedC) data.formType = 'Business';
-  else if (has1040) data.formType = '1040';
+  else if (hasW2) data.formType = 'W-2';
   // Fallback: If it says 1040 but didn't match strict criteria, it's probably a 1040
   else if (/1040/i.test(text)) data.formType = '1040';
 
@@ -205,7 +206,11 @@ export const extractFinancialData = (text: string, blocks: OCRBlock[] = []): Ext
     return cleaned
   }
 
-  if (data.formType === 'W-2') {
+  // --- Composite Extraction Logic ---
+  // We check for specific forms and extract data if present, regardless of the primary 'formType'
+  // This handles cases where multiple forms are in a single PDF (e.g. 1040 + Sched A)
+
+  if (hasW2 || data.formType === 'W-2') {
     data.wages = findField(['Wages tips'], ['Wages, tips', 'Box 1', 'Wages, tips, other'], 'W2_BOX')
     data.federalTax = findField(['Federal income'], ['Federal income tax', 'Box 2'], 'W2_BOX')
     data.socialSecurityWages = findField(['Social security wages'], ['Social security wages', 'Box 3'], 'W2_BOX')
@@ -213,24 +218,35 @@ export const extractFinancialData = (text: string, blocks: OCRBlock[] = []): Ext
     data.medicareWages = findField(['Medicare wages'], ['Medicare wages', 'Box 5'], 'W2_BOX')
     data.medicareTax = findField(['Medicare tax'], ['Medicare tax', 'Box 6'], 'W2_BOX')
     
-    // New W-2 specific extraction
     const w2Extra = extractW2Data(text)
     data.box12Untaxed = w2Extra.box12Untaxed
-  } else if (data.formType === 'Schedule A') {
+  }
+
+  if (hasSchedA || data.formType === 'Schedule A') {
     const schedA = extractScheduleAData(text)
-    data.medicalExpenses = schedA.medicalExpenses
-    data.mortgageInterest = schedA.mortgageInterest
-  } else if (data.formType === 'Business') { // Schedule C
+    // Only overwrite if not already set (though usually unique fields)
+    if (schedA.medicalExpenses) data.medicalExpenses = schedA.medicalExpenses
+    if (schedA.mortgageInterest) data.mortgageInterest = schedA.mortgageInterest
+  }
+
+  if (hasSchedC || data.formType === 'Business') {
     const schedC = extractScheduleCData(text)
-    data.netProfit = schedC.netProfit
-  } else {
-    // 1040 Extraction
+    if (schedC.netProfit) data.netProfit = schedC.netProfit
+  }
+
+  if (has1040 || data.formType === '1040') {
     const parsed1040 = extract1040Data(text)
-    data.agi = parsed1040.agi.toString()
-    data.federalTax = parsed1040.taxPaid.toString()
+    // Prioritize 1040 data if present, but be careful with W-2 conflicts
+    if (parsed1040.agi) data.agi = parsed1040.agi.toString()
+    
+    // If federalTax not found via W-2 logic, use 1040
+    if (!data.federalTax && parsed1040.taxPaid) data.federalTax = parsed1040.taxPaid.toString()
+    
     data.itemizedDeductions = parsed1040.itemizedDeductions
     data.untaxedIRA = parsed1040.untaxedIRA
+    data.untaxedSocialSecurity = parsed1040.untaxedSocialSecurity
     data.dividendIncome = parsed1040.dividendIncome
+    data.taxableInterest = parsed1040.taxableInterest
     
     // Fallback to spatial search if regex failed
     if (!data.wages) {

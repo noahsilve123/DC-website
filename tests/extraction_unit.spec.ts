@@ -66,6 +66,23 @@ test.describe('1040 Data Extraction Logic', () => {
     expect(result.untaxedIRA).toBe(5000); // 20k - 15k
   });
 
+  test('calculates untaxed social security correctly', () => {
+    const text = `
+      6a Social security benefits ... 18,000.00
+      6b Taxable amount ............ 10,000.00
+    `;
+    const result = extract1040Data(text);
+    expect(result.untaxedSocialSecurity).toBe(8000); // 18k - 10k
+  });
+
+  test('extracts taxable interest (Line 2b)', () => {
+      const text = `
+        2b Taxable interest ............. 450.00
+      `;
+      const result = extract1040Data(text);
+      expect(result.taxableInterest).toBe(450);
+  });
+
   test('returns 0 when data is missing', () => {
     const text = `
       Form 1040

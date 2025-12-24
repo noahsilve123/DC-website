@@ -24,6 +24,8 @@ export default function CopilotTable() {
   // We can re-implement the warning logic by traversing the sections if needed
   // For now, let's keep it simple or re-calculate totals from the structured data if we want warnings.
   
+  const unassignedDocs = documents.filter(d => !d.assignedOwner);
+
   if (documents.length === 0) {
     return (
       <div className="text-center py-12 bg-gray-50 rounded-lg border border-gray-200 border-dashed">
@@ -36,6 +38,18 @@ export default function CopilotTable() {
 
   return (
     <div className="space-y-8">
+      {unassignedDocs.length > 0 && (
+        <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+          <div>
+            <h4 className="font-semibold text-amber-900">Action Required: Assign Document Owners</h4>
+            <p className="text-sm text-amber-800 mt-1">
+              You have {unassignedDocs.length} document{unassignedDocs.length === 1 ? '' : 's'} that need to be assigned to a family member (Student, Parent 1, etc.) before they can be included in the calculations. Scroll up to the document list to assign them.
+            </p>
+          </div>
+        </div>
+      )}
+
       {sections.map((section) => (
         <div key={section.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
           <button 

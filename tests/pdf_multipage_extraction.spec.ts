@@ -73,7 +73,7 @@ test('extractor handles multi-page PDF with blank cover page', async ({ page }) 
   ].join('\n')
   const pdfBuffer = createTwoPagePdfWithSecondPageText(pdfText)
 
-  await page.goto('/')
+  await page.goto('/tools')
 
   await page.setInputFiles('input[type="file"][multiple]', {
     name: 'multipage.pdf',
@@ -81,8 +81,17 @@ test('extractor handles multi-page PDF with blank cover page', async ({ page }) 
     buffer: pdfBuffer,
   })
 
+  // Wait until the document finishes processing (type detected).
+  await expect(page.locator('text=1040')).toBeVisible({ timeout: 120_000 })
+
+  // Assign the document owner so aggregations include it.
+  await page.selectOption('select', { value: 'parent1' })
+
+  // Navigate to the CSS Profile tool to see interpretation.
+  await page.goto('/tools/css-profile')
+
   // Wait for processing to finish and aggregation to populate.
-  const row = page.locator('tr', { hasText: 'PI-110' })
-  await expect(row).toBeVisible({ timeout: 120_000 })
-  await expect(row).toContainText('$125,000', { timeout: 120_000 })
+  const agiRow = page.locator('tr', { hasText: 'PI-110' })
+  await expect(agiRow).toBeVisible({ timeout: 120_000 })
+  await expect(agiRow).toContainText('$125,000', { timeout: 120_000 })
 })

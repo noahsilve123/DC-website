@@ -73,7 +73,9 @@ export interface ExtractedData {
   mortgageInterest?: number;
   itemizedDeductions?: number;
   untaxedIRA?: number;
+  untaxedSocialSecurity?: number;
   dividendIncome?: number;
+  taxableInterest?: number;
 
   // Entities
   employerName: string | null;
