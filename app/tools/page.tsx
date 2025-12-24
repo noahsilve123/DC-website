@@ -22,9 +22,9 @@ const tools = [
   },
   {
     title: 'Budget Tool',
-    description: 'Coming soon.',
-    href: null,
-    ready: false,
+    description: 'Estimate costs and compare on-campus vs off-campus totals.',
+    href: '/tools/budget',
+    ready: true,
   },
 ] as const
 

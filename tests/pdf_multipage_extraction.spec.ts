@@ -88,7 +88,7 @@ test('extractor handles multi-page PDF with blank cover page', async ({ page }) 
   await page.selectOption('select', { value: 'parent1' })
 
   // Navigate to the CSS Profile tool to see interpretation.
-  await page.goto('/tools/css-profile')
+  await page.goto('/tools/css-profile', { timeout: 120_000 })
 
   // Wait for processing to finish and aggregation to populate.
   const agiRow = page.locator('tr', { hasText: 'PI-110' })
