@@ -1,11 +1,18 @@
 'use client'
 
 import { ScannedDoc, useDocumentStore, FamilyMember } from '../../lib/store/documentStore'
-import { FileText, Trash2, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
+import { FileText, Trash2, CheckCircle, AlertCircle, Loader2, User, GraduationCap, HelpCircle } from 'lucide-react'
 
 export default function DocumentCard({ doc }: { doc: ScannedDoc }) {
   const updateDocument = useDocumentStore((state) => state.updateDocument)
   const removeDocument = useDocumentStore((state) => state.removeDocument)
+
+  const icons = {
+    student: <GraduationCap className="w-4 h-4" />,
+    parent1: <User className="w-4 h-4" />,
+    parent2: <User className="w-4 h-4" />,
+    null: <HelpCircle className="w-4 h-4" />
+  }
 
   return (
     <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 flex items-center justify-between gap-4">
@@ -37,14 +44,14 @@ export default function DocumentCard({ doc }: { doc: ScannedDoc }) {
 
       <div className="flex items-center gap-3 shrink-0">
         <select
-          className="text-sm border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          className="text-sm border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-blue-50 text-blue-700 font-medium px-2 py-1"
           value={doc.assignedOwner || ''}
           onChange={(e) => updateDocument(doc.id, { assignedOwner: e.target.value as FamilyMember })}
         >
-          <option value="" disabled>Assign Owner</option>
+          <option value="" disabled>Select Owner...</option>
+          <option value="parent1">Parent 1 (Custodial)</option>
+          <option value="parent2">Parent 2 (Spouse)</option>
           <option value="student">Student</option>
-          <option value="parent1">Parent 1</option>
-          <option value="parent2">Parent 2</option>
         </select>
 
         <button

@@ -70,6 +70,10 @@ export interface ExtractedData {
   box12Untaxed?: number;
   medicalExpenses?: number;
   netProfit?: number;
+  mortgageInterest?: number;
+  itemizedDeductions?: number;
+  untaxedIRA?: number;
+  dividendIncome?: number;
 
   // Entities
   employerName: string | null;

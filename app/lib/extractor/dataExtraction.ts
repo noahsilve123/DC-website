@@ -4,6 +4,8 @@ import { TAX_RULES, isApproximately } from './taxKnowledge'
 import { extractW2Data } from './parsers/w2Parser'
 import { extractScheduleAData } from './parsers/scheduleAParser'
 import { extractScheduleCData } from './parsers/scheduleCParser'
+import { extract1040Data } from './parsers/1040Parser'
+import { cleanOCRText } from '../utils/textCleaner'
 
 interface Rect {
   x: number
@@ -126,6 +128,9 @@ const scanRawTextForValue = (fullText: string, searchKeywords: string[], exclude
 }
 
 export const extractFinancialData = (text: string, blocks: OCRBlock[] = []): ExtractedData => {
+  // Clean text before processing
+  text = cleanOCRText(text)
+
   const data: ExtractedData = {
     formType: 'Unknown',
     taxYear: null,
@@ -145,10 +150,19 @@ export const extractFinancialData = (text: string, blocks: OCRBlock[] = []): Ext
     confidenceScore: 100,
   }
 
-  if (/W-?2/i.test(text) || /Wage and Tax/i.test(text) || /Employer identification/i.test(text)) data.formType = 'W-2'
-  else if (/1040/i.test(text) || /Income Tax Return/i.test(text)) data.formType = '1040'
-  else if (/Schedule A/i.test(text)) data.formType = 'Schedule A'
-  else if (/Schedule C/i.test(text)) data.formType = 'Business'
+  // Improved Form Detection Logic
+  // We use a scoring system or specific keyword combinations to avoid false positives
+  const hasW2 = /W-?2/i.test(text) || /Wage and Tax/i.test(text) || /Employer identification/i.test(text);
+  const hasSchedA = /Schedule A/i.test(text) && (/Medical/i.test(text) || /Dental/i.test(text) || /Gifts to Charity/i.test(text));
+  const hasSchedC = /Schedule C/i.test(text) && (/Profit or Loss/i.test(text) || /Business/i.test(text));
+  const has1040 = (/1040/i.test(text) || /Income Tax Return/i.test(text)) && (/Adjusted Gross/i.test(text) || /Total Tax/i.test(text) || /Refund/i.test(text));
+
+  if (hasW2) data.formType = 'W-2';
+  else if (hasSchedA) data.formType = 'Schedule A';
+  else if (hasSchedC) data.formType = 'Business';
+  else if (has1040) data.formType = '1040';
+  // Fallback: If it says 1040 but didn't match strict criteria, it's probably a 1040
+  else if (/1040/i.test(text)) data.formType = '1040';
 
   const ssnMatch = text.match(PATTERNS.SSN)
   if (ssnMatch) data.ssn = `${ssnMatch[1]}-${ssnMatch[2]}-${ssnMatch[3]}`
@@ -205,13 +219,29 @@ export const extractFinancialData = (text: string, blocks: OCRBlock[] = []): Ext
   } else if (data.formType === 'Schedule A') {
     const schedA = extractScheduleAData(text)
     data.medicalExpenses = schedA.medicalExpenses
+    data.mortgageInterest = schedA.mortgageInterest
   } else if (data.formType === 'Business') { // Schedule C
     const schedC = extractScheduleCData(text)
     data.netProfit = schedC.netProfit
   } else {
-    data.wages = findField(['Wages salaries', '1z'], ['Wages, salaries', 'Line 1', 'Line 1z', 'total amount from box 1'], '1040_LINE')
-    data.agi = findField(['Adjusted gross', '11'], ['Adjusted gross income', 'Line 11', 'Subtract line 10'], '1040_LINE')
-    data.federalTax = findField(['total tax', '24'], ['total tax', 'Line 24', 'Add lines 22 and 23'], '1040_LINE')
+    // 1040 Extraction
+    const parsed1040 = extract1040Data(text)
+    data.agi = parsed1040.agi.toString()
+    data.federalTax = parsed1040.taxPaid.toString()
+    data.itemizedDeductions = parsed1040.itemizedDeductions
+    data.untaxedIRA = parsed1040.untaxedIRA
+    data.dividendIncome = parsed1040.dividendIncome
+    
+    // Fallback to spatial search if regex failed
+    if (!data.wages) {
+      data.wages = findField(['Wages salaries', '1z'], ['Wages, salaries', 'Line 1', 'Line 1z', 'total amount from box 1'], '1040_LINE')
+    }
+    if (!data.agi || data.agi === '0') {
+      data.agi = findField(['Adjusted gross', '11'], ['Adjusted gross income', 'Line 11', 'Subtract line 10'], '1040_LINE')
+    }
+    if (!data.federalTax || data.federalTax === '0') {
+      data.federalTax = findField(['total tax', '24'], ['total tax', 'Line 24', 'Add lines 22 and 23'], '1040_LINE')
+    }
 
     if (!data.federalTax) {
       data.federalTax = scanRawTextForValue(text, ['Federal income tax withheld', 'Line 25', 'Form(s) W-2'], [data.ssn, data.taxYear])

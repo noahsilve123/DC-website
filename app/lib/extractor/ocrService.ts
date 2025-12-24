@@ -5,8 +5,8 @@ const TESSERACT_ASSETS = {
   // Copied into /public by scripts/copy-worker-assets.mjs
   workerPath: '/tesseract/worker.min.js',
   corePath: '/tesseract/tesseract-core.wasm.js',
-  // Use local language data
-  langPath: '/tesseract',
+  // Use local language data (Must end with /)
+  langPath: '/tesseract/',
 }
 
 async function loadTesseract() {
