@@ -13,6 +13,15 @@ The Budget Tool calls the College Scorecard API via `https://api.data.gov/ed/col
 
 3. Restart the dev server (`npm run dev`).
 
+### Smoke test (recommended)
+
+With the dev server running, you can verify your key + endpoints without exposing the key in git:
+
+- `npm run scorecard:smoke`
+
+Optional:
+- `SMOKE_BASE_URL=https://your-deployed-site.vercel.app npm run scorecard:smoke`
+
 ### Deployment
 
 Set the environment variable `COLLEGE_SCORECARD_API_KEY` in your hosting provider (Vercel/Netlify/etc.) and redeploy.

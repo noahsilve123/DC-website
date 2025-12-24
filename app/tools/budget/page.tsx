@@ -46,6 +46,7 @@ export default function BudgetToolPage() {
 
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])
   const [suggestOpen, setSuggestOpen] = useState(false)
+  const [suggestError, setSuggestError] = useState<string | null>(null)
   const abortRef = useRef<AbortController | null>(null)
 
   const [loading, setLoading] = useState(false)
@@ -58,9 +59,10 @@ export default function BudgetToolPage() {
     const q = schoolName.trim()
     abortRef.current?.abort()
 
-    if (q.length < 3) {
+    if (q.length < 2) {
       setSuggestions([])
       setSuggestOpen(false)
+      setSuggestError(null)
       return
     }
 
@@ -72,16 +74,24 @@ export default function BudgetToolPage() {
         const url = new URL('/api/college-suggest', window.location.origin)
         url.searchParams.set('query', q)
         const res = await fetch(url.toString(), { signal: controller.signal })
-        const json = (await res.json()) as { results?: Suggestion[] }
-        if (!res.ok) return
+        const json = (await res.json()) as { results?: Suggestion[]; error?: string }
+        if (!res.ok) {
+          const msg = json && typeof json === 'object' && typeof json.error === 'string' ? json.error : 'Suggestions unavailable.'
+          setSuggestError(msg)
+          setSuggestions([])
+          setSuggestOpen(true)
+          return
+        }
 
         const next = Array.isArray(json.results) ? json.results : []
+        setSuggestError(null)
         setSuggestions(next)
         setSuggestOpen(true)
       } catch (e) {
         if (e instanceof DOMException && e.name === 'AbortError') return
+        setSuggestError('Suggestions unavailable.')
         setSuggestions([])
-        setSuggestOpen(false)
+        setSuggestOpen(true)
       }
     }, 250)
 
@@ -192,28 +202,32 @@ export default function BudgetToolPage() {
                 </button>
               </div>
 
-              {suggestOpen && suggestions.length > 0 && (
-                <div className="absolute z-10 mt-2 w-full rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
-                  <ul className="divide-y divide-slate-200">
-                    {suggestions.map((s) => (
-                      <li key={s.id ?? s.name}>
-                        <button
-                          type="button"
-                          className="w-full px-4 py-3 text-left hover:bg-slate-50"
-                          onMouseDown={(e) => e.preventDefault()}
-                          onClick={() => {
-                            setSchoolName(s.name)
-                            setSuggestOpen(false)
-                          }}
-                        >
-                          <p className="text-sm font-semibold text-slate-900">{s.name}</p>
-                          <p className="text-xs text-slate-600">
-                            {(s.city || s.state) ? `${s.city ?? ''}${s.city && s.state ? ', ' : ''}${s.state ?? ''}` : ''}
-                          </p>
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
+              {suggestOpen && (suggestions.length > 0 || !!suggestError) && (
+                <div className="absolute left-0 right-0 top-full z-10 mt-2 w-full rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+                  {suggestError ? (
+                    <div className="px-4 py-3 text-sm text-slate-700">{suggestError}</div>
+                  ) : (
+                    <ul className="divide-y divide-slate-200">
+                      {suggestions.map((s) => (
+                        <li key={s.id ?? s.name}>
+                          <button
+                            type="button"
+                            className="w-full px-4 py-3 text-left hover:bg-slate-50"
+                            onMouseDown={(e) => e.preventDefault()}
+                            onClick={() => {
+                              setSchoolName(s.name)
+                              setSuggestOpen(false)
+                            }}
+                          >
+                            <p className="text-sm font-semibold text-slate-900">{s.name}</p>
+                            <p className="text-xs text-slate-600">
+                              {s.city || s.state ? `${s.city ?? ''}${s.city && s.state ? ', ' : ''}${s.state ?? ''}` : ''}
+                            </p>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               )}
             </div>

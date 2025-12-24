@@ -11,7 +11,8 @@
     "lint": "eslint .",
     "pretest": "node scripts/copy-worker-assets.mjs",
     "test": "playwright test",
-    "test:ui": "playwright test --ui"
+    "test:ui": "playwright test --ui",
+    "scorecard:smoke": "node scripts/scorecard-smoke.mjs"
   },
   "dependencies": {
     "chrono-node": "^2.7.5",
