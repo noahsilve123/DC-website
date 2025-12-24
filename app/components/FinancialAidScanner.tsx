@@ -176,42 +176,16 @@ export default function FinancialAidScanner() {
             let resultText = ''
             let resultBlocks: any[] = []
 
-            if (selectedFile.type === 'application/pdf') {
-                const { processPDF } = await import('../lib/extractor/pdfService')
-                setStatus({ isProcessing: true, progress: 10, message: 'Reading PDF structure...' })
-                const pdfResult = await processPDF(selectedFile, (msg) => {
-                    setStatus((prev) => ({ ...prev, message: msg }))
-                })
-
-                if (pdfResult.type === 'text_layer' && pdfResult.data) {
-                    resultText = pdfResult.data.text
-                    resultBlocks = pdfResult.data.blocks
-                    setStatus({ isProcessing: true, progress: 90, message: 'Text layer extracted successfully.' })
-                } else if (pdfResult.type === 'image_fallback' && pdfResult.imageBlob) {
-                    setStatus({ isProcessing: true, progress: 20, message: 'Scanned PDF detected. Switching to OCR...' })
-                    const { performLocalOCR } = await import('../lib/extractor/ocrService')
-                    const ocrResult = await performLocalOCR(
-                        pdfResult.imageBlob,
-                        (progress, message) => {
-                            setStatus({ isProcessing: true, progress, message })
-                        },
-                        { language, psm },
-                    )
-                    resultText = ocrResult.text
-                    resultBlocks = ocrResult.blocks
-                }
-            } else {
-                const { performLocalOCR } = await import('../lib/extractor/ocrService')
-                const ocrResult = await performLocalOCR(
-                    selectedFile,
-                    (progress, message) => {
-                        setStatus({ isProcessing: true, progress, message })
-                    },
-                    { language, psm },
-                )
-                resultText = ocrResult.text
-                resultBlocks = ocrResult.blocks
-            }
+            const { performLocalOCR } = await import('../lib/extractor/ocrService')
+            const ocrResult = await performLocalOCR(
+                selectedFile,
+                (progress, message) => {
+                    setStatus({ isProcessing: true, progress, message })
+                },
+                { language, psm },
+            )
+            resultText = ocrResult.text
+            resultBlocks = ocrResult.blocks
 
             setStatus({ isProcessing: true, progress: 95, message: 'Applying tax logic engine...' })
 

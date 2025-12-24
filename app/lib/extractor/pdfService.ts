@@ -28,6 +28,7 @@ interface PDFProcessResult {
   type: 'text_layer' | 'image_fallback'
   data?: OCRResult
   imageBlob?: Blob
+  imageBlobs?: Blob[]
 }
 
 export const processPDF = async (file: File, onProgress: (msg: string) => void): Promise<PDFProcessResult> => {
@@ -42,20 +43,26 @@ export const processPDF = async (file: File, onProgress: (msg: string) => void):
     let fullText = ''
     let allBlocks: OCRBlock[] = []
 
-    const firstPage = await pdf.getPage(1)
-    const textContent = await firstPage.getTextContent()
-
-    if (textContent.items.length < 10) {
-      onProgress('Scanned PDF detected. Converting to image for OCR...')
-      const imageBlob = await renderPageToImage(firstPage)
-      return { type: 'image_fallback', imageBlob }
-    }
+    const imageBlobs: Blob[] = []
+    let cumulativeYOffset = 0
+    let extractedTextPages = 0
 
     for (let i = 1; i <= pdf.numPages; i++) {
       onProgress(`Extracting text from page ${i}/${pdf.numPages}...`)
       const page = await pdf.getPage(i)
       const content = await page.getTextContent()
       const viewport = page.getViewport({ scale: 1.0 })
+
+      // Heuristic: treat pages with very little selectable text as scanned.
+      // IMPORTANT: decide per-page (many PDFs have a sparse cover page).
+      if (content.items.length < 10) {
+        onProgress(`Page ${i} looks scanned. Rendering for OCR...`)
+        imageBlobs.push(await renderPageToImage(page))
+        cumulativeYOffset += viewport.height + 200
+        continue
+      }
+
+      extractedTextPages += 1
 
       const pageBlocks: OCRBlock[] = content.items.map((item: any) => {
         const tx = item.transform
@@ -65,8 +72,8 @@ export const processPDF = async (file: File, onProgress: (msg: string) => void):
         const height = item.height || 10 // Fallback height
 
         // PDF coordinate system is bottom-up, convert to top-down
-        const y0 = viewport.height - (y + height)
-        const y1 = viewport.height - y
+        const y0 = viewport.height - (y + height) + cumulativeYOffset
+        const y1 = viewport.height - y + cumulativeYOffset
 
         return {
           text: item.str,
@@ -106,6 +113,16 @@ export const processPDF = async (file: File, onProgress: (msg: string) => void):
       })
 
       fullText += pageText + '\n'
+
+      cumulativeYOffset += viewport.height + 200
+    }
+
+    if (extractedTextPages === 0 && imageBlobs.length > 0) {
+      return {
+        type: 'image_fallback',
+        imageBlob: imageBlobs[0],
+        imageBlobs,
+      }
     }
 
     return {
@@ -116,6 +133,7 @@ export const processPDF = async (file: File, onProgress: (msg: string) => void):
         confidence: 100,
         timestamp: Date.now(),
       },
+      imageBlobs: imageBlobs.length ? imageBlobs : undefined,
     }
   } catch (error: any) {
     console.error('PDF Processing Error:', error)
