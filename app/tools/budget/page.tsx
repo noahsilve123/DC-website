@@ -1,8 +1,15 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { Loader2 } from 'lucide-react'
+
+type Suggestion = {
+  id: number | null
+  name: string
+  city: string | null
+  state: string | null
+}
 
 type ApiResponse =
   | {
@@ -37,11 +44,52 @@ export default function BudgetToolPage() {
   const [years, setYears] = useState(4)
   const [inflationRate, setInflationRate] = useState(3)
 
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([])
+  const [suggestOpen, setSuggestOpen] = useState(false)
+  const abortRef = useRef<AbortController | null>(null)
+
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [data, setData] = useState<Exclude<ApiResponse, { error: string }> | null>(null)
 
   const inflationLabel = useMemo(() => `${inflationRate.toFixed(0)}%`, [inflationRate])
+
+  useEffect(() => {
+    const q = schoolName.trim()
+    abortRef.current?.abort()
+
+    if (q.length < 3) {
+      setSuggestions([])
+      setSuggestOpen(false)
+      return
+    }
+
+    const controller = new AbortController()
+    abortRef.current = controller
+
+    const t = setTimeout(async () => {
+      try {
+        const url = new URL('/api/college-suggest', window.location.origin)
+        url.searchParams.set('query', q)
+        const res = await fetch(url.toString(), { signal: controller.signal })
+        const json = (await res.json()) as { results?: Suggestion[] }
+        if (!res.ok) return
+
+        const next = Array.isArray(json.results) ? json.results : []
+        setSuggestions(next)
+        setSuggestOpen(true)
+      } catch (e) {
+        if (e instanceof DOMException && e.name === 'AbortError') return
+        setSuggestions([])
+        setSuggestOpen(false)
+      }
+    }, 250)
+
+    return () => {
+      clearTimeout(t)
+      controller.abort()
+    }
+  }, [schoolName])
 
   async function onCalculate() {
     const q = schoolName.trim()
@@ -98,8 +146,14 @@ export default function BudgetToolPage() {
         </header>
 
         <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <div className="grid gap-5 md:grid-cols-[1.4fr_repeat(2,1fr)] md:items-end">
-            <div className="space-y-2">
+          <form
+            className="grid gap-5 md:grid-cols-[1.4fr_repeat(2,1fr)] md:items-end"
+            onSubmit={(e) => {
+              e.preventDefault()
+              onCalculate()
+            }}
+          >
+            <div className="space-y-2 relative">
               <label htmlFor="schoolName" className="text-sm font-semibold text-slate-900">
                 University name
               </label>
@@ -108,7 +162,17 @@ export default function BudgetToolPage() {
                   id="schoolName"
                   type="text"
                   value={schoolName}
-                  onChange={(e) => setSchoolName(e.target.value)}
+                  onChange={(e) => {
+                    setSchoolName(e.target.value)
+                    setSuggestOpen(true)
+                  }}
+                  onFocus={() => {
+                    if (suggestions.length) setSuggestOpen(true)
+                  }}
+                  onBlur={() => {
+                    // Let click events on suggestions register before closing.
+                    setTimeout(() => setSuggestOpen(false), 150)
+                  }}
                   placeholder="e.g., Rutgers University"
                   className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300"
                 />
@@ -127,6 +191,31 @@ export default function BudgetToolPage() {
                   )}
                 </button>
               </div>
+
+              {suggestOpen && suggestions.length > 0 && (
+                <div className="absolute z-10 mt-2 w-full rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+                  <ul className="divide-y divide-slate-200">
+                    {suggestions.map((s) => (
+                      <li key={s.id ?? s.name}>
+                        <button
+                          type="button"
+                          className="w-full px-4 py-3 text-left hover:bg-slate-50"
+                          onMouseDown={(e) => e.preventDefault()}
+                          onClick={() => {
+                            setSchoolName(s.name)
+                            setSuggestOpen(false)
+                          }}
+                        >
+                          <p className="text-sm font-semibold text-slate-900">{s.name}</p>
+                          <p className="text-xs text-slate-600">
+                            {(s.city || s.state) ? `${s.city ?? ''}${s.city && s.state ? ', ' : ''}${s.state ?? ''}` : ''}
+                          </p>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -166,7 +255,7 @@ export default function BudgetToolPage() {
                 className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300"
               />
             </div>
-          </div>
+          </form>
 
           {error && (
             <div className="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
