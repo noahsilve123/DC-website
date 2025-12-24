@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test('homepage loads', async ({ page }) => {
   await page.goto('/');
   await expect(page).toHaveTitle(/Destination College/);
-  await expect(page.locator('h1')).toContainText('Destination College');
+  await expect(page.locator('h1')).toContainText('CSS Profile Copilot');
 });
 
 test('navigation to resources', async ({ page }) => {
@@ -15,7 +15,7 @@ test('navigation to resources', async ({ page }) => {
 
 test('scanner component renders', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('text=Upload PDF')).toBeVisible();
+  await expect(page.locator('text=Drop files here or click to upload')).toBeVisible();
 });
 
 test('API recommendations endpoint', async ({ page }) => {

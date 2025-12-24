@@ -1,5 +1,6 @@
 import { OCROptions, OCRResult, OCRBlock } from './types'
 import { processImageForOCR } from './imageProcessing'
+import { processPDF } from './pdfService'
 
 const TESSERACT_ASSETS = {
   // Copied into /public by scripts/copy-worker-assets.mjs
@@ -32,6 +33,26 @@ export const performLocalOCR = async (
   options: OCROptions = { language: 'eng', psm: '3' },
 ): Promise<OCRResult> => {
   try {
+    // Handle PDF files
+    const isPDF = imageFile.type === 'application/pdf' || (imageFile instanceof File && imageFile.name.toLowerCase().endsWith('.pdf'))
+    
+    if (isPDF) {
+      onProgress(5, 'Processing PDF...')
+      // Ensure we have a File object for processPDF
+      const fileObj = imageFile instanceof File ? imageFile : new File([imageFile], 'document.pdf', { type: 'application/pdf' })
+      
+      const pdfResult = await processPDF(fileObj, (msg) => onProgress(10, msg))
+      
+      if (pdfResult.type === 'text_layer' && pdfResult.data) {
+        return pdfResult.data
+      }
+      
+      if (pdfResult.type === 'image_fallback' && pdfResult.imageBlob) {
+        // Continue to OCR with the rendered image
+        imageFile = pdfResult.imageBlob
+      }
+    }
+
     onProgress(5, 'Enhancing image...')
 
     const fileToProcess =

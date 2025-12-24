@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react'
+import Image from 'next/image'
 import { FileText, FileType, X } from 'lucide-react'
 
 interface ImageUploaderProps {
@@ -74,7 +75,13 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelected, s
     return (
       <div className="relative w-full h-64 md:h-96 bg-slate-900 rounded-xl overflow-hidden shadow-md group flex items-center justify-center">
         {fileType === 'image' && previewUrl ? (
-          <img src={previewUrl} alt="Preview" className="w-full h-full object-contain" />
+          <Image
+            src={previewUrl}
+            alt="Preview"
+            fill
+            className="object-contain"
+            unoptimized
+          />
         ) : (
           <div className="text-center p-8">
             <div className="bg-slate-800 p-6 rounded-full inline-block mb-4">

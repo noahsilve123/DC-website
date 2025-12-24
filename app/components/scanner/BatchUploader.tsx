@@ -22,7 +22,7 @@ export default function BatchUploader() {
         file,
         rawText: '',
         status: 'processing',
-        assignedOwner: null,
+        assignedOwner: 'parent1', // Default to Parent 1 so calculations run immediately
         detectedType: 'Unknown',
         extractedData: {},
       }

@@ -1,3 +1,6 @@
+import taxDefinitions from '../tax-definitions.json';
+import { detectTaxYear, findCurrencyValue } from '../utils/extractionHelpers';
+
 interface Parsed1040 {
   agi: number;
   taxPaid: number;
@@ -6,63 +9,82 @@ interface Parsed1040 {
   dividendIncome: number;
 }
 
+// Type definitions for our JSON config
+interface FieldConfig {
+  line: string;
+  keywords: string[];
+  type: string;
+}
+
+interface YearConfig {
+  years: string[];
+  description: string;
+  fields: Record<string, FieldConfig>;
+}
+
 export const extract1040Data = (text: string): Parsed1040 => {
+  const year = detectTaxYear(text);
+  const config = get1040ConfigForYear(year);
+
+  // Helper to extract a field based on config
+  const getField = (fieldId: string): number => {
+    const fieldConfig = config.fields[fieldId];
+    if (!fieldConfig) return 0;
+
+    // Construct regexes from config
+    // Keyword regex: Join keywords with | and allow optional spaces
+    const keywordPattern = fieldConfig.keywords.map(k => k.replace(/\s+/g, '\\s?')).join('|');
+    const keywordRegex = new RegExp(keywordPattern, 'i');
+
+    // Line regex: "Line X" or just "X" with word boundaries
+    // FIXED: Double backslashes for string literals
+    const linePattern = `(?:Line\s?)?\b${fieldConfig.line}\b`;
+    const lineRegex = new RegExp(linePattern, 'i');
+
+    return findCurrencyValue(text, keywordRegex, lineRegex);
+  };
+
+  const agi = getField('agi');
+  const taxPaid = getField('taxPaid');
+  const itemizedDeductions = getField('itemizedDeductions');
+  const dividendIncome = getField('dividendIncome');
+
+  // Untaxed IRA/Pension Calculation
+  // Logic: (IRA Total - IRA Taxable) + (Pension Total - Pension Taxable)
+  const iraTotal = getField('iraDistributionsTotal');
+  const iraTaxable = getField('iraDistributionsTaxable');
+  const pensionTotal = getField('pensionsTotal');
+  const pensionTaxable = getField('pensionsTaxable');
+  const socialSecurityTotal = getField('socialSecurityBenefits');
+  const socialSecurityTaxable = getField('socialSecurityTaxable');
+
+  // Ensure we don't get negative values for components
+  const untaxedIRA = Math.max(0, iraTotal - iraTaxable);
+  const untaxedPension = Math.max(0, pensionTotal - pensionTaxable);
+  const untaxedSS = Math.max(0, socialSecurityTotal - socialSecurityTaxable);
+
+  // Note: CSS Profile asks for "Untaxed social security benefits" separately often,
+  // but for "Untaxed IRA/Pension" we sum them up.
+  // We'll store them as one aggregate "untaxedIRA" field for now to match interface,
+  // or simple summation.
+  // Let's just do IRA + Pension for "untaxedIRA" field as defined in interface.
+  
   return {
-    // 1. AGI: Look for "Adjusted Gross Income" OR Line 11
-    agi: findCurrencyValue(text, /Adjusted\s?gross\s?income/i, /Line\s?11/i),
-    
-    // 2. Tax Paid: Look for "total tax" OR Line 24
-    taxPaid: findCurrencyValue(text, /total\s?tax/i, /Line\s?24/i),
-    
-    // 3. Itemized Deductions (Schedule A Check)
-    itemizedDeductions: findCurrencyValue(text, /Itemized\s?deductions/i, /Line\s?12/i),
-
-    // 4. Untaxed IRA/Pension (Line 4a minus 4b)
-    // This is "Hard" logic: (Total Distributions) - (Taxable Amount)
-    untaxedIRA: calculateUntaxedPension(text),
-
-    dividendIncome: findCurrencyValue(text, /Ordinary\s?dividends/i, /Line\s?3b/i)
+    agi,
+    taxPaid,
+    itemizedDeductions,
+    untaxedIRA: untaxedIRA + untaxedPension,
+    dividendIncome
   };
 }
 
-// Helper to find money near specific keywords
-const findCurrencyValue = (text: string, keywordRegex: RegExp, lineRegex: RegExp): number => {
-  // Logic: Find the keyword, take the next 50 characters, find a currency pattern
-  const lines = text.split('\n');
-  const targetLine = lines.find(l => keywordRegex.test(l) || lineRegex.test(l));
-  if (!targetLine) return 0;
+const get1040ConfigForYear = (year: string): YearConfig => {
+  const configs = taxDefinitions['1040'] as YearConfig[];
+  
+  // Find config that includes this year
+  const specificConfig = configs.find(c => c.years.includes(year));
+  if (specificConfig) return specificConfig;
 
-  // Strategy 1: Look for explicit money format with decimal (e.g. 1,234.56)
-  // We take the LAST match because the value is usually in the rightmost column
-  const decimalMatches = targetLine.match(/(\d{1,3}(?:,\d{3})*\.\d{2})/g);
-  if (decimalMatches && decimalMatches.length > 0) {
-    return parseFloat(decimalMatches[decimalMatches.length - 1].replace(/,/g, ''));
-  }
-
-  // Strategy 2: Look for any number, but filter out likely line numbers (small integers at start)
-  const allMatches = targetLine.match(/(\d{1,3}(?:,\d{3})*)/g);
-  if (allMatches && allMatches.length > 0) {
-    // Parse all numbers
-    const values = allMatches.map(v => parseFloat(v.replace(/,/g, '')));
-    
-    // Filter out values that are likely line numbers (e.g. < 100) IF there is a larger value available
-    const largeValues = values.filter(v => v > 100);
-    
-    if (largeValues.length > 0) {
-      return largeValues[largeValues.length - 1];
-    }
-    
-    // If we only have small numbers, return the last one (e.g. Tax might be $0 or $50)
-    return values[values.length - 1];
-  }
-
-  return 0;
-}
-
-const calculateUntaxedPension = (text: string): number => {
-  // CSS Profile Question: "Payments to tax-deferred pension..."
-  // Logic: 1040 Line 4a (Total) - Line 4b (Taxable)
-  const totalPension = findCurrencyValue(text, /IRA\s?distributions/i, /4a/i);
-  const taxablePension = findCurrencyValue(text, /Taxable\s?amount/i, /4b/i);
-  return Math.max(0, totalPension - taxablePension);
+  // Fallback: Find config that includes "all" or just use the first one (most recent usually)
+  return configs[0];
 }

@@ -13,7 +13,7 @@ export default function CSSProfileCopilot() {
       <section className="space-y-4">
         <h2 className="text-2xl font-bold text-gray-900">1. Upload Financial Documents</h2>
         <p className="text-gray-600">
-          Upload your W-2s, 1040s, and Schedules. We'll scan them locally on your device.
+          Upload your W-2s, 1040s, and Schedules. We&apos;ll scan them locally on your device.
         </p>
         <BatchUploader />
         

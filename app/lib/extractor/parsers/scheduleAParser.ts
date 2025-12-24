@@ -1,26 +1,55 @@
-export const extractScheduleAData = (text: string) => {
-  const medicalExpenses = extractMedical(text)
-  const mortgageInterest = extractMortgageInterest(text)
-  return {
-    medicalExpenses,
-    mortgageInterest
+import taxDefinitions from '../tax-definitions.json';
+import { detectTaxYear, findCurrencyValue } from '../utils/extractionHelpers';
+
+interface ParsedScheduleA {
+  medicalExpenses: number;
+  mortgageInterest: number;
+}
+
+// Type definitions for our JSON config
+interface FieldConfig {
+  line: string;
+  keywords: string[];
+  type: string;
+}
+
+interface YearConfig {
+  years: string[];
+  description: string;
+  fields: Record<string, FieldConfig>;
+}
+
+export const extractScheduleAData = (text: string): ParsedScheduleA => {
+  const year = detectTaxYear(text);
+  const config = getScheduleAConfigForYear(year);
+
+  // Helper to extract a field based on config
+  const getField = (fieldId: string): number => {
+    const fieldConfig = config.fields[fieldId];
+    if (!fieldConfig) return 0;
+
+    const keywordPattern = fieldConfig.keywords.map(k => k.replace(/\s+/g, '\\s?')).join('|');
+    const keywordRegex = new RegExp(keywordPattern, 'i');
+
+    // FIXED: Double backslashes for string literals
+    const linePattern = `(?:Line\s?)?\b${fieldConfig.line}\b`;
+    const lineRegex = new RegExp(linePattern, 'i');
+
+    return findCurrencyValue(text, keywordRegex, lineRegex);
+  };
+
+  if (!text.includes('Schedule A')) {
+    return { medicalExpenses: 0, mortgageInterest: 0 };
   }
+
+  return {
+    medicalExpenses: getField('medicalExpenses'),
+    mortgageInterest: getField('mortgageInterest')
+  };
 }
 
-// 2. Schedule A (Medical Expenses)
-// Looks for "Medical and dental" near the top of the form
-const extractMedical = (text: string) => {
-  if (!text.includes('Schedule A')) return 0;
-  // Naive but effective for standard forms
-  // Line 1: Medical and dental expenses
-  const match = text.match(/Medical and dental.*?\n.*?(\d{1,3}(?:,\d{3})*\.\d{2})/i);
-  return match ? parseFloat(match[1].replace(/,/g, '')) : 0;
-}
-
-// Line 8a: Home mortgage interest
-const extractMortgageInterest = (text: string) => {
-  if (!text.includes('Schedule A')) return 0;
-  // Look for "Home mortgage interest" or Line 8a
-  const match = text.match(/Home mortgage interest.*?\n.*?(\d{1,3}(?:,\d{3})*\.\d{2})/i);
-  return match ? parseFloat(match[1].replace(/,/g, '')) : 0;
+const getScheduleAConfigForYear = (year: string): YearConfig => {
+  const configs = taxDefinitions['ScheduleA'] as YearConfig[];
+  const specificConfig = configs.find(c => c.years.includes(year) || c.years.includes('all'));
+  return specificConfig || configs[0];
 }

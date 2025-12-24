@@ -62,8 +62,9 @@ export const processPDF = async (file: File, onProgress: (msg: string) => void):
         const x = tx[4]
         const y = tx[5]
         const width = item.width
-        const height = item.height
+        const height = item.height || 10 // Fallback height
 
+        // PDF coordinate system is bottom-up, convert to top-down
         const y0 = viewport.height - (y + height)
         const y1 = viewport.height - y
 
@@ -79,10 +80,32 @@ export const processPDF = async (file: File, onProgress: (msg: string) => void):
         }
       })
 
-      const validBlocks = pageBlocks.filter((b) => b.text.trim().length > 0)
+      // Sort blocks by Y (top to bottom), then X (left to right)
+      pageBlocks.sort((a, b) => {
+        const yDiff = Math.abs(a.bbox.y0 - b.bbox.y0)
+        if (yDiff > 5) { // If lines are vertically distinct (threshold 5px)
+          return a.bbox.y0 - b.bbox.y0
+        }
+        return a.bbox.x0 - b.bbox.x0
+      })
 
+      const validBlocks = pageBlocks.filter((b) => b.text.trim().length > 0)
       allBlocks = [...allBlocks, ...validBlocks]
-      fullText += validBlocks.map((b) => b.text).join(' ') + '\n'
+      
+      // Reconstruct text with newlines
+      let pageText = ''
+      let lastY = -100
+
+      validBlocks.forEach((block) => {
+        if (Math.abs(block.bbox.y0 - lastY) > 8) { // New line threshold
+          pageText += '\n' + block.text
+          lastY = block.bbox.y0
+        } else {
+          pageText += ' ' + block.text
+        }
+      })
+
+      fullText += pageText + '\n'
     }
 
     return {

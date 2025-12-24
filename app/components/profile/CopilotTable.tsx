@@ -3,70 +3,83 @@
 import { useDocumentStore } from '../../lib/store/documentStore'
 import { calculateCSSProfile } from '../../lib/extractor/aggregator'
 import CopilotRow from './CopilotRow'
-import { AlertTriangle } from 'lucide-react'
+import { AlertTriangle, FileText, ChevronDown, ChevronRight } from 'lucide-react'
+import { useState } from 'react'
 
 export default function CopilotTable() {
   const documents = useDocumentStore((state) => state.documents)
-  const rows = calculateCSSProfile(documents)
+  const sections = calculateCSSProfile(documents)
+  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
+      'student_income': true,
+      'parent_income': true,
+      'parent_expenses': false,
+      'assets': true
+  });
 
-  // Validation Logic
-  const warnings: string[] = []
-  const totalW2Wages = (rows.find(r => r.id === 'PD-110')?.value || 0) + (rows.find(r => r.id === 'PD-120')?.value || 0)
-  const agi = (rows.find(r => r.id === 'PD-130')?.value || 0) + (rows.find(r => r.id === 'PD-140')?.value || 0)
-
-  if (totalW2Wages > agi + 1000 && agi > 0) {
-    warnings.push("Warning: Your W-2 wages are significantly higher than your AGI. Did you miss a business loss or 401k deduction?")
+  const toggleSection = (id: string) => {
+      setExpandedSections(prev => ({ ...prev, [id]: !prev[id] }));
   }
 
+  // Simple validation logic (aggregated from sections)
+  // We can re-implement the warning logic by traversing the sections if needed
+  // For now, let's keep it simple or re-calculate totals from the structured data if we want warnings.
+  
   if (documents.length === 0) {
     return (
-      <div className="text-center py-12 bg-gray-50 rounded-lg border border-gray-200">
-        <p className="text-gray-500">Upload documents to see the CSS Profile Worksheet</p>
+      <div className="text-center py-12 bg-gray-50 rounded-lg border border-gray-200 border-dashed">
+        <FileText className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+        <h3 className="text-lg font-medium text-gray-900">No Documents Uploaded</h3>
+        <p className="text-gray-500 max-w-sm mx-auto">Upload your tax forms and W-2s above to generate your personalized CSS Profile worksheet.</p>
       </div>
     )
   }
 
   return (
-    <div className="space-y-4">
-      {warnings.length > 0 && (
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-          <div className="flex items-start gap-3">
-            <AlertTriangle className="w-5 h-5 text-yellow-600 shrink-0 mt-0.5" />
-            <div className="space-y-1">
-              <h4 className="text-sm font-medium text-yellow-800">Data Consistency Warnings</h4>
-              <ul className="text-sm text-yellow-700 list-disc list-inside">
-                {warnings.map((w, i) => (
-                  <li key={i}>{w}</li>
-                ))}
-              </ul>
+    <div className="space-y-8">
+      {sections.map((section) => (
+        <div key={section.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+          <button 
+            onClick={() => toggleSection(section.id)}
+            className="w-full flex items-center justify-between px-6 py-4 bg-gray-50 border-b border-gray-200 hover:bg-gray-100 transition-colors text-left"
+          >
+            <div className="flex items-center gap-3">
+                {expandedSections[section.id] ? <ChevronDown className="w-5 h-5 text-gray-400" /> : <ChevronRight className="w-5 h-5 text-gray-400" />}
+                <div>
+                    <h3 className="font-semibold text-gray-900">{section.title}</h3>
+                    <p className="text-sm text-gray-500">{section.description}</p>
+                </div>
             </div>
-          </div>
+            {/* Optional: Show completion status or total calculated value here */}
+          </button>
+          
+          {expandedSections[section.id] && (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left">
+                    <thead>
+                    <tr className="bg-white border-b border-gray-100">
+                        <th className="py-2 px-4 text-xs font-semibold text-gray-400 uppercase w-24">Code</th>
+                        <th className="py-2 px-4 text-xs font-semibold text-gray-400 uppercase">Question Details</th>
+                        <th className="py-2 px-4 text-xs font-semibold text-gray-400 uppercase w-32">Your Value</th>
+                        <th className="py-2 px-4 text-xs font-semibold text-gray-400 uppercase text-right w-32">Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {section.questions.map((q) => (
+                        <CopilotRow key={q.id} {...q} />
+                    ))}
+                    </tbody>
+                </table>
+              </div>
+          )}
         </div>
-      )}
+      ))}
 
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
-          <h3 className="font-semibold text-gray-900">CSS Profile Worksheet</h3>
-          <p className="text-sm text-gray-500">Aggregated values from your uploaded documents</p>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead>
-              <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">ID</th>
-                <th className="py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Question</th>
-                <th className="py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Value</th>
-                <th className="py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Source</th>
-                <th className="py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row) => (
-                <CopilotRow key={row.id} {...row} />
-              ))}
-            </tbody>
-          </table>
-        </div>
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
+        <h4 className="text-sm font-semibold text-blue-900 mb-2">Note on Asset Values</h4>
+        <p className="text-sm text-blue-800">
+            Most asset values (Cash, Investments, Home Value) cannot be found on tax returns. 
+            You must enter these manually based on your current account balances and market estimates.
+        </p>
       </div>
     </div>
   )

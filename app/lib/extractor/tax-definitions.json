@@ -1,0 +1,238 @@
+{
+  "1040": [
+    {
+      "years": ["2020", "2021", "2022", "2023", "2024", "2025"],
+      "description": "Standard Form 1040 (Post-2019 redesign)",
+      "fields": {
+        "agi": {
+          "line": "11",
+          "keywords": ["Adjusted Gross Income"],
+          "type": "currency"
+        },
+        "taxPaid": {
+          "line": "24",
+          "keywords": ["Total Tax"],
+          "type": "currency"
+        },
+        "itemizedDeductions": {
+          "line": "12",
+          "keywords": ["Standard Deduction", "Itemized deductions"],
+          "type": "currency"
+        },
+        "dividendIncome": {
+          "line": "3b",
+          "keywords": ["Ordinary dividends"],
+          "type": "currency"
+        },
+        "iraDistributionsTotal": {
+          "line": "4a",
+          "keywords": ["IRA distributions"],
+          "type": "currency"
+        },
+        "iraDistributionsTaxable": {
+          "line": "4b",
+          "keywords": ["Taxable amount"],
+          "type": "currency"
+        },
+        "pensionsTotal": {
+          "line": "5a",
+          "keywords": ["Pensions and annuities"],
+          "type": "currency"
+        },
+        "pensionsTaxable": {
+          "line": "5b",
+          "keywords": ["Taxable amount"],
+          "type": "currency"
+        },
+        "socialSecurityBenefits": {
+            "line": "6a",
+            "keywords": ["Social security benefits"],
+            "type": "currency"
+        },
+         "socialSecurityTaxable": {
+            "line": "6b",
+            "keywords": ["Taxable amount"],
+            "type": "currency"
+        }
+      }
+    },
+    {
+      "years": ["2019"],
+      "description": "2019 Form 1040",
+      "fields": {
+        "agi": {
+          "line": "8b",
+          "keywords": ["Adjusted Gross Income"],
+          "type": "currency"
+        },
+        "taxPaid": {
+          "line": "16",
+          "keywords": ["Total Tax"],
+          "type": "currency"
+        },
+        "itemizedDeductions": {
+          "line": "9",
+          "keywords": ["Standard Deduction", "Itemized deductions"],
+          "type": "currency"
+        },
+        "dividendIncome": {
+          "line": "3b",
+          "keywords": ["Ordinary dividends"],
+          "type": "currency"
+        },
+        "iraDistributionsTotal": {
+          "line": "4a",
+          "keywords": ["IRA distributions"],
+          "type": "currency"
+        },
+        "iraDistributionsTaxable": {
+          "line": "4b",
+          "keywords": ["Taxable amount"],
+          "type": "currency"
+        },
+        "pensionsTotal": {
+          "line": "4c",
+          "keywords": ["Pensions and annuities"],
+          "type": "currency"
+        },
+        "pensionsTaxable": {
+          "line": "4d",
+          "keywords": ["Taxable amount"],
+          "type": "currency"
+        }
+      }
+    },
+    {
+      "years": ["2018"],
+      "description": "2018 'Postcard' Form 1040",
+      "fields": {
+        "agi": {
+          "line": "7",
+          "keywords": ["Adjusted Gross Income"],
+          "type": "currency"
+        },
+        "taxPaid": {
+          "line": "15",
+          "keywords": ["Total Tax"],
+          "type": "currency"
+        },
+        "itemizedDeductions": {
+          "line": "8",
+          "keywords": ["Standard Deduction", "Itemized deductions"],
+          "type": "currency"
+        },
+        "dividendIncome": {
+          "line": "3b",
+          "keywords": ["Ordinary dividends"],
+          "type": "currency"
+        },
+        "iraDistributionsTotal": {
+          "line": "4a",
+          "keywords": ["IRAs", "pensions", "annuities"],
+          "type": "currency"
+        },
+        "iraDistributionsTaxable": {
+          "line": "4b",
+          "keywords": ["Taxable amount"],
+          "type": "currency"
+        }
+      }
+    },
+    {
+      "years": ["2017", "2016", "2015"],
+      "description": "Pre-TCJA Form 1040 (Long Form)",
+      "fields": {
+        "agi": {
+          "line": "37",
+          "keywords": ["Adjusted Gross Income"],
+          "type": "currency"
+        },
+        "taxPaid": {
+          "line": "63",
+          "keywords": ["Total Tax"],
+          "type": "currency"
+        },
+        "itemizedDeductions": {
+          "line": "40",
+          "keywords": ["Itemized deductions"],
+          "type": "currency"
+        },
+        "dividendIncome": {
+          "line": "9a",
+          "keywords": ["Ordinary dividends"],
+          "type": "currency"
+        },
+        "iraDistributionsTotal": {
+          "line": "15a",
+          "keywords": ["IRA distributions"],
+          "type": "currency"
+        },
+        "iraDistributionsTaxable": {
+          "line": "15b",
+          "keywords": ["Taxable amount"],
+          "type": "currency"
+        },
+        "pensionsTotal": {
+          "line": "16a",
+          "keywords": ["Pensions and annuities"],
+          "type": "currency"
+        },
+        "pensionsTaxable": {
+          "line": "16b",
+          "keywords": ["Taxable amount"],
+          "type": "currency"
+        }
+      }
+    }
+  ],
+  "ScheduleA": [
+    {
+      "years": ["all"],
+      "description": "Schedule A Itemized Deductions",
+      "fields": {
+        "medicalExpenses": {
+          "line": "1",
+          "keywords": ["Medical and dental"],
+          "type": "currency"
+        },
+        "mortgageInterest": {
+          "line": "8a",
+          "keywords": ["Home mortgage interest"],
+          "type": "currency"
+        }
+      }
+    }
+  ],
+  "ScheduleC": [
+    {
+      "years": ["all"],
+      "description": "Schedule C Profit or Loss from Business",
+      "fields": {
+        "netProfit": {
+          "line": "31",
+          "keywords": ["Net profit"],
+          "type": "currency"
+        }
+      }
+    }
+  ],
+  "W2": [
+    {
+      "years": ["all"],
+      "description": "Form W-2 Wage and Tax Statement",
+      "fields": {
+        "wages": {
+          "line": "1",
+          "keywords": ["Wages", "tips", "other compensation"],
+          "type": "currency"
+        },
+        "box12Untaxed": {
+            "line": "12",
+            "keywords": ["Box 12"],
+            "codes": ["D", "E", "F", "G", "H", "S"],
+            "type": "box12_sum"
+        }
+      }
+    }
+  ]
+}
