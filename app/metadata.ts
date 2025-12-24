@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Destination College – First-Gen Student Support & FAFSA Help",
+  title: "First Gen Aid – Financial Aid Help & On-Device Tools",
   description:
-    "Destination College supports first-generation and low-income students at Summit High School with mentorship, workshops, and FAFSA guidance.",
+    "First Gen Aid helps first-generation and low-income students and families navigate FAFSA, scholarships, and financial aid with privacy-first, on-device tools.",
   openGraph: {
-    title: "Destination College – First-Gen Student Support & FAFSA Help",
+    title: "First Gen Aid – Financial Aid Help & On-Device Tools",
     description:
-      "Mentorship, academic coaching, and financial-aid support for Summit High School students and families.",
+      "Privacy-first financial aid guidance and document scanning tools that run locally in your browser.",
   },
 }

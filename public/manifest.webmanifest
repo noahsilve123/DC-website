@@ -1,7 +1,7 @@
 {
-  "name": "Destination College",
-  "short_name": "Destination College",
-  "description": "Community support for Summit High School first-gen and low-income students.",
+  "name": "First Gen Aid",
+  "short_name": "First Gen Aid",
+  "description": "Financial aid guidance and on-device document tools for first-generation and low-income students.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f5f8ff",

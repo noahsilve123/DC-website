@@ -2,8 +2,8 @@ import { test, expect } from '@playwright/test';
 
 test('homepage loads', async ({ page }) => {
   await page.goto('/');
-  await expect(page).toHaveTitle(/Destination College/);
-  await expect(page.locator('h1')).toContainText('CSS Profile Copilot');
+  await expect(page).toHaveTitle(/First Gen Aid/);
+  await expect(page.locator('h1')).toContainText('First Gen Aid');
 });
 
 test('navigation to resources', async ({ page }) => {

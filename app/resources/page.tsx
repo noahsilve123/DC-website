@@ -1,7 +1,7 @@
 import Link from "next/link"
 
 export const metadata = {
-  title: "Resources | Destination College",
+  title: "Resources | First Gen Aid",
   description: "Links and guides for first-gen students and families navigating financial aid.",
 }
 
@@ -9,12 +9,12 @@ const resources = [
   {
     title: "FAFSA Completion Help",
     summary:
-      "Step-by-step guidance for Summit High School families so students can claim all eligible aid dollars.",
+      "Step-by-step guidance so students and families can claim all eligible aid dollars.",
     href: "https://studentaid.gov/h/apply-for-aid/fafsa",
   },
   {
     title: "Scholarship Tracker",
-    summary: "Notes about regional scholarships, deadlines, and application tips collected by Destination College mentors.",
+    summary: "A starting point for scholarships, deadlines, and application tips.",
     href: "https://www.fastweb.com/college-scholarships",
   },
   {
@@ -26,25 +26,24 @@ const resources = [
 
 export default function ResourcesPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-[#e0f2ff] to-white py-16 px-6">
+    <div className="min-h-screen bg-slate-50 py-16 px-6">
       <div className="mx-auto max-w-4xl space-y-6 text-center">
-        <p className="text-xs uppercase tracking-[0.5em] text-[var(--crimson)]">Summit High School</p>
-        <h1 className="text-3xl font-semibold text-[#0b1d3f] sm:text-4xl">Resources for the first-gen journey</h1>
-        <p className="text-base text-gray-700">
-          Destination College keeps a curated list of trusted tools, guidance, and partner programs that help students enter and remain
-          in college with confidence.
+        <p className="text-xs uppercase tracking-[0.4em] text-slate-500">First Gen Aid</p>
+        <h1 className="text-3xl font-semibold text-slate-900 sm:text-4xl">Resources for the first-gen journey</h1>
+        <p className="text-base text-slate-600">
+          A curated list of trusted tools, guidance, and programs to help you apply, afford, and stay on track.
         </p>
       </div>
       <div className="mx-auto mt-12 grid max-w-4xl gap-6 md:grid-cols-2">
         {resources.map((item) => (
-          <article key={item.title} className="rounded-2xl border border-[var(--gold)]/60 bg-white/80 p-6 shadow-lg transition hover:-translate-y-1">
-            <h2 className="text-xl font-semibold text-[#0b1d3f]">{item.title}</h2>
-            <p className="mt-3 text-sm text-gray-700 leading-relaxed">{item.summary}</p>
+          <article key={item.title} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <h2 className="text-xl font-semibold text-slate-900">{item.title}</h2>
+            <p className="mt-3 text-sm text-slate-600 leading-relaxed">{item.summary}</p>
             <Link
               href={item.href}
               target="_blank"
               rel="noreferrer"
-              className="mt-6 inline-flex items-center text-sm font-semibold text-[var(--crimson)] transition hover:text-[var(--crimson-dark)]"
+              className="mt-6 inline-flex items-center text-sm font-semibold text-slate-900 hover:underline"
             >
               Open resource ↗
             </Link>

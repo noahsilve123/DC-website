@@ -213,7 +213,7 @@ export default function FinancialAidScanner() {
                             <DollarSign className="text-white w-6 h-6" />
                         </div>
                         <h1 className="text-xl font-bold text-slate-800">
-                            Destination College
+                            First Gen Aid
                             <span className="block text-xs font-normal text-slate-500">FinAid Doc Scanner</span>
                         </h1>
                     </div>

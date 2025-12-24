@@ -27,26 +27,16 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-[var(--gold)] text-gray-900 shadow-sm">
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 text-slate-900">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
             href="/"
             className="flex items-center gap-3 focus:outline-offset-4"
-            aria-label="Destination College home"
+            aria-label="First Gen Aid home"
           >
-            <div
-              aria-hidden="true"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--gold)]/70 bg-[var(--crimson)] text-sm font-semibold uppercase tracking-tight text-white shadow-sm"
-            >
-              DC
-            </div>
             <div className="leading-tight">
-              <p className="site-title" style={{ color: "var(--crimson)" }}>
-                Destination College
-              </p>
-              <p className="text-xs md:text-sm text-gray-600">
-                Summit High School • First-gen support
-              </p>
+              <p className="site-title text-slate-900">First Gen Aid</p>
+              <p className="text-xs md:text-sm text-slate-600">Financial aid guidance • On-device document tools</p>
             </div>
           </Link>
 
@@ -79,14 +69,13 @@ export default function Header() {
               aria-label="Open menu"
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen((s) => !s)}
-              className="md:hidden text-gray-800 focus:outline-none focus:ring-2 focus:ring-[var(--gold)]/60"
+              className="md:hidden text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-300"
             >
               {menuOpen ? "✕" : "☰"}
             </button>
           </div>
         </div>
       </header>
-      <div className="h-1" style={{ background: "var(--gold)" }} />
 
       {menuOpen && (
         <>
@@ -95,7 +84,7 @@ export default function Header() {
             onClick={() => setMenuOpen(false)}
             aria-hidden
           />
-          <aside className="fixed top-0 right-0 z-50 h-full w-4/5 max-w-xs bg-white text-gray-900 p-6 shadow-2xl border-l border-[var(--gold)]/40">
+          <aside className="fixed top-0 right-0 z-50 h-full w-4/5 max-w-xs bg-white text-slate-900 p-6 shadow-2xl border-l border-slate-200">
             <nav className="flex flex-col gap-4">
               <Link href="/" ref={firstLinkRef} onClick={() => setMenuOpen(false)} className="text-lg nav-link">
                 Home
