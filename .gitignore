@@ -25,3 +25,6 @@ test-results/
 # misc
 .DS_Store
 *.tsbuildinfo
+
+# Ignore vendor OpenJDK downloaded into scripts/
+scripts/openJdk-25/
