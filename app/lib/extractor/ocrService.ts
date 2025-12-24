@@ -5,9 +5,8 @@ const TESSERACT_ASSETS = {
   // Copied into /public by scripts/copy-worker-assets.mjs
   workerPath: '/tesseract/worker.min.js',
   corePath: '/tesseract/tesseract-core.wasm.js',
-  // Language data is large; keep it on a CDN by default.
-  // If this is blocked on a network, PDFs with selectable text will still work (no OCR needed).
-  langPath: 'https://tessdata.projectnaptha.com/4.0.0',
+  // Use local language data
+  langPath: '/tesseract',
 }
 
 async function loadTesseract() {

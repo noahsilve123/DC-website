@@ -65,6 +65,11 @@ export interface ExtractedData {
   socialSecurityTax: string | null;   // W-2 Box 4
   medicareWages: string | null;       // W-2 Box 5
   medicareTax: string | null;         // W-2 Box 6
+  
+  // New fields for CSS Profile
+  box12Untaxed?: number;
+  medicalExpenses?: number;
+  netProfit?: number;
 
   // Entities
   employerName: string | null;

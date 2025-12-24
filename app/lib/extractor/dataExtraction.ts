@@ -1,6 +1,9 @@
 import Fuse from 'fuse.js'
 import { ExtractedData, OCRBlock } from './types'
 import { TAX_RULES, isApproximately } from './taxKnowledge'
+import { extractW2Data } from './parsers/w2Parser'
+import { extractScheduleAData } from './parsers/scheduleAParser'
+import { extractScheduleCData } from './parsers/scheduleCParser'
 
 interface Rect {
   x: number
@@ -144,6 +147,8 @@ export const extractFinancialData = (text: string, blocks: OCRBlock[] = []): Ext
 
   if (/W-?2/i.test(text) || /Wage and Tax/i.test(text) || /Employer identification/i.test(text)) data.formType = 'W-2'
   else if (/1040/i.test(text) || /Income Tax Return/i.test(text)) data.formType = '1040'
+  else if (/Schedule A/i.test(text)) data.formType = 'Schedule A'
+  else if (/Schedule C/i.test(text)) data.formType = 'Business'
 
   const ssnMatch = text.match(PATTERNS.SSN)
   if (ssnMatch) data.ssn = `${ssnMatch[1]}-${ssnMatch[2]}-${ssnMatch[3]}`
@@ -193,6 +198,16 @@ export const extractFinancialData = (text: string, blocks: OCRBlock[] = []): Ext
     data.socialSecurityTax = findField(['Social security tax'], ['Social security tax', 'Box 4'], 'W2_BOX')
     data.medicareWages = findField(['Medicare wages'], ['Medicare wages', 'Box 5'], 'W2_BOX')
     data.medicareTax = findField(['Medicare tax'], ['Medicare tax', 'Box 6'], 'W2_BOX')
+    
+    // New W-2 specific extraction
+    const w2Extra = extractW2Data(text)
+    data.box12Untaxed = w2Extra.box12Untaxed
+  } else if (data.formType === 'Schedule A') {
+    const schedA = extractScheduleAData(text)
+    data.medicalExpenses = schedA.medicalExpenses
+  } else if (data.formType === 'Business') { // Schedule C
+    const schedC = extractScheduleCData(text)
+    data.netProfit = schedC.netProfit
   } else {
     data.wages = findField(['Wages salaries', '1z'], ['Wages, salaries', 'Line 1', 'Line 1z', 'total amount from box 1'], '1040_LINE')
     data.agi = findField(['Adjusted gross', '11'], ['Adjusted gross income', 'Line 11', 'Subtract line 10'], '1040_LINE')
