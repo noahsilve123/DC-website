@@ -209,16 +209,16 @@ export default function BudgetToolPage() {
               </div>
 
               {suggestOpen && (
-                <div className="absolute left-0 right-0 top-full z-10 mt-2 w-full rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden max-h-64 overflow-y-auto">
+                <div className="absolute left-0 right-0 top-full z-20 mt-2 w-full rounded-xl border border-slate-200 bg-white shadow-xl overflow-hidden max-h-64 overflow-y-auto">
                   {suggestError ? (
-                    <div className="px-4 py-3 text-sm text-slate-700">{suggestError}</div>
+                    <div className="px-4 py-3 text-sm text-red-600 bg-red-50">{suggestError}</div>
                   ) : suggestions.length > 0 ? (
-                    <ul className="divide-y divide-slate-200">
+                    <ul className="divide-y divide-slate-100">
                       {suggestions.map((s) => (
                         <li key={s.id ?? s.name}>
                           <button
                             type="button"
-                            className="w-full px-4 py-3 text-left hover:bg-slate-50"
+                            className="w-full px-4 py-3 text-left hover:bg-slate-50 transition-colors"
                             onMouseDown={(e) => e.preventDefault()}
                             onClick={() => {
                               setSchoolName(s.name)
@@ -227,7 +227,7 @@ export default function BudgetToolPage() {
                             }}
                           >
                             <p className="text-sm font-semibold text-slate-900">{s.name}</p>
-                            <p className="text-xs text-slate-600">
+                            <p className="text-xs text-slate-500">
                               {s.city || s.state ? `${s.city ?? ''}${s.city && s.state ? ', ' : ''}${s.state ?? ''}` : ''}
                             </p>
                           </button>
@@ -235,8 +235,8 @@ export default function BudgetToolPage() {
                       ))}
                     </ul>
                   ) : (
-                    <div className="px-4 py-3 text-sm text-slate-500">
-                      No schools found matching "{schoolName}"
+                    <div className="px-4 py-3 text-sm text-slate-500 italic">
+                      No schools found matching "{schoolName}".
                     </div>
                   )}
                 </div>

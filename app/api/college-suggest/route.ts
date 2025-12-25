@@ -1,68 +1,15 @@
 import { NextResponse } from 'next/server'
-
-type ScorecardSchoolRow = {
-  id?: number
-  school?: {
-    name?: string
-    city?: string
-    state?: string
-  }
-}
-
-function getApiKey(): string {
-  const key = process.env.COLLEGE_SCORECARD_API_KEY
-  return key && key.trim() ? key.trim() : 'DEMO_KEY'
-}
+import schoolsData from '../../lib/college-data.json'
 
 export async function GET(req: Request) {
-  try {
-    const url = new URL(req.url)
-    const q = String(url.searchParams.get('query') ?? '').trim()
+  const url = new URL(req.url);
+  const q = (url.searchParams.get('query') ?? '').trim().toLowerCase();
+  if (q.length < 2) return NextResponse.json({ results: [] });
 
-    if (q.length < 2) {
-      return NextResponse.json({ results: [] })
-    }
-
-    const apiKey = getApiKey()
-    const baseUrl = 'https://api.data.gov/ed/collegescorecard/v1/schools'
-
-    const fields = ['id', 'school.name', 'school.city', 'school.state'].join(',')
-
-    const upstream = new URL(baseUrl)
-    upstream.searchParams.set('api_key', apiKey)
-    upstream.searchParams.set('fields', fields)
-    upstream.searchParams.set('per_page', '8')
-    upstream.searchParams.set('school.search', q)
-
-    console.log('API Key (first 4):', apiKey.substring(0, 4))
-    console.log('Upstream URL:', upstream.toString())
-
-    const res = await fetch(upstream.toString(), { cache: 'no-store' })
-
-    console.log('Response Status:', res.status)
-
-    if (!res.ok) {
-      throw new Error(`Scorecard API error: ${res.status} ${res.statusText}`)
-    }
-
-    const json = (await res.json()) as { results?: ScorecardSchoolRow[] }
-    console.log('Results found:', json.results?.length)
-    const rows = Array.isArray(json.results) ? json.results : []
-
-    const results = rows
-      .map((r) => ({
-        id: r.id ?? null,
-        name: r.school?.name ?? null,
-        city: r.school?.city ?? null,
-        state: r.school?.state ?? null,
-      }))
-      .filter((r) => !!r.name)
-
-    return NextResponse.json({ results })
-  } catch (e) {
-    const message = e instanceof Error ? e.message : 'Unknown error'
-    const lower = message.toLowerCase()
-    const status = lower.includes('403') || lower.includes('forbidden') ? 403 : 400
-    return NextResponse.json({ error: message }, { status })
-  }
+  const results = (schoolsData as any[])
+    .filter(s => s.name.toLowerCase().includes(q))
+    .slice(0, 10)
+    .map(s => ({ id: s.id, name: s.name, city: s.city, state: s.state }));
+    
+  return NextResponse.json({ results });
 }
