@@ -11,8 +11,7 @@ type ScorecardSchoolRow = {
 
 function getApiKey(): string {
   const key = process.env.COLLEGE_SCORECARD_API_KEY
-  if (!key) throw new Error('Missing COLLEGE_SCORECARD_API_KEY. Set it in your server environment.')
-  return key
+  return key && key.trim() ? key.trim() : 'DEMO_KEY'
 }
 
 export async function GET(req: Request) {

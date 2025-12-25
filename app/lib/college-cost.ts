@@ -162,10 +162,9 @@ function getApiKey(): string {
   // SECURITY: Do not expose the key to the client.
   // Set COLLEGE_SCORECARD_API_KEY in your environment (.env.local).
   const key = process.env.COLLEGE_SCORECARD_API_KEY
-  if (!key) {
-    throw new Error('Missing COLLEGE_SCORECARD_API_KEY. Set it in your server environment.')
-  }
-  return key
+  // Fallback to DEMO_KEY so the tool can still function during setup.
+  // DEMO_KEY is public and rate-limited.
+  return key && key.trim() ? key.trim() : 'DEMO_KEY'
 }
 
 function pickBestMatch(results: ScorecardSchoolRow[], schoolName: string): ScorecardSchoolRow | null {
@@ -249,6 +248,75 @@ export async function fetchComprehensiveCollegeCosts(schoolName: string): Promis
     otherExpense: {
       onCampus: toNumberOrNull(best.latest?.cost?.otherexpense?.oncampus),
       offCampus: toNumberOrNull(best.latest?.cost?.otherexpense?.offcampus),
+    },
+  }
+}
+
+export async function fetchComprehensiveCollegeCostsById(schoolId: number): Promise<CollegeCostRaw> {
+  if (!Number.isFinite(schoolId)) throw new Error('School id is required.')
+
+  const apiKey = getApiKey()
+  const baseUrl = 'https://api.data.gov/ed/collegescorecard/v1/schools'
+
+  const fields = [
+    'school.name',
+    'school.school_url',
+    'school.city',
+    'school.state',
+    'latest.cost.tuition.in_state',
+    'latest.cost.tuition.out_of_state',
+    'latest.cost.booksupply',
+    'latest.cost.roomboard.oncampus',
+    'latest.cost.roomboard.offcampus',
+    'latest.cost.otherexpense.oncampus',
+    'latest.cost.otherexpense.offcampus',
+  ].join(',')
+
+  const url = new URL(baseUrl)
+  url.searchParams.set('api_key', apiKey)
+  url.searchParams.set('fields', fields)
+  url.searchParams.set('per_page', '1')
+  url.searchParams.set('id', String(Math.trunc(schoolId)))
+
+  const res = await fetch(url.toString(), {
+    next: { revalidate: 86400 },
+  })
+
+  if (!res.ok) {
+    let hint = ''
+    if (res.status === 403) {
+      hint = ' (403 Forbidden — the API key is invalid/blocked, or not being applied correctly.)'
+    }
+    throw new Error(`Scorecard API error: ${res.status} ${res.statusText}${hint}`)
+  }
+
+  const json = (await res.json()) as { results?: ScorecardSchoolRow[] }
+  const results = Array.isArray(json.results) ? json.results : []
+  const row = results[0]
+
+  if (!row?.school?.name) {
+    throw new Error('School not found.')
+  }
+
+  return {
+    school: {
+      name: row.school.name ?? String(schoolId),
+      schoolUrl: row.school.school_url ?? null,
+      city: row.school.city ?? null,
+      state: row.school.state ?? null,
+    },
+    tuition: {
+      inState: toNumberOrNull(row.latest?.cost?.tuition?.in_state),
+      outOfState: toNumberOrNull(row.latest?.cost?.tuition?.out_of_state),
+    },
+    booksSupply: toNumberOrNull(row.latest?.cost?.booksupply),
+    roomBoard: {
+      onCampus: toNumberOrNull(row.latest?.cost?.roomboard?.oncampus),
+      offCampus: toNumberOrNull(row.latest?.cost?.roomboard?.offcampus),
+    },
+    otherExpense: {
+      onCampus: toNumberOrNull(row.latest?.cost?.otherexpense?.oncampus),
+      offCampus: toNumberOrNull(row.latest?.cost?.otherexpense?.offcampus),
     },
   }
 }

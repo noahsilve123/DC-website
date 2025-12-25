@@ -41,6 +41,7 @@ function formatMoney0(n: number) {
 
 export default function BudgetToolPage() {
   const [schoolName, setSchoolName] = useState('')
+  const [schoolId, setSchoolId] = useState<number | null>(null)
   const [years, setYears] = useState(4)
   const [inflationRate, setInflationRate] = useState(3)
 
@@ -114,7 +115,11 @@ export default function BudgetToolPage() {
 
     try {
       const url = new URL('/api/college-cost', window.location.origin)
-      url.searchParams.set('schoolName', q)
+      if (typeof schoolId === 'number' && Number.isFinite(schoolId)) {
+        url.searchParams.set('schoolId', String(schoolId))
+      } else {
+        url.searchParams.set('schoolName', q)
+      }
       url.searchParams.set('years', String(years))
       url.searchParams.set('inflationRate', String(inflationRate))
 
@@ -174,6 +179,7 @@ export default function BudgetToolPage() {
                   value={schoolName}
                   onChange={(e) => {
                     setSchoolName(e.target.value)
+                    setSchoolId(null)
                     setSuggestOpen(true)
                   }}
                   onFocus={() => {
@@ -216,6 +222,7 @@ export default function BudgetToolPage() {
                             onMouseDown={(e) => e.preventDefault()}
                             onClick={() => {
                               setSchoolName(s.name)
+                              setSchoolId(s.id)
                               setSuggestOpen(false)
                             }}
                           >
