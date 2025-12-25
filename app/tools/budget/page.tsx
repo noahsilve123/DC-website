@@ -208,11 +208,11 @@ export default function BudgetToolPage() {
                 </button>
               </div>
 
-              {suggestOpen && (suggestions.length > 0 || !!suggestError) && (
-                <div className="absolute left-0 right-0 top-full z-10 mt-2 w-full rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+              {suggestOpen && (
+                <div className="absolute left-0 right-0 top-full z-10 mt-2 w-full rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden max-h-64 overflow-y-auto">
                   {suggestError ? (
                     <div className="px-4 py-3 text-sm text-slate-700">{suggestError}</div>
-                  ) : (
+                  ) : suggestions.length > 0 ? (
                     <ul className="divide-y divide-slate-200">
                       {suggestions.map((s) => (
                         <li key={s.id ?? s.name}>
@@ -234,6 +234,10 @@ export default function BudgetToolPage() {
                         </li>
                       ))}
                     </ul>
+                  ) : (
+                    <div className="px-4 py-3 text-sm text-slate-500">
+                      No schools found matching "{schoolName}"
+                    </div>
                   )}
                 </div>
               )}

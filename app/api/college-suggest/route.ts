@@ -34,13 +34,19 @@ export async function GET(req: Request) {
     upstream.searchParams.set('per_page', '8')
     upstream.searchParams.set('school.search', q)
 
-    const res = await fetch(upstream.toString(), { next: { revalidate: 86400 } })
+    console.log('API Key (first 4):', apiKey.substring(0, 4))
+    console.log('Upstream URL:', upstream.toString())
+
+    const res = await fetch(upstream.toString(), { cache: 'no-store' })
+
+    console.log('Response Status:', res.status)
 
     if (!res.ok) {
       throw new Error(`Scorecard API error: ${res.status} ${res.statusText}`)
     }
 
     const json = (await res.json()) as { results?: ScorecardSchoolRow[] }
+    console.log('Results found:', json.results?.length)
     const rows = Array.isArray(json.results) ? json.results : []
 
     const results = rows
