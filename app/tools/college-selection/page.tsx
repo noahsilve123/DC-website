@@ -526,7 +526,11 @@ export default function CollegeSelectionPage() {
                                 <div className="relative h-8 bg-white rounded-full border border-indigo-100 w-full flex items-center">
                                     {/* Range Bar */}
                                     <div 
-                                        className="absolute h-full bg-indigo-200 rounded-full opacity-50 left-[20%] w-[60%]"
+                                        className="absolute h-full bg-indigo-200 rounded-full opacity-50"
+                                        style={{ 
+                                            left: '20%', 
+                                            width: '60%' 
+                                        }}
                                     />
                                     {/* Labels for 25th/75th */}
                                     <div className="absolute left-[20%] -bottom-6 text-xs text-slate-500 transform -translate-x-1/2">
