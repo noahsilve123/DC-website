@@ -82,7 +82,7 @@ async function run() {
 
     return validDegree && validSize && !isNiche && !isSingleGender;
   })
-  .map(({_degree, _size, _women, _men, _relig, ...rest}) => rest);
+  .map(({_degree, _size, _women, _men, _relig, ...rest}) => ({...rest, size: _size}));
 
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(optimized));
   console.log(`Saved ${optimized.length} schools to ${OUTPUT_FILE}`);
