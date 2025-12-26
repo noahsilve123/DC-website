@@ -26,6 +26,12 @@ const tools = [
     href: '/tools/budget',
     ready: true,
   },
+  {
+    title: 'College Selection',
+    description: 'Find your fit based on campus culture, diversity, and academics.',
+    href: '/tools/college-selection',
+    ready: true,
+  },
 ] as const
 
 export default function ToolsPage() {

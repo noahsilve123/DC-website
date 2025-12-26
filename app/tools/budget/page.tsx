@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Copy, Check, ChevronDown, ChevronUp } from 'lucide-react'
+import { useUserStore } from '../../lib/store/userStore'
 
 type Suggestion = {
   id: number | null
@@ -11,39 +12,36 @@ type Suggestion = {
   state: string | null
 }
 
-type ApiResponse =
-  | {
-      raw: {
-        school: { name: string; schoolUrl: string | null; city: string | null; state: string | null }
-        tuition: { inState: number | null; outOfState: number | null }
-        booksSupply: number | null
-        roomBoard: { onCampus: number | null; offCampus: number | null }
-        otherExpense: { onCampus: number | null; offCampus: number | null }
-      }
-      projection: {
-        years: number
-        inflationRate: number
-        tuitionMode: 'in_state' | 'out_of_state'
-        onCampus: { tuition: number; housing: number; foodOther: number; books: number; total: number }
-        offCampus: { tuition: number; housing: number; foodOther: number; books: number; total: number }
-      }
+type ApiResponse = {
+  school: { name: string; schoolUrl: string | null; city: string | null; state: string | null }
+  costs: {
+    tuition: { inState: number | null; outOfState: number | null }
+    booksSupply: number | null
+    roomBoard: { onCampus: number | null; offCampus: number | null }
+    otherExpense: { onCampus: number | null; offCampus: number | null }
+    netPrice: {
+      average: number | null
+      public: Record<string, number | null>
+      private: Record<string, number | null>
     }
-  | { error: string }
+  }
+  retentionRate: number | null
+  topMajors: { title: string; count: number }[]
+}
 
 function formatMoney(n: number | null | undefined) {
   if (typeof n !== 'number' || !Number.isFinite(n)) return 'N/A'
   return n.toLocaleString(undefined, { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
 }
 
-function formatMoney0(n: number) {
-  return n.toLocaleString(undefined, { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
-}
-
 export default function BudgetToolPage() {
   const [schoolName, setSchoolName] = useState('')
   const [schoolId, setSchoolId] = useState<number | null>(null)
-  const [years, setYears] = useState(4)
-  const [inflationRate, setInflationRate] = useState(3)
+  
+  // Filters
+  const [residency, setResidency] = useState<'in_state' | 'out_of_state'>('in_state')
+  const [housing, setHousing] = useState<'on_campus' | 'off_campus'>('on_campus')
+  const [livingStatus, setLivingStatus] = useState<'with_family' | 'not_with_family'>('not_with_family')
 
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])
   const [suggestOpen, setSuggestOpen] = useState(false)
@@ -52,9 +50,20 @@ export default function BudgetToolPage() {
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [data, setData] = useState<Exclude<ApiResponse, { error: string }> | null>(null)
+  const [data, setData] = useState<ApiResponse | null>(null)
+  const [majorsOpen, setMajorsOpen] = useState(false)
 
-  const inflationLabel = useMemo(() => `${inflationRate.toFixed(0)}%`, [inflationRate])
+  const { user_AGI, scanned_tax_data } = useUserStore()
+
+  // Table columns management
+  const [visibleColumns, setVisibleColumns] = useState({
+    tuition: true,
+    housing: true,
+    books: true,
+    other: true,
+    total: true,
+    netPrice: true
+  })
 
   useEffect(() => {
     const q = schoolName.trim()
@@ -120,17 +129,15 @@ export default function BudgetToolPage() {
       } else {
         url.searchParams.set('schoolName', q)
       }
-      url.searchParams.set('years', String(years))
-      url.searchParams.set('inflationRate', String(inflationRate))
 
       const res = await fetch(url.toString())
-      const json = (await res.json()) as ApiResponse
+      const json = (await res.json()) as ApiResponse | { error: string }
 
       if (!res.ok || 'error' in json) {
         throw new Error('error' in json ? json.error : 'Failed to fetch school costs.')
       }
 
-      setData(json)
+      setData(json as ApiResponse)
     } catch (e) {
       setData(null)
       const message = e instanceof Error ? e.message : 'Something went wrong.'
@@ -144,6 +151,82 @@ export default function BudgetToolPage() {
     }
   }
 
+  const calculatedCosts = useMemo(() => {
+    if (!data) return null
+
+    const tuition = residency === 'in_state' ? data.costs.tuition.inState : data.costs.tuition.outOfState
+    const books = data.costs.booksSupply
+    
+    let housingCost = 0
+    let otherCost = 0
+
+    if (livingStatus === 'with_family') {
+        housingCost = 0 
+        otherCost = data.costs.otherExpense.offCampus || 0
+    } else {
+        if (housing === 'on_campus') {
+            housingCost = data.costs.roomBoard.onCampus || 0
+            otherCost = data.costs.otherExpense.onCampus || 0
+        } else {
+            housingCost = data.costs.roomBoard.offCampus || 0
+            otherCost = data.costs.otherExpense.offCampus || 0
+        }
+    }
+
+    const total = (tuition || 0) + (books || 0) + (housingCost || 0) + (otherCost || 0)
+
+    // Smart Financial Aid
+    let netPrice = total // Default to total cost if no AGI provided
+    let predictedAid = 0
+    
+    if (user_AGI !== null) {
+        let bracket = ''
+        if (user_AGI <= 30000) bracket = '0-30000'
+        else if (user_AGI <= 48000) bracket = '30001-48000'
+        else if (user_AGI <= 75000) bracket = '48001-75000'
+        else if (user_AGI <= 110000) bracket = '75001-110000'
+        else bracket = '110001-plus'
+
+        const publicPrice = data.costs.netPrice.public?.[bracket]
+        const privatePrice = data.costs.netPrice.private?.[bracket]
+        
+        if (publicPrice) netPrice = publicPrice
+        else if (privatePrice) netPrice = privatePrice
+
+        if (netPrice && total) {
+            predictedAid = Math.max(0, total - netPrice)
+        }
+    }
+
+    return {
+        tuition,
+        books,
+        housing: housingCost,
+        other: otherCost,
+        total,
+        netPrice,
+        predictedAid
+    }
+  }, [data, residency, housing, livingStatus, user_AGI])
+
+  const copyToClipboard = () => {
+    if (!calculatedCosts) return
+    const headers = ['Item', 'Cost']
+    const rows = [
+        ['Tuition', formatMoney(calculatedCosts.tuition)],
+        ['Housing', formatMoney(calculatedCosts.housing)],
+        ['Books & Supplies', formatMoney(calculatedCosts.books)],
+        ['Other Expenses', formatMoney(calculatedCosts.other)],
+        ['Total Cost', formatMoney(calculatedCosts.total)],
+        ['Net Price', formatMoney(calculatedCosts.netPrice)],
+        ['Predicted Aid', formatMoney(calculatedCosts.predictedAid)]
+    ]
+    
+    const csv = [headers.join('\t'), ...rows.map(r => r.join('\t'))].join('\n')
+    navigator.clipboard.writeText(csv)
+    alert('Copied to clipboard!')
+  }
+
   return (
     <div className="bg-white">
       <div className="max-w-6xl mx-auto px-6 py-12 space-y-10">
@@ -151,7 +234,7 @@ export default function BudgetToolPage() {
           <p className="inline-flex items-center rounded-full crimson-pill px-3 py-1 text-sm font-semibold">Budget Tool</p>
           <h1 className="text-3xl md:text-4xl font-bold text-slate-900">Estimate college costs</h1>
           <p className="text-slate-600">
-            Search for a school and compare projected totals for living on campus vs. off campus using public government data.
+            Search for a school and compare projected totals based on your residency and housing choices.
           </p>
           <div className="flex flex-wrap gap-3 pt-2">
             <Link href="/tools" className="btn-crimson-outline inline-flex items-center rounded-full px-4 py-2 text-sm font-semibold">
@@ -160,9 +243,46 @@ export default function BudgetToolPage() {
           </div>
         </header>
 
+        {/* Filter Bar */}
+        <section className="rounded-2xl border border-slate-200 bg-slate-50 p-4 flex flex-wrap gap-4 items-center">
+            <div className="flex flex-col gap-1">
+                <label className="text-xs font-semibold text-slate-500 uppercase">Residency</label>
+                <select 
+                    value={residency} 
+                    onChange={(e) => setResidency(e.target.value as any)}
+                    className="rounded-lg border-slate-200 text-sm p-2"
+                >
+                    <option value="in_state">In-State</option>
+                    <option value="out_of_state">Out-of-State</option>
+                </select>
+            </div>
+            <div className="flex flex-col gap-1">
+                <label className="text-xs font-semibold text-slate-500 uppercase">Housing</label>
+                <select 
+                    value={housing} 
+                    onChange={(e) => setHousing(e.target.value as any)}
+                    className="rounded-lg border-slate-200 text-sm p-2"
+                >
+                    <option value="on_campus">On-Campus</option>
+                    <option value="off_campus">Off-Campus</option>
+                </select>
+            </div>
+            <div className="flex flex-col gap-1">
+                <label className="text-xs font-semibold text-slate-500 uppercase">Living Status</label>
+                <select 
+                    value={livingStatus} 
+                    onChange={(e) => setLivingStatus(e.target.value as any)}
+                    className="rounded-lg border-slate-200 text-sm p-2"
+                >
+                    <option value="not_with_family">Not With Family</option>
+                    <option value="with_family">With Family</option>
+                </select>
+            </div>
+        </section>
+
         <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
           <form
-            className="grid gap-5 md:grid-cols-[1.4fr_repeat(2,1fr)] md:items-end"
+            className="grid gap-5 md:grid-cols-[1fr_auto] md:items-end"
             onSubmit={(e) => {
               e.preventDefault()
               onCalculate()
@@ -186,26 +306,11 @@ export default function BudgetToolPage() {
                     if (suggestions.length) setSuggestOpen(true)
                   }}
                   onBlur={() => {
-                    // Let click events on suggestions register before closing.
                     setTimeout(() => setSuggestOpen(false), 150)
                   }}
                   placeholder="e.g., Rutgers University"
                   className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300"
                 />
-                <button
-                  type="button"
-                  onClick={onCalculate}
-                  disabled={loading}
-                  className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white disabled:opacity-60"
-                >
-                  {loading ? (
-                    <span className="inline-flex items-center gap-2">
-                      <Loader2 className="h-4 w-4 animate-spin" /> Loading
-                    </span>
-                  ) : (
-                    'Calculate'
-                  )}
-                </button>
               </div>
 
               {suggestOpen && (
@@ -243,43 +348,20 @@ export default function BudgetToolPage() {
               )}
             </div>
 
-            <div className="space-y-2">
-              <label htmlFor="inflation" className="text-sm font-semibold text-slate-900">
-                Inflation rate
-              </label>
-              <div className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-slate-600">0%</span>
-                  <span className="font-semibold text-slate-900">{inflationLabel}</span>
-                  <span className="text-slate-600">10%</span>
-                </div>
-                <input
-                  id="inflation"
-                  type="range"
-                  min={0}
-                  max={10}
-                  step={0.5}
-                  value={inflationRate}
-                  onChange={(e) => setInflationRate(Number(e.target.value))}
-                  className="mt-2 w-full"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <label htmlFor="years" className="text-sm font-semibold text-slate-900">
-                Years
-              </label>
-              <input
-                id="years"
-                type="number"
-                min={1}
-                max={6}
-                value={years}
-                onChange={(e) => setYears(Math.min(6, Math.max(1, Number(e.target.value))))}
-                className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300"
-              />
-            </div>
+            <button
+                type="button"
+                onClick={onCalculate}
+                disabled={loading}
+                className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-8 py-3 text-sm font-semibold text-white disabled:opacity-60 h-[46px]"
+            >
+                {loading ? (
+                <span className="inline-flex items-center gap-2">
+                    <Loader2 className="h-4 w-4 animate-spin" /> Loading
+                </span>
+                ) : (
+                'Calculate'
+                )}
+            </button>
           </form>
 
           {error && (
@@ -287,93 +369,145 @@ export default function BudgetToolPage() {
               {error}
             </div>
           )}
-
-          <p className="mt-5 text-xs text-slate-500 leading-relaxed">
-            Disclaimer: These are estimates based on reported government data and an inflation assumption.
-            Actual costs vary by year, program, housing choice, and personal expenses.
-          </p>
         </section>
 
-        {data && (
+        {data && calculatedCosts && (
           <section className="space-y-8">
             <div className="space-y-2">
-              <h2 className="text-2xl font-semibold text-slate-900">{data.raw.school.name}</h2>
+              <h2 className="text-2xl font-semibold text-slate-900">{data.school.name}</h2>
               <p className="text-sm text-slate-600">
-                {data.raw.school.city ? `${data.raw.school.city}, ` : ''}
-                {data.raw.school.state ?? ''}
-                {data.raw.school.schoolUrl ? (
+                {data.school.city ? `${data.school.city}, ` : ''}
+                {data.school.state ?? ''}
+                {data.school.schoolUrl ? (
                   <>
                     {' • '}
-                    <a href={data.raw.school.schoolUrl} target="_blank" rel="noreferrer" className="font-semibold crimson-link">
+                    <a href={data.school.schoolUrl} target="_blank" rel="noreferrer" className="font-semibold crimson-link">
                       Website ↗
                     </a>
                   </>
                 ) : null}
               </p>
+              {data.retentionRate && (
+                  <p className="text-sm text-slate-600">
+                      Retention Rate: <span className="font-semibold">{(data.retentionRate * 100).toFixed(1)}%</span>
+                  </p>
+              )}
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Estimated {data.projection.years}-year total</p>
-                <p className="mt-2 text-3xl font-bold text-slate-900">{formatMoney0(data.projection.onCampus.total)}</p>
-                <p className="mt-1 text-sm text-slate-600">Living on campus</p>
-              </div>
-              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Estimated {data.projection.years}-year total</p>
-                <p className="mt-2 text-3xl font-bold text-slate-900">{formatMoney0(data.projection.offCampus.total)}</p>
-                <p className="mt-1 text-sm text-slate-600">Living off campus</p>
-              </div>
-            </div>
+            {/* Smart Financial Aid Display */}
+            {user_AGI !== null && (
+                <div className="rounded-2xl border border-blue-200 bg-blue-50 p-6 shadow-sm">
+                    <h3 className="text-lg font-bold text-blue-900">Personalized Net Price Estimate</h3>
+                    <p className="text-sm text-blue-700 mb-4">Based on your AGI of {formatMoney(user_AGI)}</p>
+                    <div className="grid gap-4 md:grid-cols-2">
+                        <div>
+                            <p className="text-xs font-semibold text-blue-600 uppercase">Estimated Net Price</p>
+                            <p className="text-3xl font-bold text-blue-900">{formatMoney(calculatedCosts.netPrice)}</p>
+                        </div>
+                        <div>
+                            <p className="text-xs font-semibold text-blue-600 uppercase">Predicted Financial Aid</p>
+                            <p className="text-3xl font-bold text-green-700">{formatMoney(calculatedCosts.predictedAid)}</p>
+                        </div>
+                    </div>
+                </div>
+            )}
 
+            {/* Table View */}
             <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
-              <div className="px-6 py-4 border-b border-slate-200 bg-slate-50">
-                <h3 className="text-sm font-semibold text-slate-900">On-campus vs Off-campus (projected totals)</h3>
-                <p className="mt-1 text-xs text-slate-600">Assumes {Math.round(data.projection.inflationRate * 100)}% annual inflation.</p>
+              <div className="px-6 py-4 border-b border-slate-200 bg-slate-50 flex justify-between items-center flex-wrap gap-4">
+                <div>
+                    <h3 className="text-sm font-semibold text-slate-900">Cost Breakdown</h3>
+                    <p className="mt-1 text-xs text-slate-600">Customize your view</p>
+                </div>
+                <div className="flex gap-4 items-center">
+                    <div className="flex gap-2 text-xs">
+                        <label className="flex items-center gap-1"><input type="checkbox" checked={visibleColumns.tuition} onChange={e => setVisibleColumns({...visibleColumns, tuition: e.target.checked})} /> Tuition</label>
+                        <label className="flex items-center gap-1"><input type="checkbox" checked={visibleColumns.housing} onChange={e => setVisibleColumns({...visibleColumns, housing: e.target.checked})} /> Housing</label>
+                        <label className="flex items-center gap-1"><input type="checkbox" checked={visibleColumns.books} onChange={e => setVisibleColumns({...visibleColumns, books: e.target.checked})} /> Books</label>
+                        <label className="flex items-center gap-1"><input type="checkbox" checked={visibleColumns.other} onChange={e => setVisibleColumns({...visibleColumns, other: e.target.checked})} /> Other</label>
+                    </div>
+                    <button onClick={copyToClipboard} className="text-slate-600 hover:text-slate-900" title="Copy to Clipboard">
+                        <Copy className="h-4 w-4" />
+                    </button>
+                </div>
               </div>
               <div className="overflow-x-auto">
                 <table className="min-w-full text-sm">
                   <thead className="bg-white">
-                    <tr className="text-left text-slate-600">
-                      <th className="px-6 py-3 font-semibold">Line item</th>
-                      <th className="px-6 py-3 font-semibold">On-campus</th>
-                      <th className="px-6 py-3 font-semibold">Off-campus</th>
+                    <tr className="text-left text-slate-600 border-b border-slate-200">
+                      <th className="px-6 py-3 font-semibold">Category</th>
+                      <th className="px-6 py-3 font-semibold text-right">Amount</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200">
-                    <tr>
-                      <td className="px-6 py-4">
-                        <p className="font-semibold text-slate-900">Tuition</p>
-                        <p className="mt-1 text-xs text-slate-500">
-                          In-state: {formatMoney(data.raw.tuition.inState)} • Out-of-state: {formatMoney(data.raw.tuition.outOfState)}
-                        </p>
-                      </td>
-                      <td className="px-6 py-4 font-semibold text-slate-900">{formatMoney0(data.projection.onCampus.tuition)}</td>
-                      <td className="px-6 py-4 font-semibold text-slate-900">{formatMoney0(data.projection.offCampus.tuition)}</td>
-                    </tr>
-                    <tr>
-                      <td className="px-6 py-4 font-semibold text-slate-900">Housing (Room & Board)</td>
-                      <td className="px-6 py-4 font-semibold text-slate-900">{formatMoney0(data.projection.onCampus.housing)}</td>
-                      <td className="px-6 py-4 font-semibold text-slate-900">{formatMoney0(data.projection.offCampus.housing)}</td>
-                    </tr>
-                    <tr>
-                      <td className="px-6 py-4 font-semibold text-slate-900">Food/Other</td>
-                      <td className="px-6 py-4 font-semibold text-slate-900">{formatMoney0(data.projection.onCampus.foodOther)}</td>
-                      <td className="px-6 py-4 font-semibold text-slate-900">{formatMoney0(data.projection.offCampus.foodOther)}</td>
-                    </tr>
-                    <tr>
-                      <td className="px-6 py-4 font-semibold text-slate-900">Books & Supplies</td>
-                      <td className="px-6 py-4 font-semibold text-slate-900">{formatMoney0(data.projection.onCampus.books)}</td>
-                      <td className="px-6 py-4 font-semibold text-slate-900">{formatMoney0(data.projection.offCampus.books)}</td>
-                    </tr>
-                    <tr className="bg-slate-50">
-                      <td className="px-6 py-4 font-bold text-slate-900">Total</td>
-                      <td className="px-6 py-4 font-bold text-slate-900">{formatMoney0(data.projection.onCampus.total)}</td>
-                      <td className="px-6 py-4 font-bold text-slate-900">{formatMoney0(data.projection.offCampus.total)}</td>
-                    </tr>
+                    {visibleColumns.tuition && (
+                        <tr>
+                            <td className="px-6 py-4 font-medium text-slate-900">Tuition ({residency.replace('_', ' ')})</td>
+                            <td className="px-6 py-4 text-right text-slate-900">{formatMoney(calculatedCosts.tuition)}</td>
+                        </tr>
+                    )}
+                    {visibleColumns.housing && (
+                        <tr>
+                            <td className="px-6 py-4 font-medium text-slate-900">Housing ({housing.replace('_', ' ')})</td>
+                            <td className="px-6 py-4 text-right text-slate-900">{formatMoney(calculatedCosts.housing)}</td>
+                        </tr>
+                    )}
+                    {visibleColumns.books && (
+                        <tr>
+                            <td className="px-6 py-4 font-medium text-slate-900">Books & Supplies</td>
+                            <td className="px-6 py-4 text-right text-slate-900">{formatMoney(calculatedCosts.books)}</td>
+                        </tr>
+                    )}
+                    {visibleColumns.other && (
+                        <tr>
+                            <td className="px-6 py-4 font-medium text-slate-900">Other Expenses</td>
+                            <td className="px-6 py-4 text-right text-slate-900">{formatMoney(calculatedCosts.other)}</td>
+                        </tr>
+                    )}
+                    {visibleColumns.total && (
+                        <tr className="bg-slate-50">
+                            <td className="px-6 py-4 font-bold text-slate-900">Total Cost of Attendance</td>
+                            <td className="px-6 py-4 text-right font-bold text-slate-900">{formatMoney(calculatedCosts.total)}</td>
+                        </tr>
+                    )}
+                    {visibleColumns.netPrice && (
+                        <tr className="bg-blue-50">
+                            <td className="px-6 py-4 font-bold text-blue-900">
+                                {user_AGI !== null ? 'Net Price (Personalized)' : 'Net Price (No Aid Applied)'}
+                            </td>
+                            <td className="px-6 py-4 text-right font-bold text-blue-900">{formatMoney(calculatedCosts.netPrice)}</td>
+                        </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
             </div>
+
+            {/* Top 25 Majors */}
+            {data.topMajors && data.topMajors.length > 0 && (
+                <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+                    <button 
+                        onClick={() => setMajorsOpen(!majorsOpen)}
+                        className="w-full px-6 py-4 flex justify-between items-center bg-slate-50 hover:bg-slate-100 transition-colors"
+                    >
+                        <h3 className="text-sm font-semibold text-slate-900">Popular Majors (Top 25)</h3>
+                        {majorsOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                    </button>
+                    {majorsOpen && (
+                        <div className="px-6 py-4">
+                            <ul className="grid gap-2 md:grid-cols-2">
+                                {data.topMajors.map((m, i) => (
+                                    <li key={i} className="flex justify-between text-sm border-b border-slate-100 pb-1 last:border-0">
+                                        <span className="text-slate-700 truncate pr-2" title={m.title}>{m.title}</span>
+                                        <span className="text-slate-500 font-mono text-xs">{m.count} grads</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                </div>
+            )}
+
           </section>
         )}
       </div>
