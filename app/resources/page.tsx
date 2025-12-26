@@ -1,9 +1,10 @@
-import Link from "next/link"
+'use client'
 
-export const metadata = {
-  title: "Resources | Destination College",
-  description: "Links and guides for first-gen students and families navigating financial aid.",
-}
+import Link from "next/link"
+import { BackgroundGradient } from '../components/ui/BackgroundGradient'
+import { FadeIn } from '../components/ui/FadeIn'
+import { SpotlightCard } from '../components/ui/SpotlightCard'
+import { ArrowUpRight } from 'lucide-react'
 
 const resources = [
   {
@@ -26,29 +27,39 @@ const resources = [
 
 export default function ResourcesPage() {
   return (
-    <div className="min-h-screen bg-slate-50 py-16 px-6">
-      <div className="mx-auto max-w-4xl space-y-6 text-center">
-        <p className="text-xs uppercase tracking-[0.4em] text-slate-500">Destination College</p>
-        <h1 className="text-3xl font-semibold text-slate-900 sm:text-4xl">Resources for the first-gen journey</h1>
-        <p className="text-base text-slate-600">
-          A curated list of trusted tools, guidance, and programs to help you apply, afford, and stay on track.
-        </p>
-      </div>
-      <div className="mx-auto mt-12 grid max-w-4xl gap-6 md:grid-cols-2">
-        {resources.map((item) => (
-          <article key={item.title} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="text-xl font-semibold text-slate-900">{item.title}</h2>
-            <p className="mt-3 text-sm text-slate-600 leading-relaxed">{item.summary}</p>
-            <Link
-              href={item.href}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-6 inline-flex items-center text-sm font-semibold text-slate-900 hover:underline"
-            >
-              Open resource ↗
-            </Link>
-          </article>
-        ))}
+    <div className="relative min-h-screen overflow-hidden">
+      <BackgroundGradient />
+      
+      <div className="max-w-5xl mx-auto px-6 py-16 space-y-12">
+        <FadeIn>
+          <div className="space-y-4 text-center max-w-2xl mx-auto">
+            <p className="text-xs uppercase tracking-[0.4em] text-gold-600 font-bold">Destination College</p>
+            <h1 className="text-4xl md:text-5xl font-heading font-bold text-navy-900">
+              Resources for the first-gen journey
+            </h1>
+            <p className="text-lg text-navy-600 font-light">
+              A curated list of trusted tools, guidance, and programs to help you apply, afford, and stay on track.
+            </p>
+          </div>
+        </FadeIn>
+
+        <div className="grid gap-6 md:grid-cols-2">
+          {resources.map((item, index) => (
+            <FadeIn key={item.title} delay={0.1 * (index + 1)}>
+              <Link href={item.href} target="_blank" rel="noreferrer" className="block h-full">
+                <SpotlightCard className="h-full flex flex-col">
+                  <h2 className="text-xl font-heading font-bold text-navy-900 mb-3">{item.title}</h2>
+                  <p className="text-sm text-navy-600 leading-relaxed flex-grow font-light mb-6">
+                    {item.summary}
+                  </p>
+                  <div className="flex items-center text-xs font-bold uppercase tracking-widest text-gold-600 group-hover:text-gold-500 transition-colors">
+                    Open resource <ArrowUpRight className="ml-2 h-3 w-3" />
+                  </div>
+                </SpotlightCard>
+              </Link>
+            </FadeIn>
+          ))}
+        </div>
       </div>
     </div>
   )

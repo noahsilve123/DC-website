@@ -1,90 +1,94 @@
+'use client'
+
 import Link from 'next/link'
 import ExtractorHubMini from '../components/ExtractorHubMini'
+import { BackgroundGradient } from '../components/ui/BackgroundGradient'
+import { FadeIn } from '../components/ui/FadeIn'
+import { SpotlightCard } from '../components/ui/SpotlightCard'
+import { Sparkles, FileText, Calculator, GraduationCap, Wallet } from 'lucide-react'
 
 const tools = [
   {
     title: 'CSS Profile Tool',
     description: 'Upload documents and copy calculated answers for the CSS Profile.',
     href: '/tools/css-profile',
+    icon: <Sparkles className="h-6 w-6 text-gold-600" />,
+    color: 'bg-gold-50 text-gold-700 border border-gold-200',
     ready: true,
   },
   {
     title: 'FAFSA Tool',
     description: 'Step-by-step FAFSA guide and checklist.',
     href: '/tools/fafsa',
+    icon: <FileText className="h-6 w-6 text-navy-600" />,
+    color: 'bg-navy-50 text-navy-700 border border-navy-200',
     ready: true,
   },
   {
     title: 'Scholarship Tool',
     description: 'Upload award letters and summarize grants/loans.',
     href: '/tools/scholarships',
+    icon: <GraduationCap className="h-6 w-6 text-emerald-600" />,
+    color: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
     ready: true,
   },
   {
     title: 'Budget Tool',
     description: 'Estimate costs and compare on-campus vs off-campus totals.',
     href: '/tools/budget',
+    icon: <Wallet className="h-6 w-6 text-rose-600" />,
+    color: 'bg-rose-50 text-rose-700 border border-rose-200',
     ready: true,
   },
   {
     title: 'College Selection',
     description: 'Find your fit based on campus culture, diversity, and academics.',
     href: '/tools/college-selection',
+    icon: <Calculator className="h-6 w-6 text-blue-600" />,
+    color: 'bg-blue-50 text-blue-700 border border-blue-200',
     ready: true,
   },
 ] as const
 
 export default function ToolsPage() {
   return (
-    <div className="bg-white">
-      <div className="max-w-6xl mx-auto px-6 py-12 space-y-8">
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold text-slate-900">Tools</h1>
-          <p className="text-slate-600">Choose a financial tool to get started.</p>
-        </div>
+    <div className="relative min-h-screen overflow-hidden">
+      <BackgroundGradient />
+      
+      <div className="max-w-6xl mx-auto px-6 py-12 space-y-12">
+        <FadeIn>
+          <div className="space-y-4 text-center max-w-2xl mx-auto">
+            <h1 className="text-4xl md:text-5xl font-heading font-bold text-navy-900">
+              Financial Tools
+            </h1>
+            <p className="text-lg text-navy-600 font-light">
+              Choose a tool to get started with your financial aid journey.
+            </p>
+          </div>
+        </FadeIn>
 
-        <ExtractorHubMini />
+        <FadeIn delay={0.2}>
+          <ExtractorHubMini />
+        </FadeIn>
 
-        <div className="grid gap-6 md:grid-cols-2">
-          {tools.map((tool) => {
-            const card = (
-              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <h2 className="text-xl font-semibold text-slate-900">{tool.title}</h2>
-                    <p className="mt-1 text-sm text-slate-600">{tool.description}</p>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {tools.map((tool, index) => (
+            <FadeIn key={tool.title} delay={0.1 * (index + 3)}>
+              <Link href={tool.href} className="block h-full">
+                <SpotlightCard className="h-full flex flex-col">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className={`p-3 rounded-xl ${tool.color}`}>
+                      {tool.icon}
+                    </div>
                   </div>
-                  {!tool.ready && (
-                    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600">
-                      Not set up yet
-                    </span>
-                  )}
-                </div>
-
-                <div className="mt-5">
-                  {tool.ready && tool.href ? (
-                    <span className="inline-flex items-center rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white">
-                      Open
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-500">
-                      Coming soon
-                    </span>
-                  )}
-                </div>
-              </div>
-            )
-
-            if (tool.ready && tool.href) {
-              return (
-                <Link key={tool.title} href={tool.href} className="block focus:outline-offset-4">
-                  {card}
-                </Link>
-              )
-            }
-
-            return <div key={tool.title}>{card}</div>
-          })}
+                  <h3 className="text-xl font-heading font-bold text-navy-900 mb-2">{tool.title}</h3>
+                  <p className="text-sm text-navy-600 leading-relaxed flex-grow font-light">
+                    {tool.description}
+                  </p>
+                </SpotlightCard>
+              </Link>
+            </FadeIn>
+          ))}
         </div>
       </div>
     </div>
