@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { fetchCollegeSelectionData } from '../../lib/college-api'
+import { getAtmosphere, getGoingOutScene, getStereotypes } from '../../lib/college-vibes'
 
 export async function GET(req: Request) {
   try {
@@ -13,6 +14,7 @@ export async function GET(req: Request) {
     const schoolId = Number(schoolIdRaw)
     const data = await fetchCollegeSelectionData(schoolId)
     const greekLife = (data as any).greek_life
+    const hasGreekLife = Boolean(greekLife && (greekLife.participation?.men > 0 || greekLife.participation?.women > 0))
 
     const scorecardKeys = [
       'school.name',
@@ -60,6 +62,16 @@ export async function GET(req: Request) {
             state: data['school.state'],
         },
       scorecard,
+      vibes: {
+        atmosphere: getAtmosphere(data['school.locale'], data['school.name']),
+        goingOutScene: getGoingOutScene(data['school.locale'], hasGreekLife, data['school.name']),
+        stereotypes: getStereotypes(
+          data['latest.admissions.admission_rate.overall'],
+          data['school.ownership'],
+          hasGreekLife,
+          data['school.name']
+        ),
+      },
       greekLife,
         selection: {
             size: data['latest.student.size'],

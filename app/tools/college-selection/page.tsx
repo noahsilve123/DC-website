@@ -18,6 +18,11 @@ type ApiResponse = {
     participation: { men: number; women: number }
     chapters: string[]
   }
+  vibes?: {
+    atmosphere: string
+    goingOutScene: string
+    stereotypes: string[]
+  }
   selection: {
     size: number | null
     locale: number | null
@@ -521,11 +526,7 @@ export default function CollegeSelectionPage() {
                                 <div className="relative h-8 bg-white rounded-full border border-indigo-100 w-full flex items-center">
                                     {/* Range Bar */}
                                     <div 
-                                        className="absolute h-full bg-indigo-200 rounded-full opacity-50"
-                                        style={{ 
-                                            left: '20%', 
-                                            width: '60%' 
-                                        }}
+                                        className="absolute h-full bg-indigo-200 rounded-full opacity-50 left-[20%] w-[60%]"
                                     />
                                     {/* Labels for 25th/75th */}
                                     <div className="absolute left-[20%] -bottom-6 text-xs text-slate-500 transform -translate-x-1/2">
@@ -629,6 +630,33 @@ export default function CollegeSelectionPage() {
                         )}
                     </div>
                 </div>
+            )}
+
+            {/* Campus Vibe */}
+            {data.vibes && (
+              <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-slate-900 mb-4">Campus Vibe</h3>
+                <div className="grid gap-6 md:grid-cols-3">
+                  <div className="space-y-2">
+                    <p className="text-xs font-semibold text-slate-500 uppercase">Atmosphere</p>
+                    <p className="text-slate-900 font-medium">{data.vibes.atmosphere}</p>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-xs font-semibold text-slate-500 uppercase">Going Out Scene</p>
+                    <p className="text-slate-900 font-medium">{data.vibes.goingOutScene}</p>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-xs font-semibold text-slate-500 uppercase">Stereotypes</p>
+                    <div className="flex flex-wrap gap-2">
+                      {data.vibes.stereotypes.map(t => (
+                        <span key={t} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
             )}
 
             <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">

@@ -115,7 +115,7 @@ export function ComparisonView({ schools, onClose }: { schools: School[]; onClos
               </button>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
+          <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full transition-colors" aria-label="Close">
             <X className="h-5 w-5 text-slate-500" />
           </button>
         </div>
@@ -198,6 +198,7 @@ export function ComparisonView({ schools, onClose }: { schools: School[]; onClos
                   value={leftId} 
                   onChange={(e) => setLeftId(Number(e.target.value))}
                   className="p-3 rounded-xl border border-slate-200 bg-white font-semibold text-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none"
+                  aria-label="Select first school"
                 >
                   <option value="" disabled>Select School 1</option>
                   {data.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
@@ -206,6 +207,7 @@ export function ComparisonView({ schools, onClose }: { schools: School[]; onClos
                   value={rightId} 
                   onChange={(e) => setRightId(Number(e.target.value))}
                   className="p-3 rounded-xl border border-slate-200 bg-white font-semibold text-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none"
+                  aria-label="Select second school"
                 >
                   <option value="" disabled>Select School 2</option>
                   {data.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}

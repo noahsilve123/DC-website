@@ -1,17 +1,2163 @@
 {
-  "Rutgers University-New Brunswick": {
-    "party_scene": "House parties, Easton Ave bars, and basement shows",
-    "stereotypes": ["Diverse", "Resilient", "Spirited"],
-    "atmosphere": "Bustling suburban/urban mix"
+  "Texas A&M University": {
+    "party_scene": "Northgate bars and massive tailgates",
+    "stereotypes": [
+      "Cult-like tradition",
+      "Friendly",
+      "Conservative"
+    ],
+    "atmosphere": "Aggie Spirit bubble"
+  },
+  "Ohio State University": {
+    "party_scene": "High Street bars and house parties",
+    "stereotypes": [],
+    "atmosphere": "Massive city-within-a-city"
+  },
+  "University of Central Florida": {
+    "party_scene": "Downtown Orlando clubs and pool parties",
+    "stereotypes": [],
+    "atmosphere": "Modern sprawling resort"
   },
   "University of Florida": {
-    "party_scene": "Midtown bars and massive Greek life tailgates",
-    "stereotypes": ["Sports-crazed", "Work hard play hard"],
-    "atmosphere": "Classic college town swamp"
+    "party_scene": "Midtown bars vs Downtown clubs",
+    "stereotypes": [],
+    "atmosphere": "The Swamp (College Town)"
+  },
+  "Arizona State University": {
+    "party_scene": "Mill Avenue and house parties",
+    "stereotypes": [],
+    "atmosphere": "Sunny desert sprawl"
+  },
+  "University of Illinois Urbana-Champaign": {
+    "party_scene": "Green Street bars and Greek life",
+    "stereotypes": [
+      "Engineering nerds",
+      "Chicago suburbanites",
+      "Greek dominated"
+    ],
+    "atmosphere": "Cornfields meeting city vibes"
+  },
+  "University of Minnesota": {
+    "party_scene": "Dinkytown bars and house parties",
+    "stereotypes": [
+      "Cold weather resilience",
+      "Nice but reserved",
+      "City integration"
+    ],
+    "atmosphere": "Urban/River campus mix"
+  },
+  "University of Texas at Austin": {
+    "party_scene": "6th Street and West Campus parties",
+    "stereotypes": [],
+    "atmosphere": "Trendy cosmopolitan capital"
   },
   "New York University": {
-    "party_scene": "City clubs, rooftop bars, and apartment gatherings",
-    "stereotypes": ["Artsy", "Independent", "Fashion-forward"],
-    "atmosphere": "The city is your campus"
+    "party_scene": "City nightlife (clubs, bars, apartments)",
+    "stereotypes": [],
+    "atmosphere": " The City is the Campus"
+  },
+  "University of Michigan": {
+    "party_scene": "Skeeps, Rick's, and house parties",
+    "stereotypes": [],
+    "atmosphere": "Classic collegiate powerhouse"
+  },
+  "Michigan State University": {
+    "party_scene": "Cedar Village burns and East Lansing bars",
+    "stereotypes": [],
+    "atmosphere": "Traditional Big Ten town"
+  },
+  "University of Southern California": {
+    "party_scene": "The Row (Greek life) and LA clubs",
+    "stereotypes": [],
+    "atmosphere": "Urban private bubble"
+  },
+  "Pennsylvania State University": {
+    "party_scene": "Downtown apartments and frat canyon",
+    "stereotypes": [
+      "Cult-like spirit",
+      "Football obsessed",
+      "Party heavy"
+    ],
+    "atmosphere": "Happy Valley bubble"
+  },
+  "University of California, Los Angeles": {
+    "party_scene": "Westwood bars and Santa Monica trips",
+    "stereotypes": [],
+    "atmosphere": "Sunny prestigious bubble"
+  },
+  "University of California, Berkeley": {
+    "party_scene": "Co-ops and Greek row",
+    "stereotypes": [],
+    "atmosphere": "Gritty intellectual hub"
+  },
+  "University of Washington": {
+    "party_scene": "Greek row and The Ave",
+    "stereotypes": [],
+    "atmosphere": "Cherry blossoms and gray skies"
+  },
+  "Florida State University": {
+    "party_scene": "The Strip and Tenn St bars",
+    "stereotypes": [],
+    "atmosphere": "Classic Southern party town"
+  },
+  "Rutgers University": {
+    "party_scene": "Easton Ave bars and basement shows",
+    "stereotypes": [],
+    "atmosphere": "Bustling suburban/urban mix"
+  },
+  "Purdue University": {
+    "party_scene": "Breakfast Club and Cactus",
+    "stereotypes": [],
+    "atmosphere": "Industrial college town"
+  },
+  "University of Wisconsin-Madison": {
+    "party_scene": "State Street bars and The Terrace",
+    "stereotypes": [],
+    "atmosphere": "Lakeside party town"
+  },
+  "University of Georgia": {
+    "party_scene": "Downtown Athens bar scene",
+    "stereotypes": [],
+    "atmosphere": " quintessential college town"
+  },
+  "University of Alabama": {
+    "party_scene": "The Strip and massive frat houses",
+    "stereotypes": [],
+    "atmosphere": "Roll Tide bubble"
+  },
+  "University of North Carolina at Chapel Hill": {
+    "party_scene": "Franklin Street bars",
+    "stereotypes": [],
+    "atmosphere": "Classic Southern college town"
+  },
+  "University of Maryland, College Park": {
+    "party_scene": "Cornerstone/Bentley's and DC trips",
+    "stereotypes": [],
+    "atmosphere": "College town near big city"
+  },
+  "Boston University": {
+    "party_scene": "Allston house parties and city bars",
+    "stereotypes": [
+      "International",
+      "City slickers",
+      "Independent"
+    ],
+    "atmosphere": "Urban street campus"
+  },
+  "Harvard University": {
+    "party_scene": "Final Clubs and House parties",
+    "stereotypes": [
+      "Elite",
+      "Ambitious",
+      "Legacy"
+    ],
+    "atmosphere": "Historic intellectual hub"
+  },
+  "Stanford University": {
+    "party_scene": "Full Moon on the Quad and Row houses",
+    "stereotypes": [],
+    "atmosphere": "Sunny suburban campus"
+  },
+  "Massachusetts Institute of Technology": {
+    "party_scene": "Frat parties and dorm hacks",
+    "stereotypes": [],
+    "atmosphere": "Intense STEM bubble"
+  },
+  "Cornell University": {
+    "party_scene": "Collegetown bars and Greek life",
+    "stereotypes": [],
+    "atmosphere": "Gorges but isolated"
+  },
+  "University of Pennsylvania": {
+    "party_scene": "Downtown Philly clubs and Greek life",
+    "stereotypes": [],
+    "atmosphere": "Urban Ivy"
+  },
+  "Yale University": {
+    "party_scene": "Woads and Residential College parties",
+    "stereotypes": [],
+    "atmosphere": "Gothic collegiate"
+  },
+  "Princeton University": {
+    "party_scene": "The Eating Clubs",
+    "stereotypes": [
+      "Preppy",
+      "Elite",
+      "Orange bubble"
+    ],
+    "atmosphere": "Suburban gothic enclave"
+  },
+  "Duke University": {
+    "party_scene": "Shooters and Greek life",
+    "stereotypes": [],
+    "atmosphere": "Gothic wonderland in forest"
+  },
+  "Columbia University": {
+    "party_scene": "City bars and apartment parties",
+    "stereotypes": [],
+    "atmosphere": "Urban academic fortress"
+  },
+  "University of California, Santa Barbara": {
+    "party_scene": "Isla Vista (Del Playa) daygers",
+    "stereotypes": [],
+    "atmosphere": "Beachside college town"
+  },
+  "University of California, San Diego": {
+    "party_scene": "Apartment parties and Gaslamp",
+    "stereotypes": [],
+    "atmosphere": "Quiet coastal cliffs"
+  },
+  "Virginia Tech": {
+    "party_scene": "Downtown bars and Center St tailgates",
+    "stereotypes": [
+      "Cult-like family",
+      "Engineers",
+      "Friendly"
+    ],
+    "atmosphere": "Isolated mountain town"
+  },
+  "University of Virginia": {
+    "party_scene": "The Corner bars and Greek life",
+    "stereotypes": [],
+    "atmosphere": "Jeffersonian historic grounds"
+  },
+  "Georgia Institute of Technology": {
+    "party_scene": "Greek life and Home Park houses",
+    "stereotypes": [],
+    "atmosphere": "Urban tech campus"
+  },
+  "University of Colorado Boulder": {
+    "party_scene": "The Hill house parties",
+    "stereotypes": [],
+    "atmosphere": "Mountain college town"
+  },
+  "Tulane University": {
+    "party_scene": "The Boot and New Orleans bars",
+    "stereotypes": [],
+    "atmosphere": "Urban Southern charm"
+  },
+  "University of Miami": {
+    "party_scene": "South Beach clubs and Coconut Grove",
+    "stereotypes": [],
+    "atmosphere": "Tropical luxury"
+  },
+  "Vanderbilt University": {
+    "party_scene": "Broadway bars and Greek row",
+    "stereotypes": [],
+    "atmosphere": "Arboretum in the city"
+  },
+  "University of Notre Dame": {
+    "party_scene": "Dorm parties and football weekends",
+    "stereotypes": [],
+    "atmosphere": "Traditional collegiate bubble"
+  },
+  "Syracuse University": {
+    "party_scene": "Castle Court dages and bars",
+    "stereotypes": [],
+    "atmosphere": "Snowy sports hub"
+  },
+  "Northwestern University": {
+    "party_scene": "Evanston house parties and Chicago trips",
+    "stereotypes": [],
+    "atmosphere": "Suburban lakefront"
+  },
+  "Rice University": {
+    "party_scene": "Residential College 'Publics'",
+    "stereotypes": [],
+    "atmosphere": "Urban enclosed campus"
+  },
+  "Carnegie Mellon University": {
+    "party_scene": "House parties and dive bars",
+    "stereotypes": [],
+    "atmosphere": "Urban academic rigor"
+  },
+  "Georgetown University": {
+    "party_scene": "The Tombs and apartment parties",
+    "stereotypes": [],
+    "atmosphere": "Historic urban neighborhood"
+  },
+  "Dartmouth College": {
+    "party_scene": "Greek basements and Pong",
+    "stereotypes": [],
+    "atmosphere": "Rural Ivy in the woods"
+  },
+  "University of South Florida": {
+    "party_scene": "Ybor City clubs and Greek house parties",
+    "stereotypes": [],
+    "atmosphere": "Sprawling suburban campus near Tampa"
+  },
+  "Texas Tech University": {
+    "party_scene": "Broadway bars and roof parties",
+    "stereotypes": [],
+    "atmosphere": "Spanish Renaissance in the high desert"
+  },
+  "University of Houston": {
+    "party_scene": "City nightlife and scattered house parties",
+    "stereotypes": [],
+    "atmosphere": "Urban grit mixed with green pockets"
+  },
+  "University of Missouri": {
+    "party_scene": "Greek life and downtown Columbia bars",
+    "stereotypes": [
+      "Journalism nerds",
+      "Greek heavy",
+      "Midwestern"
+    ],
+    "atmosphere": "Classic Midwestern college town"
+  },
+  "University of Arkansas": {
+    "party_scene": "Dickson Street bars and massive Greek life",
+    "stereotypes": [],
+    "atmosphere": "Hilly Ozark college town"
+  },
+  "University of Kentucky": {
+    "party_scene": "State Street celebrations and horse racing tailgates",
+    "stereotypes": [],
+    "atmosphere": "Bluegrass college town meets city"
+  },
+  "University of Tennessee": {
+    "party_scene": "Vol Navy tailgates and Strip bars",
+    "stereotypes": [],
+    "atmosphere": "Riverfront campus in a mountain city"
+  },
+  "University of South Carolina": {
+    "party_scene": "Five Points bars and frat lots",
+    "stereotypes": [],
+    "atmosphere": "Hot, humid Southern capital"
+  },
+  "University of Mississippi": {
+    "party_scene": "The Grove tailgating and The Square",
+    "stereotypes": [
+      "Old money",
+      "Greek life",
+      "Party school"
+    ],
+    "atmosphere": "The quintessential Southern setting"
+  },
+  "Mississippi State University": {
+    "party_scene": "Cotton District bars and house parties",
+    "stereotypes": [
+      "Friendly",
+      "Agricultural",
+      "Cowbells"
+    ],
+    "atmosphere": "Friendly small-town SEC vibe"
+  },
+  "Auburn University": {
+    "party_scene": "Toomer's Corner celebrations and rodeo parties",
+    "stereotypes": [
+      "Conservative",
+      "Family-oriented",
+      "Friendly"
+    ],
+    "atmosphere": "Tight-knit village on the plains"
+  },
+  "University of Oregon": {
+    "party_scene": "House parties and local breweries",
+    "stereotypes": [
+      "Hippies",
+      "Nike-clad athletes",
+      "Activists"
+    ],
+    "atmosphere": "Lush, rainy Pacific Northwest hub"
+  },
+  "Oregon State University": {
+    "party_scene": "Laid-back house parties and local pubs",
+    "stereotypes": [
+      "Engineers",
+      "Earthy",
+      "Unpretentious"
+    ],
+    "atmosphere": "Sleepy, rainy college town"
+  },
+  "Washington State University": {
+    "party_scene": "Greek Row and The Coug bar",
+    "stereotypes": [
+      "Party animals",
+      "Isolated",
+      "Cougs vs everyone"
+    ],
+    "atmosphere": "Isolated college town in wheat fields"
+  },
+  "University of Utah": {
+    "party_scene": "Ski bum apres-ski and city bars",
+    "stereotypes": [
+      "Outdoorsy",
+      "Mormon-adjacent",
+      "Commuters"
+    ],
+    "atmosphere": "Mountain city backdrop"
+  },
+  "Brigham Young University": {
+    "party_scene": "Sober fun, board games, and chocolate milk",
+    "stereotypes": [
+      "Mormon",
+      "Married by 21",
+      "Clean-cut"
+    ],
+    "atmosphere": "Conservative and mountainous"
+  },
+  "Iowa State University": {
+    "party_scene": "Welch Avenue bars and tailgate lots",
+    "stereotypes": [
+      "Engineers",
+      "Farmers",
+      "Friendly"
+    ],
+    "atmosphere": "Campus-centric college town"
+  },
+  "University of Iowa": {
+    "party_scene": "Ped Mall bars and Big Ten tailgates",
+    "stereotypes": [],
+    "atmosphere": "Literary city integrated with campus"
+  },
+  "University of Nebraska-Lincoln": {
+    "party_scene": "O Street bars and Husker gamedays",
+    "stereotypes": [
+      "Football religious",
+      "Corn-fed",
+      "Loyal"
+    ],
+    "atmosphere": "Capital city dominated by the stadium"
+  },
+  "University of Kansas": {
+    "party_scene": "Mass Street bars and house parties",
+    "stereotypes": [],
+    "atmosphere": "Historic hilltop college town"
+  },
+  "Kansas State University": {
+    "party_scene": "Aggieville bar district",
+    "stereotypes": [
+      "Family atmosphere",
+      "Ag-focused",
+      "Polite"
+    ],
+    "atmosphere": "The Little Apple (Manhattan, KS)"
+  },
+  "University of Oklahoma": {
+    "party_scene": "Campus Corner bars and Greek life",
+    "stereotypes": [
+      "Football obsessed",
+      "Greek heavy",
+      "Meteorologists"
+    ],
+    "atmosphere": "Suburban college town"
+  },
+  "Oklahoma State University": {
+    "party_scene": "The Strip on Washington Street",
+    "stereotypes": [
+      "Cowboys",
+      "Friendly",
+      "Ag-focused"
+    ],
+    "atmosphere": "Classic land-grant college town"
+  },
+  "University of Cincinnati": {
+    "party_scene": "The Banks and OTR bars",
+    "stereotypes": [],
+    "atmosphere": "Hilly urban campus"
+  },
+  "University of Pittsburgh": {
+    "party_scene": "South Oakland basement shows and bars",
+    "stereotypes": [],
+    "atmosphere": "Urban academic district (Oakland)"
+  },
+  "Temple University": {
+    "party_scene": "Off-campus house parties and Philly nightlife",
+    "stereotypes": [],
+    "atmosphere": "Bustling North Philly urban"
+  },
+  "George Mason University": {
+    "party_scene": "DC excursions and apartment gatherings",
+    "stereotypes": [],
+    "atmosphere": "Suburban DC sprawl"
+  },
+  "Georgia State University": {
+    "party_scene": "Atlanta club scene and city bars",
+    "stereotypes": [
+      "Hustlers",
+      "Commuters",
+      "City slickers"
+    ],
+    "atmosphere": "Campus embedded in downtown skyscrapers"
+  },
+  "Florida International University": {
+    "party_scene": "Miami nightlife and South Beach",
+    "stereotypes": [
+      "International",
+      "Commuters",
+      "Flashy"
+    ],
+    "atmosphere": "Suburban Miami sprawl"
+  },
+  "University of North Texas": {
+    "party_scene": "Fry Street bars and house shows",
+    "stereotypes": [
+      "Artsy",
+      "Musical",
+      "Liberal"
+    ],
+    "atmosphere": "Indie music college town"
+  },
+  "Texas State University": {
+    "party_scene": "The Square bars and river floating",
+    "stereotypes": [],
+    "atmosphere": "Hilly river town"
+  },
+  "University of California, Irvine": {
+    "party_scene": "Newport Beach bars or apartment kickbacks",
+    "stereotypes": [
+      "Gamers",
+      "Commuters",
+      "Academic"
+    ],
+    "atmosphere": "Master-planned suburban circle"
+  },
+  "University of California, Davis": {
+    "party_scene": "House parties and downtown pubs",
+    "stereotypes": [],
+    "atmosphere": "Agricultural college town"
+  },
+  "University of California, Riverside": {
+    "party_scene": "House parties and LA excursions",
+    "stereotypes": [],
+    "atmosphere": "Inland Empire sprawl"
+  },
+  "University of California, Santa Cruz": {
+    "party_scene": "Forest raves and beach bonfires",
+    "stereotypes": [],
+    "atmosphere": "Redwood forest retreat"
+  },
+  "Boston College": {
+    "party_scene": "The Mods (senior housing) and intense tailgates",
+    "stereotypes": [],
+    "atmosphere": "Gothic suburban campus"
+  },
+  "Northeastern University": {
+    "party_scene": "Boston clubs and mission hill house parties",
+    "stereotypes": [
+      "Career-focused",
+      "Co-op driven",
+      "City slickers"
+    ],
+    "atmosphere": "Modern urban campus"
+  },
+  "Tufts University": {
+    "party_scene": "House parties and Davis Square bars",
+    "stereotypes": [
+      "Quirky",
+      "Intellectual",
+      "Active citizens"
+    ],
+    "atmosphere": "Suburban hilltop near Boston"
+  },
+  "Wake Forest University": {
+    "party_scene": "Fraternity lounges and intense darties",
+    "stereotypes": [],
+    "atmosphere": "Manicured Southern bubble"
+  },
+  "College of William & Mary": {
+    "party_scene": "Dorm gatherings and campus delis",
+    "stereotypes": [],
+    "atmosphere": "Historic colonial setting"
+  },
+  "Brandeis University": {
+    "party_scene": "Shuttle to Boston or small dorm parties",
+    "stereotypes": [],
+    "atmosphere": "Quiet suburban hill"
+  },
+  "Lehigh University": {
+    "party_scene": "The Hill (frat row) and off-campus houses",
+    "stereotypes": [
+      "Engineers",
+      "Partiers",
+      "Greek heavy"
+    ],
+    "atmosphere": "Mountainous industrial town"
+  },
+  "Villanova University": {
+    "party_scene": "Main Line bars and basketball tailgates",
+    "stereotypes": [
+      "Catholic",
+      "Preppy",
+      "Community-focused"
+    ],
+    "atmosphere": "Wealthy suburban enclave"
+  },
+  "Case Western Reserve University": {
+    "party_scene": "University Circle bars and basement hangouts",
+    "stereotypes": [],
+    "atmosphere": "Cultural museum district"
+  },
+  "Southern Methodist University": {
+    "party_scene": "The Boulevard tailgating and uptown Dallas",
+    "stereotypes": [],
+    "atmosphere": "Manicured luxury in the city"
+  },
+  "Texas Christian University": {
+    "party_scene": "Greek life events and Fort Worth stockyards",
+    "stereotypes": [],
+    "atmosphere": "Polished Fort Worth campus"
+  },
+  "Baylor University": {
+    "party_scene": "Off-campus houses and Waco bars",
+    "stereotypes": [
+      "Christian",
+      "Friendly",
+      "Conservative"
+    ],
+    "atmosphere": "Texas religious heartland"
+  },
+  "Fordham University": {
+    "party_scene": "Bronx bars (Rose Hill) or Manhattan clubs (Lincoln Center)",
+    "stereotypes": [
+      "Jesuit",
+      "Fashionable",
+      "City explorers"
+    ],
+    "atmosphere": "Gothic campus in the Bronx / City block"
+  },
+  "University of Massachusetts Amherst": {
+    "party_scene": "Hobart Lane and big house parties",
+    "stereotypes": [
+      "ZooMass legacy",
+      "Foodies",
+      "Liberal"
+    ],
+    "atmosphere": "Large campus in a scenic valley"
+  },
+  "University of Connecticut": {
+    "party_scene": "Off-campus houses (C-Lot) and basketball celebrations",
+    "stereotypes": [],
+    "atmosphere": "Rural campus city (Storrs)"
+  },
+  "San Diego State University": {
+    "party_scene": "High-energy house parties and Greek life",
+    "stereotypes": [],
+    "atmosphere": "Sunny SoCal social hub"
+  },
+  "Louisiana State University": {
+    "party_scene": "Legendary tailgates and Tigerland bars",
+    "stereotypes": [
+      "Party animals",
+      "Football religious",
+      "Cajun flair"
+    ],
+    "atmosphere": "Intense SEC spirit"
+  },
+  "University of Arizona": {
+    "party_scene": "Pool parties and Greek life mansions",
+    "stereotypes": [],
+    "atmosphere": "Desert resort campus"
+  },
+  "California Polytechnic State University-San Luis Obispo": {
+    "party_scene": "St. Fratty's Day and outdoor kickbacks",
+    "stereotypes": [
+      "Outdoorsy",
+      "Learn by doing",
+      "Chill"
+    ],
+    "atmosphere": "Happy small-town vibe"
+  },
+  "San Jose State University": {
+    "party_scene": "Downtown bars and house parties",
+    "stereotypes": [
+      "Commuters",
+      "Tech-focused",
+      "Hustlers"
+    ],
+    "atmosphere": "Urban Silicon Valley"
+  },
+  "California State University-Long Beach": {
+    "party_scene": "2nd Street bars and beach days",
+    "stereotypes": [
+      "Beach vibes",
+      "Commuters",
+      "Chill"
+    ],
+    "atmosphere": "Laid-back coastal campus"
+  },
+  "California State University-Fullerton": {
+    "party_scene": "Downtown Fullerton bars",
+    "stereotypes": [
+      "Commuters",
+      "Disney fans",
+      "Diverse"
+    ],
+    "atmosphere": "Massive suburban hub"
+  },
+  "University of San Francisco": {
+    "party_scene": "City exploration over campus parties",
+    "stereotypes": [],
+    "atmosphere": "Hilltop views of SF"
+  },
+  "Pepperdine University": {
+    "party_scene": "Dry campus but active off-campus",
+    "stereotypes": [],
+    "atmosphere": "Malibu luxury bubble"
+  },
+  "Loyola Marymount University": {
+    "party_scene": "Playa Vista apartments and local bars",
+    "stereotypes": [],
+    "atmosphere": "Scenic bluff overlooking LA"
+  },
+  "University of San Diego": {
+    "party_scene": "Mission Beach house parties",
+    "stereotypes": [],
+    "atmosphere": "Immaculate Spanish Renaissance"
+  },
+  "Chapman University": {
+    "party_scene": "Orange Circle bars and Greek life",
+    "stereotypes": [
+      "Film majors",
+      "Affluent",
+      "Polished"
+    ],
+    "atmosphere": "Manicured SoCal suburbia"
+  },
+  "Indiana University-Bloomington": {
+    "party_scene": "Kilroy's on Kirkwood and Little 500",
+    "stereotypes": [
+      "Party school",
+      "Hoosiers",
+      "Greek heavy"
+    ],
+    "atmosphere": "Classic limestone college town"
+  },
+  "Clemson University": {
+    "party_scene": "Downtown bars and massive tailgates",
+    "stereotypes": [
+      "Football obsessed",
+      "Family atmosphere",
+      "Friendly"
+    ],
+    "atmosphere": "Orange-obsessed rural bubble"
+  },
+  "North Carolina State University": {
+    "party_scene": "Raleigh nightlife and tailgates",
+    "stereotypes": [],
+    "atmosphere": "Urban brickyard"
+  },
+  "West Virginia University": {
+    "party_scene": "High Street bars and couch burnings",
+    "stereotypes": [],
+    "atmosphere": "Wild and wonderful hills"
+  },
+  "James Madison University": {
+    "party_scene": "Off-campus apartments and friendly parties",
+    "stereotypes": [],
+    "atmosphere": "Happy valley in VA"
+  },
+  "Virginia Commonwealth University": {
+    "party_scene": "Richmond breweries and house shows",
+    "stereotypes": [
+      "Artsy",
+      "Alternative",
+      "City kids"
+    ],
+    "atmosphere": "Integrated city campus"
+  },
+  "Howard University": {
+    "party_scene": "The Yard and DC nightlife",
+    "stereotypes": [
+      "Mecca",
+      "Ambitious",
+      "Fashionable"
+    ],
+    "atmosphere": "Historic urban HBCU"
+  },
+  "Spelman College": {
+    "party_scene": "Market Friday and AUC events",
+    "stereotypes": [],
+    "atmosphere": "Gated historic sanctuary"
+  },
+  "Morehouse College": {
+    "party_scene": "AUC parties and tailgates",
+    "stereotypes": [],
+    "atmosphere": "Historic men's college"
+  },
+  "University of Delaware": {
+    "party_scene": "Dages (day rages) and Main Street",
+    "stereotypes": [
+      "East Coast prep",
+      "Partiers",
+      "Greek heavy"
+    ],
+    "atmosphere": "Classic colonial campus"
+  },
+  "Drexel University": {
+    "party_scene": "Philly city life and house parties",
+    "stereotypes": [
+      "Co-op hustle",
+      "Fast-paced",
+      "Urban"
+    ],
+    "atmosphere": "Industrial city campus"
+  },
+  "Rochester Institute of Technology": {
+    "party_scene": "Apartment gaming and niche clubs",
+    "stereotypes": [],
+    "atmosphere": "Modern brick fortress"
+  },
+  "Rensselaer Polytechnic Institute": {
+    "party_scene": "Frat parties and gaming nights",
+    "stereotypes": [
+      "Engineers",
+      "Male-heavy",
+      "Intense"
+    ],
+    "atmosphere": "Historic industrial hill"
+  },
+  "Binghamton University": {
+    "party_scene": "Downtown bars and house parties",
+    "stereotypes": [],
+    "atmosphere": "Dreary but intellectual"
+  },
+  "Stony Brook University": {
+    "party_scene": "Train to NYC or quiet weekends",
+    "stereotypes": [],
+    "atmosphere": "Suburban academic hub"
+  },
+  "University at Buffalo": {
+    "party_scene": "Steer bars and Bills tailgates",
+    "stereotypes": [],
+    "atmosphere": "Sprawling dual campus"
+  },
+  "DePaul University": {
+    "party_scene": "Chicago bars and apartment parties",
+    "stereotypes": [],
+    "atmosphere": "Urban neighborhood integration"
+  },
+  "Loyola University Chicago": {
+    "party_scene": "Rogers Park apartments",
+    "stereotypes": [],
+    "atmosphere": "Lakeside city campus"
+  },
+  "Miami University (Ohio)": {
+    "party_scene": "Uptown bars and day drinking",
+    "stereotypes": [
+      "J. Crew U",
+      "Preppy",
+      "Greek dominated"
+    ],
+    "atmosphere": "Picture-perfect red brick"
+  },
+  "Ohio University": {
+    "party_scene": "Halloween block party and Court St",
+    "stereotypes": [
+      "Party school",
+      "Hippie vibes",
+      "Friendly"
+    ],
+    "atmosphere": "Classic brick road town"
+  },
+  "Kent State University": {
+    "party_scene": "Downtown Kent bars and house parties",
+    "stereotypes": [
+      "Fashion/Arts",
+      "Liberal",
+      "History"
+    ],
+    "atmosphere": "Walkable college town"
+  },
+  "Western Michigan University": {
+    "party_scene": "House parties and Kalamazoo bars",
+    "stereotypes": [],
+    "atmosphere": "Hilly midwest campus"
+  },
+  "Central Michigan University": {
+    "party_scene": "Apartment parties and Wayside",
+    "stereotypes": [
+      "Chips",
+      "Friendly",
+      "Party-heavy"
+    ],
+    "atmosphere": "Isolated college town"
+  },
+  "University of Memphis": {
+    "party_scene": "Highland Strip and Beale Street",
+    "stereotypes": [
+      "Hustle",
+      "Commuters",
+      "Grit"
+    ],
+    "atmosphere": "Urban blues city"
+  },
+  "Colorado State University": {
+    "party_scene": "Old Town breweries and house parties",
+    "stereotypes": [
+      "Outdoorsy",
+      "Chill",
+      "Aggies"
+    ],
+    "atmosphere": "Bike-friendly foothills"
+  },
+  "University of New Mexico": {
+    "party_scene": "Nob Hill bars and house parties",
+    "stereotypes": [],
+    "atmosphere": "Pueblo style desert"
+  },
+  "Utah State University": {
+    "party_scene": "Bonfires and The Hurd",
+    "stereotypes": [
+      "Aggie ice cream",
+      "Friendly",
+      "Conservative"
+    ],
+    "atmosphere": "Cold mountain valley"
+  },
+  "Montana State University": {
+    "party_scene": "Main Street bars and outdoor kegs",
+    "stereotypes": [],
+    "atmosphere": "Gateway to Yellowstone"
+  },
+  "University of Montana": {
+    "party_scene": "Downtown Missoula and river floats",
+    "stereotypes": [
+      "Hippies",
+      "Liberal",
+      "Outdoorsy"
+    ],
+    "atmosphere": "Mountain arts town"
+  },
+  "University of California, Merced": {
+    "party_scene": "Small house gatherings",
+    "stereotypes": [],
+    "atmosphere": "Rural growing campus"
+  },
+  "Worcester Polytechnic Institute": {
+    "party_scene": "Greek life and project celebrations",
+    "stereotypes": [
+      "Collaborative",
+      "Geeky",
+      "Fast-paced"
+    ],
+    "atmosphere": "New England hilltop"
+  },
+  "Marquette University": {
+    "party_scene": "Milwaukee bars and house parties",
+    "stereotypes": [],
+    "atmosphere": "City campus with heart"
+  },
+  "Bowling Green State University": {
+    "party_scene": "Downtown bars and house parties",
+    "stereotypes": [
+      "Falcons",
+      "Friendly",
+      "Midwest"
+    ],
+    "atmosphere": "Small college town"
+  },
+  "Ball State University": {
+    "party_scene": "Village bars and Greek parties",
+    "stereotypes": [
+      "Chirp Chirp",
+      "Friendly",
+      "Media focused"
+    ],
+    "atmosphere": "Classic midwest campus"
+  },
+  "Illinois State University": {
+    "party_scene": "Pub Wednesday and apartment parties",
+    "stereotypes": [],
+    "atmosphere": "Twin city college town"
+  },
+  "University of Southern Mississippi": {
+    "party_scene": "Hub City bars and Greek life",
+    "stereotypes": [
+      "Golden Eagles",
+      "Friendly",
+      "Music/Arts"
+    ],
+    "atmosphere": "Pine belt campus"
+  },
+  "East Carolina University": {
+    "party_scene": "Downtown Greenville grid",
+    "stereotypes": [],
+    "atmosphere": "Rowdy college town"
+  },
+  "Appalachian State University": {
+    "party_scene": "Boone bars and mountain bonfires",
+    "stereotypes": [
+      "Outdoorsy",
+      "Friendly",
+      "Granola"
+    ],
+    "atmosphere": "Cozy mountain town"
+  },
+  "University of North Carolina at Charlotte": {
+    "party_scene": "Light rail to Uptown Charlotte",
+    "stereotypes": [
+      "Commuters",
+      "Career-focused",
+      "Modern"
+    ],
+    "atmosphere": "Contemporary urban campus"
+  },
+  "College of Charleston": {
+    "party_scene": "King Street bars and beach days",
+    "stereotypes": [
+      "Preppy",
+      "Fashionable",
+      "Historic"
+    ],
+    "atmosphere": "Beautiful historic city"
+  },
+  "University of Nevada-Las Vegas": {
+    "party_scene": "Strip clubs and local bars",
+    "stereotypes": [
+      "Commuters",
+      "Hospitality",
+      "Night owls"
+    ],
+    "atmosphere": "Urban desert sprawl"
+  },
+  "Boise State University": {
+    "party_scene": "Downtown Boise and Blue Turf",
+    "stereotypes": [
+      "Blue turf",
+      "Outdoorsy",
+      "Growing"
+    ],
+    "atmosphere": "Riverfront city campus"
+  },
+  "University of Texas at Arlington": {
+    "party_scene": "Scattered apartments or Dallas trips",
+    "stereotypes": [],
+    "atmosphere": "Suburban metroplex hub"
+  },
+  "Alabama A & M University": {
+    "party_scene": "The Quad gatherings and Huntsville nightlife",
+    "stereotypes": [
+      "HBCU Pride",
+      "Friendly",
+      "Spirited"
+    ],
+    "atmosphere": "Historic Huntsville hill"
+  },
+  "Alabama State University": {
+    "party_scene": "Montgomery clubs and spirited tailgates",
+    "stereotypes": [
+      "HBCU",
+      "Marching Hornets",
+      "Urban"
+    ],
+    "atmosphere": "Historic urban campus"
+  },
+  "University of South Alabama": {
+    "party_scene": "Mobile downtown and Gulf shores trips",
+    "stereotypes": [
+      "Laid back",
+      "Coastal",
+      "Commuters"
+    ],
+    "atmosphere": "Suburban coastal mix"
+  },
+  "Troy University": {
+    "party_scene": "Downtown square and fraternity houses",
+    "stereotypes": [
+      "Trojan spirit",
+      "Friendly",
+      "Small town"
+    ],
+    "atmosphere": "Classic Southern town"
+  },
+  "University of Alaska Anchorage": {
+    "party_scene": "Downtown breweries and outdoor bonfires",
+    "stereotypes": [
+      "Commuters",
+      "Outdoorsy",
+      "Resilient"
+    ],
+    "atmosphere": "Urban wild"
+  },
+  "Grand Canyon University": {
+    "party_scene": "Campus events (GCU Arena) and Phoenix nightlife",
+    "stereotypes": [
+      "Christian",
+      "Fast-growing",
+      "Energetic"
+    ],
+    "atmosphere": "Modern resort-like campus"
+  },
+  "Northern Arizona University": {
+    "party_scene": "Downtown Flagstaff breweries and snow days",
+    "stereotypes": [
+      "Hippies",
+      "Snowboarders",
+      "Chill"
+    ],
+    "atmosphere": "Mountain town in the pines"
+  },
+  "University of Central Arkansas": {
+    "party_scene": "Conway bars and Greek life",
+    "stereotypes": [
+      "Friendly",
+      "Suburban",
+      "Growing"
+    ],
+    "atmosphere": "Suburban college town"
+  },
+  "California Institute of Technology": {
+    "party_scene": "Gaming clubs and local pubs",
+    "stereotypes": [
+      "Tech-focused",
+      "Engineers",
+      "Geeky"
+    ],
+    "atmosphere": "STEM focused"
+  },
+  "California State Polytechnic University-Pomona": {
+    "party_scene": "Brewery visits and LA trips",
+    "stereotypes": [
+      "Engineers",
+      "Learn by doing",
+      "Commuters"
+    ],
+    "atmosphere": "Sprawling hilly campus"
+  },
+  "California State University-Chico": {
+    "party_scene": "Downtown bars and house parties",
+    "stereotypes": [
+      "Party school",
+      "Friendly",
+      "Outdoorsy"
+    ],
+    "atmosphere": "Classic college town"
+  },
+  "California State University-Fresno": {
+    "party_scene": "Tower District and tailgates",
+    "stereotypes": [
+      "Bulldogs",
+      "Ag-focused",
+      "Spirited"
+    ],
+    "atmosphere": "Central Valley hub"
+  },
+  "California State University-Northridge": {
+    "party_scene": "Greek row and LA nightlife",
+    "stereotypes": [
+      "Commuters",
+      "Film/Arts",
+      "Valley kids"
+    ],
+    "atmosphere": "San Fernando Valley sprawl"
+  },
+  "California State University-Sacramento": {
+    "party_scene": "River floating and Midtown bars",
+    "stereotypes": [
+      "Trees",
+      "Commuters",
+      "Politics"
+    ],
+    "atmosphere": "Tree-filled capital campus"
+  },
+  "California State Polytechnic University-Humboldt": {
+    "party_scene": "Gaming clubs and local pubs",
+    "stereotypes": [
+      "Tech-focused",
+      "Engineers",
+      "Geeky"
+    ],
+    "atmosphere": "STEM focused"
+  },
+  "San Francisco State University": {
+    "party_scene": "City exploration and park hangouts",
+    "stereotypes": [
+      "Commuters",
+      "Activists",
+      "Liberal"
+    ],
+    "atmosphere": "Foggy city campus"
+  },
+  "Sonoma State University": {
+    "party_scene": "Wineries and house parties",
+    "stereotypes": [
+      "Chill",
+      "Liberal",
+      "Wine country"
+    ],
+    "atmosphere": "Scenic wine country"
+  },
+  "Colorado School of Mines": {
+    "party_scene": "Golden breweries and house parties",
+    "stereotypes": [
+      "Engineers",
+      "Nerds",
+      "Outdoorsy"
+    ],
+    "atmosphere": "Mountain industrial town"
+  },
+  "University of Denver": {
+    "party_scene": "Downtown Denver and ski trips",
+    "stereotypes": [
+      "Wealthy",
+      "Outdoorsy",
+      "Skiers"
+    ],
+    "atmosphere": "Urban private enclave"
+  },
+  "Quinnipiac University": {
+    "party_scene": "New Haven trips and Toads",
+    "stereotypes": [
+      "Preppy",
+      "Health sciences",
+      "Hockey fans"
+    ],
+    "atmosphere": "Scenic suburban campus"
+  },
+  "Sacred Heart University": {
+    "party_scene": "Fairfield bars and beach houses",
+    "stereotypes": [
+      "Catholic",
+      "Suburban",
+      "Growing"
+    ],
+    "atmosphere": "Suburban campus"
+  },
+  "American University": {
+    "party_scene": "DC internships and embassy parties",
+    "stereotypes": [
+      "Wonks",
+      "Politically active",
+      "Ambitious"
+    ],
+    "atmosphere": "Suburban DC enclave"
+  },
+  "George Washington University": {
+    "party_scene": "DC clubs and bars",
+    "stereotypes": [
+      "Politicos",
+      "City kids",
+      "Wealthy"
+    ],
+    "atmosphere": "Foggy Bottom city streets"
+  },
+  "Florida Agricultural and Mechanical University": {
+    "party_scene": "The Set and Tallahassee clubs",
+    "stereotypes": [
+      "HBCU",
+      "Marching 100",
+      "Spirited"
+    ],
+    "atmosphere": "Historic hill in Tallahassee"
+  },
+  "Florida Atlantic University": {
+    "party_scene": "Boca Raton beaches and bars",
+    "stereotypes": [
+      "Beach bums",
+      "Commuters",
+      "Owls"
+    ],
+    "atmosphere": "Sunny beach campus"
+  },
+  "Georgia Southern University": {
+    "party_scene": "The Plaza and Statesboro bars",
+    "stereotypes": [
+      "Party school",
+      "Country",
+      "Spirited"
+    ],
+    "atmosphere": "Classic Southern town"
+  },
+  "Kennesaw State University": {
+    "party_scene": "Atlanta trips and local spots",
+    "stereotypes": [
+      "Commuters",
+      "Growing",
+      "Suburban"
+    ],
+    "atmosphere": "Suburban sprawl"
+  },
+  "Mercer University": {
+    "party_scene": "Macon bars and Greek life",
+    "stereotypes": [
+      "Preppy",
+      "Southern",
+      "Service-oriented"
+    ],
+    "atmosphere": "Historic Southern campus"
+  },
+  "Savannah College of Art and Design": {
+    "party_scene": "Downtown Savannah art shows",
+    "stereotypes": [
+      "Artsy",
+      "Creative",
+      "Fashionable"
+    ],
+    "atmosphere": "Historic city museum"
+  },
+  "University of Hawaii at Manoa": {
+    "party_scene": "Waikiki and beach bonfires",
+    "stereotypes": [
+      "Laid back",
+      "Surfers",
+      "Diverse"
+    ],
+    "atmosphere": "Tropical paradise"
+  },
+  "University of Idaho": {
+    "party_scene": "Moscow bars and Greek life",
+    "stereotypes": [
+      "Vandals",
+      "Friendly",
+      "Rural"
+    ],
+    "atmosphere": "Palouse college town"
+  },
+  "University of Illinois Chicago": {
+    "party_scene": "Chicago nightlife and neighborhoods",
+    "stereotypes": [
+      "Commuters",
+      "Diverse",
+      "Urban"
+    ],
+    "atmosphere": "Concrete city campus"
+  },
+  "Northern Illinois University": {
+    "party_scene": "DeKalb bars and huskies",
+    "stereotypes": [
+      "Cornfields",
+      "Friendly",
+      "Midwest"
+    ],
+    "atmosphere": "Rural college town"
+  },
+  "Southern Illinois University-Carbondale": {
+    "party_scene": "Carbondale bars and Halloween",
+    "stereotypes": [
+      "Party legacy",
+      "Outdoorsy",
+      "Salukis"
+    ],
+    "atmosphere": "Rural college town"
+  },
+  "Indiana State University": {
+    "party_scene": "Wabash bars and homecoming",
+    "stereotypes": [
+      "Larry Bird",
+      "Small city",
+      "Friendly"
+    ],
+    "atmosphere": "Small city campus"
+  },
+  "Indiana University-Indianapolis": {
+    "party_scene": "Downtown Indy and Mass Ave",
+    "stereotypes": [
+      "Commuters",
+      "City",
+      "Professional"
+    ],
+    "atmosphere": "Urban Indy campus"
+  },
+  "University of Northern Iowa": {
+    "party_scene": "The Hill bars",
+    "stereotypes": [
+      "Teachers",
+      "Friendly",
+      "Midwest"
+    ],
+    "atmosphere": "Small college town"
+  },
+  "Wichita State University": {
+    "party_scene": "Old Town Wichita",
+    "stereotypes": [
+      "Commuters",
+      "Shockers",
+      "Industry-focused"
+    ],
+    "atmosphere": "Urban industrial"
+  },
+  "Western Kentucky University": {
+    "party_scene": "Bowling Green bars",
+    "stereotypes": [
+      "Hilltoppers",
+      "Friendly",
+      "Spirited"
+    ],
+    "atmosphere": "Hilly college town"
+  },
+  "University of Louisiana at Lafayette": {
+    "party_scene": "Downtown Lafayette and festivals",
+    "stereotypes": [
+      "Cajun",
+      "Spirited",
+      "Fun"
+    ],
+    "atmosphere": "Cajun heartland"
+  },
+  "Towson University": {
+    "party_scene": "Uptown Towson bars",
+    "stereotypes": [
+      "Teachers",
+      "Suburban",
+      "Social"
+    ],
+    "atmosphere": "Suburban college town"
+  },
+  "University of Maryland-Baltimore County": {
+    "party_scene": "Dorm gaming and Baltimore trips",
+    "stereotypes": [
+      "Smart",
+      "Chess",
+      "Commuters"
+    ],
+    "atmosphere": "Suburban academic hub"
+  },
+  "University of Massachusetts-Lowell": {
+    "party_scene": "Lowell bars and hockey games",
+    "stereotypes": [
+      "Engineers",
+      "Gritty",
+      "Practical"
+    ],
+    "atmosphere": "Industrial river city"
+  },
+  "Grand Valley State University": {
+    "party_scene": "Grand Rapids nightlife",
+    "stereotypes": [
+      "Lakers",
+      "Suburban",
+      "Friendly"
+    ],
+    "atmosphere": "Modern suburban campus"
+  },
+  "Oakland University": {
+    "party_scene": "Rochester hills and Detroit trips",
+    "stereotypes": [
+      "Commuters",
+      "Suburban",
+      "Quiet"
+    ],
+    "atmosphere": "Suburban estate"
+  },
+  "Wayne State University": {
+    "party_scene": "Midtown Detroit bars",
+    "stereotypes": [
+      "Urban",
+      "Resilient",
+      "Diverse"
+    ],
+    "atmosphere": "Heart of Detroit"
+  },
+  "Saint Louis University": {
+    "party_scene": "Midtown bars and apartments",
+    "stereotypes": [
+      "Jesuit",
+      "Med students",
+      "City"
+    ],
+    "atmosphere": "Urban Jesuit campus"
+  },
+  "Missouri State University": {
+    "party_scene": "Downtown Springfield",
+    "stereotypes": [
+      "Bears",
+      "Friendly",
+      "Ozarks"
+    ],
+    "atmosphere": "Large college town"
+  },
+  "University of Nevada-Reno": {
+    "party_scene": "Downtown casinos and bars",
+    "stereotypes": [
+      "Wolf Pack",
+      "Outdoorsy",
+      "Party"
+    ],
+    "atmosphere": "Mountain city"
+  },
+  "Rowan University": {
+    "party_scene": "Glassboro houses and Philly trips",
+    "stereotypes": [
+      "Growing",
+      "Suburban",
+      "Jersey"
+    ],
+    "atmosphere": "Rapidly growing suburban"
+  },
+  "Montclair State University": {
+    "party_scene": "Train to NYC",
+    "stereotypes": [
+      "Commuters",
+      "Diverse",
+      "Suburban"
+    ],
+    "atmosphere": "Suburban NYC view"
+  },
+  "New Mexico State University": {
+    "party_scene": "Las Cruces bars",
+    "stereotypes": [
+      "Aggies",
+      "Ag-focused",
+      "Desert"
+    ],
+    "atmosphere": "Desert college town"
+  },
+  "CUNY Hunter College": {
+    "party_scene": "Manhattan nightlife",
+    "stereotypes": [
+      "Commuters",
+      "City slickers",
+      "Busy"
+    ],
+    "atmosphere": "Vertical city campus"
+  },
+  "CUNY Baruch College": {
+    "party_scene": "Murray Hill bars",
+    "stereotypes": [
+      "Business",
+      "Hustlers",
+      "Commuters"
+    ],
+    "atmosphere": "Corporate city vibe"
+  },
+  "University of North Carolina Wilmington": {
+    "party_scene": "Wrightsville Beach and downtown",
+    "stereotypes": [
+      "Beach vibes",
+      "Chill",
+      "Surfers"
+    ],
+    "atmosphere": "Coastal college town"
+  },
+  "University of North Dakota": {
+    "party_scene": "Grand Forks bars and hockey",
+    "stereotypes": [
+      "Hockey crazy",
+      "Cold",
+      "Aviation"
+    ],
+    "atmosphere": "Cold plains college town"
+  },
+  "North Dakota State University": {
+    "party_scene": "Fargo downtown",
+    "stereotypes": [
+      "Bison pride",
+      "Friendly",
+      "Cold"
+    ],
+    "atmosphere": "Friendly plains city"
+  },
+  "University of Akron": {
+    "party_scene": "Exchange Street bars",
+    "stereotypes": [
+      "Zips",
+      "Commuters",
+      "Engineering"
+    ],
+    "atmosphere": "Urban industrial"
+  },
+  "University of Toledo": {
+    "party_scene": "Campus bars and house parties",
+    "stereotypes": [
+      "Rockets",
+      "Commuters",
+      "Midwest"
+    ],
+    "atmosphere": "Suburban/Urban mix"
+  },
+  "Wright State University": {
+    "party_scene": "Dayton bars and base life",
+    "stereotypes": [
+      "Commuters",
+      "Accessible",
+      "Military-friendly"
+    ],
+    "atmosphere": "Suburban Dayton"
+  },
+  "Portland State University": {
+    "party_scene": "Downtown Portland breweries",
+    "stereotypes": [
+      "Commuters",
+      "Hipsters",
+      "Urban"
+    ],
+    "atmosphere": "Integrated downtown campus"
+  },
+  "University of Rhode Island": {
+    "party_scene": "Narragansett beach houses",
+    "stereotypes": [
+      "Beach bums",
+      "Party school",
+      "New England"
+    ],
+    "atmosphere": "Coastal rural/suburban"
+  },
+  "Middle Tennessee State University": {
+    "party_scene": "Murfreesboro bars and Nashville trips",
+    "stereotypes": [
+      "Music business",
+      "Commuters",
+      "Large"
+    ],
+    "atmosphere": "Suburban Nashville"
+  },
+  "University of Texas at Dallas": {
+    "party_scene": "Apartment gaming and Richardson food",
+    "stereotypes": [
+      "Nerds",
+      "Engineers",
+      "Chess"
+    ],
+    "atmosphere": "Suburban tech hub"
+  },
+  "University of Texas at El Paso": {
+    "party_scene": "Cincinnati Street and Juarez",
+    "stereotypes": [
+      "Commuters",
+      "Border culture",
+      "Miners"
+    ],
+    "atmosphere": "Bhutanese architecture in desert"
+  },
+  "University of Texas at San Antonio": {
+    "party_scene": "The Rim and downtown SA",
+    "stereotypes": [
+      "Commuters",
+      "Growing",
+      "Friendly"
+    ],
+    "atmosphere": "Suburban sprawl"
+  },
+  "Brigham Young University-Idaho": {
+    "party_scene": "Apartment socials and church events",
+    "stereotypes": [
+      "Mormon",
+      "Strict",
+      "Friendly"
+    ],
+    "atmosphere": "Conservative rural"
+  },
+  "Weber State University": {
+    "party_scene": "Ogden bars and outdoors",
+    "stereotypes": [
+      "Commuters",
+      "Outdoorsy",
+      "Non-traditional"
+    ],
+    "atmosphere": "Mountain city commuter"
+  },
+  "Utah Valley University": {
+    "party_scene": "Provo/Orem hangouts",
+    "stereotypes": [
+      "Commuters",
+      "Growing",
+      "Mormon-adjacent"
+    ],
+    "atmosphere": "Suburban corridor"
+  },
+  "Liberty University": {
+    "party_scene": "Campus events and church groups",
+    "stereotypes": [
+      "Conservative",
+      "Christian",
+      "Strict"
+    ],
+    "atmosphere": "Massive religious campus"
+  },
+  "Old Dominion University": {
+    "party_scene": "Norfolk bars and Ghent",
+    "stereotypes": [
+      "Diverse",
+      "Urban",
+      "Coastal"
+    ],
+    "atmosphere": "Urban coastal"
+  },
+  "University of Wisconsin-Milwaukee": {
+    "party_scene": "North Ave bars and house parties",
+    "stereotypes": [
+      "Urban",
+      "Diverse",
+      "Lake vibes"
+    ],
+    "atmosphere": "Urban residential"
+  },
+  "University of Wyoming": {
+    "party_scene": "Laramie bars and bucking horse",
+    "stereotypes": [
+      "Cowboys",
+      "Outdoorsy",
+      "Isolated"
+    ],
+    "atmosphere": "High plains college town"
+  },
+  "CUNY City College": {
+    "party_scene": "Harlem spots and city life",
+    "stereotypes": [
+      "Historic",
+      "Diverse",
+      "Commuters"
+    ],
+    "atmosphere": "Gothic castle in Harlem"
+  },
+  "CUNY Queens College": {
+    "party_scene": "Flushing food and city trips",
+    "stereotypes": [
+      "Commuters",
+      "Diverse",
+      "Queens"
+    ],
+    "atmosphere": "Suburban city campus"
+  },
+  "CUNY Brooklyn College": {
+    "party_scene": "Brooklyn bars and city life",
+    "stereotypes": [
+      "Beautiful campus",
+      "Commuters",
+      "Diverse"
+    ],
+    "atmosphere": "Classic brick campus"
+  },
+  "Florida Gulf Coast University": {
+    "party_scene": "Beach bars and pool parties",
+    "stereotypes": [
+      "Dunk City",
+      "Beach",
+      "Modern"
+    ],
+    "atmosphere": "Nature preserve campus"
+  },
+  "University of North Florida": {
+    "party_scene": "Town Center and beach bars",
+    "stereotypes": [
+      "Nature",
+      "Lazy river",
+      "Commuters"
+    ],
+    "atmosphere": "Nature preserve in city"
+  },
+  "University of West Florida": {
+    "party_scene": "Pensacola beach and downtown",
+    "stereotypes": [
+      "Argos",
+      "Nature",
+      "Quiet"
+    ],
+    "atmosphere": "Nature trails campus"
+  },
+  "Valdosta State University": {
+    "party_scene": "Remerton bars",
+    "stereotypes": [
+      "South Georgia",
+      "Party",
+      "Friendly"
+    ],
+    "atmosphere": "Spanish mission style"
+  },
+  "University of West Georgia": {
+    "party_scene": "The Square and house parties",
+    "stereotypes": [
+      "Wolves",
+      "Growing",
+      "Suburban"
+    ],
+    "atmosphere": "Piney woods campus"
+  },
+  "Eastern Michigan University": {
+    "party_scene": "Ypsilanti bars and Ann Arbor trips",
+    "stereotypes": [
+      "Teachers",
+      "Commuters",
+      "Diverse"
+    ],
+    "atmosphere": "Historic college town"
+  },
+  "Ferris State University": {
+    "party_scene": "Big Rapids house parties",
+    "stereotypes": [
+      "Bulldogs",
+      "Vocational",
+      "Rural"
+    ],
+    "atmosphere": "Small town campus"
+  },
+  "Saginaw Valley State University": {
+    "party_scene": "Dorm parties and local spots",
+    "stereotypes": [
+      "Commuters",
+      "Friendly",
+      "Isolated"
+    ],
+    "atmosphere": "Rural modern campus"
+  },
+  "Minnesota State University-Mankato": {
+    "party_scene": "Downtown Mankato bars",
+    "stereotypes": [
+      "Party school",
+      "Hockey",
+      "Midwest"
+    ],
+    "atmosphere": "River valley town"
+  },
+  "Saint Cloud State University": {
+    "party_scene": "Downtown St. Cloud bars",
+    "stereotypes": [
+      "Hockey",
+      "Party",
+      "River"
+    ],
+    "atmosphere": "Mississippi river campus"
+  },
+  "Jackson State University": {
+    "party_scene": "Sonic Boom and Jackson clubs",
+    "stereotypes": [
+      "HBCU",
+      "Band",
+      "Spirited"
+    ],
+    "atmosphere": "Urban HBCU"
+  },
+  "University of Missouri-Kansas City": {
+    "party_scene": "The Plaza and Westport",
+    "stereotypes": [
+      "Med students",
+      "Arts",
+      "City"
+    ],
+    "atmosphere": "Urban Kansas City"
+  },
+  "University of Missouri-St Louis": {
+    "party_scene": "Delmar Loop and city spots",
+    "stereotypes": [
+      "Commuters",
+      "Serious",
+      "Urban"
+    ],
+    "atmosphere": "Suburban St. Louis"
+  },
+  "University of Nebraska at Omaha": {
+    "party_scene": "Old Market and Aksarben",
+    "stereotypes": [
+      "Commuters",
+      "Mavericks",
+      "City"
+    ],
+    "atmosphere": "Urban Omaha"
+  },
+  "University of New Hampshire-Main Campus": {
+    "party_scene": "Durham bars and Portsmouth",
+    "stereotypes": [
+      "Outdoorsy",
+      "Party",
+      "New England"
+    ],
+    "atmosphere": "Classic New England town"
+  },
+  "Kean University": {
+    "party_scene": "Train to NYC and local spots",
+    "stereotypes": [
+      "Commuters",
+      "Teachers",
+      "Diverse"
+    ],
+    "atmosphere": "Suburban train hub"
+  },
+  "William Paterson University of New Jersey": {
+    "party_scene": "Wayne spots and house parties",
+    "stereotypes": [
+      "Commuters",
+      "Hilly",
+      "Diverse"
+    ],
+    "atmosphere": "Wooded suburban hill"
+  },
+  "Stockton University": {
+    "party_scene": "Atlantic City casinos and beach",
+    "stereotypes": [
+      "Pine barrens",
+      "Beach",
+      "Environmental"
+    ],
+    "atmosphere": "Pinelands retreat"
+  },
+  "New Jersey Institute of Technology": {
+    "party_scene": "Newark Ironbound and NYC",
+    "stereotypes": [
+      "Engineers",
+      "Commuters",
+      "Tech"
+    ],
+    "atmosphere": "Urban tech hub"
+  },
+  "University of North Carolina at Greensboro": {
+    "party_scene": "Tate Street and downtown",
+    "stereotypes": [
+      "Arts",
+      "Diverse",
+      "Friendly"
+    ],
+    "atmosphere": "Urban green campus"
+  },
+  "North Carolina A & T State University": {
+    "party_scene": "GHOE and downtown Greensboro",
+    "stereotypes": [
+      "Aggie Pride",
+      "Engineers",
+      "HBCU"
+    ],
+    "atmosphere": "Historic HBCU powerhouse"
+  },
+  "Western Carolina University": {
+    "party_scene": "Sylva breweries and outdoors",
+    "stereotypes": [
+      "Outdoorsy",
+      "Band",
+      "Mountains"
+    ],
+    "atmosphere": "Scenic mountain valley"
+  },
+  "Cleveland State University": {
+    "party_scene": "Downtown Cleveland flats",
+    "stereotypes": [
+      "Commuters",
+      "City",
+      "Resilient"
+    ],
+    "atmosphere": "Urban downtown"
+  },
+  "Youngstown State University": {
+    "party_scene": "Downtown Youngstown bars",
+    "stereotypes": [
+      "Penguins",
+      "Commuters",
+      "Grit"
+    ],
+    "atmosphere": "Industrial city campus"
+  },
+  "University of Central Oklahoma": {
+    "party_scene": "Edmond bars and OKC",
+    "stereotypes": [
+      "Commuters",
+      "Teachers",
+      "Jazz"
+    ],
+    "atmosphere": "Suburban OKC"
+  },
+  "West Chester University of Pennsylvania": {
+    "party_scene": "Downtown West Chester bars",
+    "stereotypes": [
+      "Party",
+      "Teachers",
+      "Suburban"
+    ],
+    "atmosphere": "Historic college town"
+  },
+  "Indiana University of Pennsylvania": {
+    "party_scene": "Philly Street bars",
+    "stereotypes": [
+      "Party",
+      "Rural",
+      "Friendly"
+    ],
+    "atmosphere": "Classic college town"
+  },
+  "Kutztown University of Pennsylvania": {
+    "party_scene": "Main Street bars",
+    "stereotypes": [
+      "Arts",
+      "Teachers",
+      "Rural"
+    ],
+    "atmosphere": "Small rural town"
+  },
+  "Bloomsburg University of Pennsylvania": {
+    "party_scene": "Block parties and downtown",
+    "stereotypes": [
+      "Party",
+      "Friendly",
+      "Hill"
+    ],
+    "atmosphere": "River town on a hill"
+  },
+  "Slippery Rock University of Pennsylvania": {
+    "party_scene": "House parties and The Rock",
+    "stereotypes": [
+      "Friendly",
+      "Safety",
+      "Rural"
+    ],
+    "atmosphere": "Small rural campus"
+  },
+  "University of Tennessee-Chattanooga": {
+    "party_scene": "Downtown Chattanooga bars",
+    "stereotypes": [
+      "Outdoorsy",
+      "City",
+      "Mocs"
+    ],
+    "atmosphere": "River city campus"
+  },
+  "East Tennessee State University": {
+    "party_scene": "Johnson City bars",
+    "stereotypes": [
+      "Bluegrass",
+      "Med",
+      "Mountain"
+    ],
+    "atmosphere": "Mountain city"
+  },
+  "University of Texas Rio Grande Valley": {
+    "party_scene": "South Padre Island and local",
+    "stereotypes": [
+      "Commuters",
+      "Border",
+      "Family"
+    ],
+    "atmosphere": "Tropical border region"
+  },
+  "Sam Houston State University": {
+    "party_scene": "Huntsville square and Houston",
+    "stereotypes": [
+      "Criminal Justice",
+      "Country",
+      "Friendly"
+    ],
+    "atmosphere": "Piney woods town"
+  },
+  "Stephen F Austin State University": {
+    "party_scene": "Nacogdoches spots",
+    "stereotypes": [
+      "Lumberjacks",
+      "Nature",
+      "Friendly"
+    ],
+    "atmosphere": "Deep East Texas forest"
+  },
+  "Tarleton State University": {
+    "party_scene": "Stephenville spots",
+    "stereotypes": [
+      "Cowboys",
+      "Ag",
+      "Tradition"
+    ],
+    "atmosphere": "Rural Texas spirit"
+  },
+  "Lamar University": {
+    "party_scene": "Beaumont spots",
+    "stereotypes": [
+      "Engineers",
+      "Commuters",
+      "Industry"
+    ],
+    "atmosphere": "Industrial gulf coast"
+  },
+  "Texas A & M University-Corpus Christi": {
+    "party_scene": "Beach bars and downtown",
+    "stereotypes": [
+      "Island University",
+      "Beach",
+      "Chill"
+    ],
+    "atmosphere": "Island campus"
+  },
+  "Texas Woman's University": {
+    "party_scene": "Denton square and Fry St",
+    "stereotypes": [
+      "Nursing",
+      "Empowered",
+      "Friendly"
+    ],
+    "atmosphere": "Historic Denton"
+  },
+  "Prairie View A & M University": {
+    "party_scene": "The Hill and Houston trips",
+    "stereotypes": [
+      "HBCU",
+      "Engineers",
+      "Spirited"
+    ],
+    "atmosphere": "Rural HBCU"
+  },
+  "Utah Tech University": {
+    "party_scene": "St. George outdoors",
+    "stereotypes": [
+      "Growing",
+      "Outdoorsy",
+      "Sunny"
+    ],
+    "atmosphere": "Red rock desert"
+  },
+  "Radford University": {
+    "party_scene": "Dark side vs Light side parties",
+    "stereotypes": [
+      "Party",
+      "Friendly",
+      "Mountain"
+    ],
+    "atmosphere": "Small river city"
+  },
+  "Eastern Washington University": {
+    "party_scene": "Cheney spots and Spokane",
+    "stereotypes": [
+      "Red turf",
+      "Commuters",
+      "Friendly"
+    ],
+    "atmosphere": "Wheat fields town"
+  },
+  "Western Washington University": {
+    "party_scene": "Bellingham breweries and house shows",
+    "stereotypes": [
+      "Hippies",
+      "Outdoorsy",
+      "Chill"
+    ],
+    "atmosphere": "Bayside forest town"
+  },
+  "Central Washington University": {
+    "party_scene": "Ellensburg bars and rodeo",
+    "stereotypes": [
+      "Windy",
+      "Education",
+      "Rural"
+    ],
+    "atmosphere": "High desert town"
+  },
+  "Marshall University": {
+    "party_scene": "Huntington bars and football",
+    "stereotypes": [
+      "We Are Marshall",
+      "Friendly",
+      "Resilient"
+    ],
+    "atmosphere": "River city campus"
+  },
+  "University of Wisconsin-Eau Claire": {
+    "party_scene": "Water Street bars",
+    "stereotypes": [
+      "Indie",
+      "Cold",
+      "Beautiful"
+    ],
+    "atmosphere": "Chippewa Valley"
+  },
+  "University of Wisconsin-Oshkosh": {
+    "party_scene": "Oshkosh bars",
+    "stereotypes": [
+      "Party",
+      "Friendly",
+      "Lake"
+    ],
+    "atmosphere": "Fox Valley city"
+  },
+  "University of Wisconsin-Whitewater": {
+    "party_scene": "Whitewater bars",
+    "stereotypes": [
+      "Business",
+      "Football",
+      "Accessible"
+    ],
+    "atmosphere": "Small town campus"
+  },
+  "University of Wisconsin-La Crosse": {
+    "party_scene": "3rd Street bars",
+    "stereotypes": [
+      "Fit",
+      "Outdoorsy",
+      "Scenic"
+    ],
+    "atmosphere": "River bluff city"
   }
 }
