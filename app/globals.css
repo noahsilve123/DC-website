@@ -35,13 +35,35 @@
 */
 
 :root {
-  --background: #f0f4f8; /* navy-50 - Cool Shade */
-  --foreground: #0a1c2e; /* navy-950 */
-  --navy: #0a1c2e;
+  --background: var(--navy-50);
+  --foreground: var(--navy-950);
+  --navy: var(--navy-950);
   --gold: #b45309; /* darker gold for light bg */
   
   --font-body: var(--font-lato);
   --font-heading: var(--font-playfair);
+
+  /* Dynamic Theme Colors (Default: Navy) */
+  --navy-50: #f0f4f8;
+  --navy-100: #d9e2ec;
+  --navy-200: #bcccdc;
+  --navy-300: #9fb3c8;
+  --navy-400: #829ab1;
+  --navy-500: #627d98;
+  --navy-600: #486581;
+  --navy-700: #334e68;
+  --navy-800: #243b53;
+  --navy-900: #102a43;
+  --navy-950: #0a1c2e;
+}
+
+/* Global Header Hover Effect */
+h1, h2, h3, h4, h5, h6 {
+  transition: color 0.3s ease;
+}
+
+h1:hover, h2:hover, h3:hover, h4:hover, h5:hover, h6:hover {
+  color: var(--gold);
 }
 
 body {
@@ -95,6 +117,86 @@ body::before {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: shimmer 3s linear infinite;
+}
+
+.text-white-shimmer {
+  background: linear-gradient(
+    to right,
+    #9ca3af, /* gray-400 */
+    #e5e7eb, /* gray-200 */
+    #ffffff, /* white */
+    #e5e7eb,
+    #9ca3af
+  );
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+/* Card Hover Effects */
+.group:hover .card-title {
+  background: linear-gradient(
+    to right,
+    #b45309,
+    #d97706,
+    #92400e,
+    #d97706,
+    #b45309
+  );
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+.group:hover .card-description {
+  background: linear-gradient(
+    to right,
+    #9ca3af, /* gray-400 */
+    #e5e7eb, /* gray-200 */
+    #ffffff, /* white */
+    #e5e7eb,
+    #9ca3af
+  );
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+.group:hover .card-cta,
+.group:hover .card-badge {
+  background: linear-gradient(
+    to right,
+    #9ca3af, /* gray-400 */
+    #e5e7eb, /* gray-200 */
+    #ffffff, /* white */
+    #e5e7eb,
+    #9ca3af
+  );
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+.group:hover .card-icon {
+  color: #e5e7eb; /* gray-200 */
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.5));
+}
+
+.group:hover .card-badge {
+  background-color: #292929;
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Headings + site title use Coves */

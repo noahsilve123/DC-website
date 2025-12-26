@@ -48,11 +48,11 @@ export default function ResourcesPage() {
             <FadeIn key={item.title} delay={0.1 * (index + 1)}>
               <Link href={item.href} target="_blank" rel="noreferrer" className="block h-full">
                 <SpotlightCard className="h-full flex flex-col">
-                  <h2 className="text-xl font-heading font-bold text-navy-900 mb-3">{item.title}</h2>
-                  <p className="text-sm text-navy-600 leading-relaxed flex-grow font-light mb-6">
+                  <h2 className="card-title text-xl font-heading font-bold text-navy-900 mb-3 transition-all duration-300">{item.title}</h2>
+                  <p className="card-description text-base text-navy-600 leading-relaxed flex-grow font-light mb-6 transition-all duration-300">
                     {item.summary}
                   </p>
-                  <div className="flex items-center text-xs font-bold uppercase tracking-widest text-gold-600 group-hover:text-gold-500 transition-colors">
+                  <div className="card-cta flex items-center text-xs font-bold uppercase tracking-widest text-gold-600 transition-colors">
                     Open resource <ArrowUpRight className="ml-2 h-3 w-3" />
                   </div>
                 </SpotlightCard>

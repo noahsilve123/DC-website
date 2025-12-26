@@ -1,0 +1,56 @@
+{
+  "231174": {
+    "greek_life": {
+      "participation": {
+        "men": 0.08,
+        "women": 0.15
+      },
+      "chapters": [
+        "Alpha Delta Pi",
+        "Alpha Gamma Rho",
+        "Alpha Phi",
+        "Delta Delta Delta",
+        "Kappa Alpha Theta",
+        "Kappa Delta",
+        "Pi Beta Phi",
+        "Alpha Gamma Rho",
+        "Alpha Tau Omega",
+        "Delta Upsilon",
+        "Kappa Sigma",
+        "Phi Gamma Delta",
+        "Phi Mu Delta",
+        "Pi Kappa Alpha",
+        "Sigma Phi Epsilon"
+      ]
+    }
+  },
+  "166629": {
+    "greek_life": {
+      "participation": {
+        "men": 0.12,
+        "women": 0.18
+      },
+      "chapters": [
+        "Alpha Chi Omega",
+        "Alpha Delta Pi",
+        "Chi Omega",
+        "Delta Delta Delta",
+        "Kappa Alpha Theta",
+        "Kappa Kappa Gamma",
+        "Pi Beta Phi",
+        "Zeta Tau Alpha",
+        "Alpha Tau Omega",
+        "Beta Theta Pi",
+        "Delta Tau Delta",
+        "Kappa Alpha Order",
+        "Kappa Sigma",
+        "Lambda Chi Alpha",
+        "Phi Delta Theta",
+        "Phi Gamma Delta",
+        "Sigma Alpha Epsilon",
+        "Sigma Chi",
+        "Sigma Nu"
+      ]
+    }
+  }
+}

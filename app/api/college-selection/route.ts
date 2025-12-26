@@ -12,6 +12,7 @@ export async function GET(req: Request) {
 
     const schoolId = Number(schoolIdRaw)
     const data = await fetchCollegeSelectionData(schoolId)
+    const greekLife = (data as any).greek_life
 
     const scorecardKeys = [
       'school.name',
@@ -59,6 +60,7 @@ export async function GET(req: Request) {
             state: data['school.state'],
         },
       scorecard,
+      greekLife,
         selection: {
             size: data['latest.student.size'],
             locale: data['school.locale'],

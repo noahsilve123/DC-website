@@ -14,6 +14,10 @@ type Suggestion = {
 type ApiResponse = {
   school: { name: string; schoolUrl: string | null; city: string | null; state: string | null }
   scorecard: Record<string, number | string | null>
+  greekLife?: {
+    participation: { men: number; women: number }
+    chapters: string[]
+  }
   selection: {
     size: number | null
     locale: number | null
@@ -699,6 +703,39 @@ export default function CollegeSelectionPage() {
                 </div>
               </div>
             </div>
+
+            {data.greekLife && (
+              <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+                <div className="px-6 py-4 border-b border-slate-200 bg-slate-50">
+                  <h3 className="text-sm font-semibold text-slate-900">Greek Life</h3>
+                </div>
+                <div className="p-6 grid gap-6 md:grid-cols-2">
+                  <div>
+                    <h4 className="text-xs font-semibold text-slate-500 uppercase mb-3">Participation</h4>
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-slate-700">Men in Fraternities</span>
+                        <span className="font-medium text-slate-900">{formatPercent(data.greekLife.participation.men)}</span>
+                      </div>
+                      <div className="flex justify-between text-sm">
+                        <span className="text-slate-700">Women in Sororities</span>
+                        <span className="font-medium text-slate-900">{formatPercent(data.greekLife.participation.women)}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-semibold text-slate-500 uppercase mb-3">Chapters ({data.greekLife.chapters.length})</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {data.greekLife.chapters.map(c => (
+                        <span key={c} className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-800">
+                          {c}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {data.selection.demographics && (
                 <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">

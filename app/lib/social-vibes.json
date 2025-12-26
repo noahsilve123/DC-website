@@ -1,0 +1,17 @@
+{
+  "Rutgers University-New Brunswick": {
+    "party_scene": "House parties, Easton Ave bars, and basement shows",
+    "stereotypes": ["Diverse", "Resilient", "Spirited"],
+    "atmosphere": "Bustling suburban/urban mix"
+  },
+  "University of Florida": {
+    "party_scene": "Midtown bars and massive Greek life tailgates",
+    "stereotypes": ["Sports-crazed", "Work hard play hard"],
+    "atmosphere": "Classic college town swamp"
+  },
+  "New York University": {
+    "party_scene": "City clubs, rooftop bars, and apartment gatherings",
+    "stereotypes": ["Artsy", "Independent", "Fashion-forward"],
+    "atmosphere": "The city is your campus"
+  }
+}

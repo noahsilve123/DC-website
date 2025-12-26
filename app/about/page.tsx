@@ -19,7 +19,10 @@ export default function AboutPage() {
               More than just a checklist.
             </h1>
             <p className="text-xl text-slate-600 leading-relaxed">
-              Destination College is a grass-roots non-profit run by two grandmas who believe in the power of education—and in what happens when a student has someone in their corner.
+              Destination College is a grass-roots non-profit run by two Summit moms/grandmas who believe in the power of education—and in what happens when a student has someone in their corner.
+            </p>
+            <p className="text-sm text-slate-400 mt-4 italic">
+              Not affiliated with Summit High School, or any other Summit organizations.
             </p>
           </FadeIn>
         </header>

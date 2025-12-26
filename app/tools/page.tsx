@@ -12,40 +12,40 @@ const tools = [
     title: 'CSS Profile Tool',
     description: 'Upload documents and copy calculated answers for the CSS Profile.',
     href: '/tools/css-profile',
-    icon: <Sparkles className="h-6 w-6 text-gold-600" />,
-    color: 'bg-gold-50 text-gold-700 border border-gold-200',
+    icon: <Sparkles className="card-icon h-6 w-6 text-gold-600 transition-colors duration-300" />,
+    color: 'bg-gold-50 text-gold-700 border border-gold-200 group-hover:bg-[#292929] group-hover:border-white/10 transition-all duration-300',
     ready: true,
   },
   {
     title: 'FAFSA Tool',
     description: 'Step-by-step FAFSA guide and checklist.',
     href: '/tools/fafsa',
-    icon: <FileText className="h-6 w-6 text-navy-600" />,
-    color: 'bg-navy-50 text-navy-700 border border-navy-200',
+    icon: <FileText className="card-icon h-6 w-6 text-navy-600 transition-colors duration-300" />,
+    color: 'bg-navy-50 text-navy-700 border border-navy-200 group-hover:bg-[#292929] group-hover:border-white/10 transition-all duration-300',
     ready: true,
   },
   {
     title: 'Scholarship Tool',
     description: 'Upload award letters and summarize grants/loans.',
     href: '/tools/scholarships',
-    icon: <GraduationCap className="h-6 w-6 text-emerald-600" />,
-    color: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
+    icon: <GraduationCap className="card-icon h-6 w-6 text-emerald-600 transition-colors duration-300" />,
+    color: 'bg-emerald-50 text-emerald-700 border border-emerald-200 group-hover:bg-[#292929] group-hover:border-white/10 transition-all duration-300',
     ready: true,
   },
   {
     title: 'Budget Tool',
     description: 'Estimate costs and compare on-campus vs off-campus totals.',
     href: '/tools/budget',
-    icon: <Wallet className="h-6 w-6 text-rose-600" />,
-    color: 'bg-rose-50 text-rose-700 border border-rose-200',
+    icon: <Wallet className="card-icon h-6 w-6 text-rose-600 transition-colors duration-300" />,
+    color: 'bg-rose-50 text-rose-700 border border-rose-200 group-hover:bg-[#292929] group-hover:border-white/10 transition-all duration-300',
     ready: true,
   },
   {
     title: 'College Selection',
     description: 'Find your fit based on campus culture, diversity, and academics.',
     href: '/tools/college-selection',
-    icon: <Calculator className="h-6 w-6 text-blue-600" />,
-    color: 'bg-blue-50 text-blue-700 border border-blue-200',
+    icon: <Calculator className="card-icon h-6 w-6 text-blue-600 transition-colors duration-300" />,
+    color: 'bg-blue-50 text-blue-700 border border-blue-200 group-hover:bg-[#292929] group-hover:border-white/10 transition-all duration-300',
     ready: true,
   },
 ] as const
@@ -81,8 +81,8 @@ export default function ToolsPage() {
                       {tool.icon}
                     </div>
                   </div>
-                  <h3 className="text-xl font-heading font-bold text-navy-900 mb-2">{tool.title}</h3>
-                  <p className="text-sm text-navy-600 leading-relaxed flex-grow font-light">
+                  <h3 className="card-title text-xl font-heading font-bold text-navy-900 mb-2 transition-all duration-300">{tool.title}</h3>
+                  <p className="card-description text-base text-navy-600 leading-relaxed flex-grow font-light transition-all duration-300">
                     {tool.description}
                   </p>
                 </SpotlightCard>

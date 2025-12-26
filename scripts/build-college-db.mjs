@@ -10,7 +10,9 @@ const FIELDS = [
   'latest.cost.tuition.in_state', 'latest.cost.tuition.out_of_state',
   'latest.cost.booksupply',
   'latest.cost.roomboard.oncampus', 'latest.cost.roomboard.offcampus',
-  'latest.cost.otherexpense.oncampus', 'latest.cost.otherexpense.offcampus'
+  'latest.cost.otherexpense.oncampus', 'latest.cost.otherexpense.offcampus',
+  'school.degrees_awarded.predominant', 'latest.student.size',
+  'school.minority_serving.women', 'school.men_only', 'school.religious_affiliation'
 ].join(',');
 
 async function fetchPage(page) {
@@ -51,8 +53,36 @@ async function run() {
     tuition: { in: s['latest.cost.tuition.in_state'], out: s['latest.cost.tuition.out_of_state'] },
     books: s['latest.cost.booksupply'],
     room: { on: s['latest.cost.roomboard.oncampus'], off: s['latest.cost.roomboard.offcampus'] },
-    other: { on: s['latest.cost.otherexpense.oncampus'], off: s['latest.cost.otherexpense.offcampus'] }
-  })).filter(s => s.name);
+    other: { on: s['latest.cost.otherexpense.oncampus'], off: s['latest.cost.otherexpense.offcampus'] },
+    _degree: s['school.degrees_awarded.predominant'],
+    _size: s['latest.student.size'],
+    _women: s['school.minority_serving.women'],
+    _men: s['school.men_only'],
+    _relig: s['school.religious_affiliation']
+  }))
+  .filter(s => s.name)
+  .filter(s => {
+    // Filter: Keep only Associate (2) and Bachelor's (3) degrees
+    const validDegree = s._degree === 2 || s._degree === 3;
+    
+    // Filter: Size > 500 (increased to get sub-2000 count)
+    const validSize = s._size && s._size > 500;
+
+    // Filter: Exclude specific religious/niche keywords
+    const name = s.name.toLowerCase();
+    const isNiche = name.includes('yeshiva') || 
+                    name.includes('talmudical') || 
+                    name.includes('rabbinical') || 
+                    name.includes('seminary') ||
+                    name.includes('theological');
+
+    // Filter: Exclude single-gender schools if flagged (optional, but requested "all girls")
+    // Note: API flags might be 1 or null.
+    const isSingleGender = s._women === 1 || s._men === 1;
+
+    return validDegree && validSize && !isNiche && !isSingleGender;
+  })
+  .map(({_degree, _size, _women, _men, _relig, ...rest}) => rest);
 
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(optimized));
   console.log(`Saved ${optimized.length} schools to ${OUTPUT_FILE}`);

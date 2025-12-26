@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import ScholarshipInterpreter from '../../components/tools/ScholarshipInterpreter'
+import LoanEstimator from '../../components/tools/LoanEstimator'
 
 export default function ScholarshipToolPage() {
   return (
@@ -19,6 +20,10 @@ export default function ScholarshipToolPage() {
         </header>
 
         <ScholarshipInterpreter />
+        
+        <div className="border-t border-slate-200 pt-8">
+          <LoanEstimator />
+        </div>
       </div>
     </div>
   )

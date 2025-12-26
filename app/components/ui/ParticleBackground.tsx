@@ -12,6 +12,10 @@ export function ParticleBackground() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
+    // Respect reduced motion preference
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    if (mediaQuery.matches) return
+
     let animationFrameId: number
     let particles: Particle[] = []
     let mouse = { x: -1000, y: -1000 }

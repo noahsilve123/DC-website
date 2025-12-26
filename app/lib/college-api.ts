@@ -1,5 +1,6 @@
 const API_KEY = process.env.COLLEGE_SCORECARD_API_KEY || '2LzrYljYWbmnKaKSJHLyqDNI56QcGm4hPdJjUh0R';
 const BASE_URL = 'https://api.data.gov/ed/collegescorecard/v1/schools';
+import greekLifeData from './greek-life-data.json';
 
 async function fetchScorecardById(schoolId: number, fields: string[]) {
   const url = `${BASE_URL}?api_key=${API_KEY}&id=${schoolId}&fields=${fields.join(',')}`;
@@ -144,5 +145,19 @@ export async function fetchCollegeSelectionData(schoolId: number) {
       'latest.repayment.3_yr_repayment.overall',
     ]
 
-    return fetchScorecardMerged(schoolId, [base, students, admissions, academics, outcomes])
+    const cost = [
+      'latest.cost.avg_net_price.overall',
+      'latest.cost.tuition.out_of_state',
+      'latest.cost.tuition.in_state',
+    ]
+
+    const data = await fetchScorecardMerged(schoolId, [base, students, admissions, academics, outcomes, cost])
+    
+    // Merge Greek Life data
+    const greekData = (greekLifeData as any)[schoolId];
+    if (greekData) {
+      return { ...data, ...greekData };
+    }
+
+    return data
   }
