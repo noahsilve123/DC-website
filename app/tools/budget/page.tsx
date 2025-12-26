@@ -26,7 +26,7 @@ type ApiResponse = {
     }
   }
   retentionRate: number | null
-  topMajors: { title: string; count: number }[]
+  topMajors: { title: string; count: number; earnings: number | null; debt: number | null }[]
 }
 
 function formatMoney(n: number | null | undefined) {
@@ -173,7 +173,12 @@ export default function BudgetToolPage() {
         }
     }
 
-    const total = (tuition || 0) + (books || 0) + (housingCost || 0) + (otherCost || 0)
+    // Calculate Total based on VISIBLE columns only
+    let total = 0
+    if (visibleColumns.tuition) total += (tuition || 0)
+    if (visibleColumns.books) total += (books || 0)
+    if (visibleColumns.housing) total += (housingCost || 0)
+    if (visibleColumns.other) total += (otherCost || 0)
 
     // Smart Financial Aid
     let netPrice = total // Default to total cost if no AGI provided
@@ -190,11 +195,26 @@ export default function BudgetToolPage() {
         const publicPrice = data.costs.netPrice.public?.[bracket]
         const privatePrice = data.costs.netPrice.private?.[bracket]
         
-        if (publicPrice) netPrice = publicPrice
-        else if (privatePrice) netPrice = privatePrice
+        let apiNetPrice = null
+        if (publicPrice) apiNetPrice = publicPrice
+        else if (privatePrice) apiNetPrice = privatePrice
 
-        if (netPrice && total) {
-            predictedAid = Math.max(0, total - netPrice)
+        if (apiNetPrice) {
+            // Calculate implied aid from full COA
+            // We need full COA to calculate aid correctly
+            const fullTuition = residency === 'in_state' ? data.costs.tuition.inState : data.costs.tuition.outOfState
+            const fullBooks = data.costs.booksSupply
+            const fullHousing = housing === 'on_campus' ? data.costs.roomBoard.onCampus : data.costs.roomBoard.offCampus
+            const fullOther = housing === 'on_campus' ? data.costs.otherExpense.onCampus : data.costs.otherExpense.offCampus
+            
+            const fullCOA = (fullTuition || 0) + (fullBooks || 0) + (fullHousing || 0) + (fullOther || 0)
+            
+            // Aid is what reduces the full price to the net price
+            const aid = Math.max(0, fullCOA - apiNetPrice)
+            predictedAid = aid
+            
+            // Dynamic Net Price = Visible Total - Aid
+            netPrice = Math.max(0, total - aid)
         }
     }
 
@@ -207,7 +227,7 @@ export default function BudgetToolPage() {
         netPrice,
         predictedAid
     }
-  }, [data, residency, housing, livingStatus, user_AGI])
+  }, [data, residency, housing, livingStatus, user_AGI, visibleColumns])
 
   const copyToClipboard = () => {
     if (!calculatedCosts) return
@@ -494,15 +514,27 @@ export default function BudgetToolPage() {
                         {majorsOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                     </button>
                     {majorsOpen && (
-                        <div className="px-6 py-4">
-                            <ul className="grid gap-2 md:grid-cols-2">
-                                {data.topMajors.map((m, i) => (
-                                    <li key={i} className="flex justify-between text-sm border-b border-slate-100 pb-1 last:border-0">
-                                        <span className="text-slate-700 truncate pr-2" title={m.title}>{m.title}</span>
-                                        <span className="text-slate-500 font-mono text-xs">{m.count} grads</span>
-                                    </li>
-                                ))}
-                            </ul>
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full text-sm text-left">
+                                <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+                                    <tr>
+                                        <th className="px-6 py-3">Major</th>
+                                        <th className="px-6 py-3 text-right">Graduates</th>
+                                        <th className="px-6 py-3 text-right">Median Earnings</th>
+                                        <th className="px-6 py-3 text-right">Median Debt</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-100">
+                                    {data.topMajors.map((m, i) => (
+                                        <tr key={i} className="hover:bg-slate-50 transition-colors">
+                                            <td className="px-6 py-3 font-medium text-slate-900">{m.title}</td>
+                                            <td className="px-6 py-3 text-right text-slate-600">{m.count}</td>
+                                            <td className="px-6 py-3 text-right text-slate-600">{formatMoney(m.earnings)}</td>
+                                            <td className="px-6 py-3 text-right text-slate-600">{formatMoney(m.debt)}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
                     )}
                 </div>

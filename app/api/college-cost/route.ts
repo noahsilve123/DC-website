@@ -22,7 +22,9 @@ export async function GET(req: Request) {
         .slice(0, 25)
         .map((p: any) => ({
           title: p.title,
-          count: p.counts.ipeds_awards2
+          count: p.counts.ipeds_awards2,
+          earnings: p.earnings?.['4_yr']?.overall_median_earnings || p.earnings?.['1_yr']?.overall_median_earnings || null,
+          debt: p.debt?.staff_grad_plus?.all?.eval_inst?.median || p.debt?.parent_plus?.all?.eval_inst?.median || null // Best effort for debt
         }))
 
       // Construct response
